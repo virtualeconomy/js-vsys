@@ -1,0 +1,50 @@
+{
+  "name": "@virtualeconomy/js-vsys",
+  "version": "0.1.0",
+  "description": "The official JavaScript SDK for VSYS APIs",
+  "keywords": [
+    "vsys",
+    "v-systems",
+    "blockchain",
+    "contracts"
+  ],
+  "homepage": "https://github.com/virtualeconomy/js-vsys",
+  "type": "module",
+  "main": "./src/index.js",
+  "engines": {
+    "node": ">=16"
+  },
+  "scripts": {
+    "test": "jasmine",
+    "transpile": "npx babel src --out-dir lib"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axlsign": "^1.0.0",
+    "bignumber.js": "^9.0.2",
+    "blakejs": "^1.1.1",
+    "bs58": "^5.0.0",
+    "buffer": "^6.0.3",
+    "js-sha256": "^0.9.0",
+    "keccak256": "^1.0.6",
+    "node-fetch": "^3.2.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "jasmine": "^4.0.2",
+    "prettier": "^2.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virtualeconomy/js-vsys.git"
+  },
+  "bugs": {
+    "url": "https://github.com/virtualeconomy/js-vsys/issues"
+  }
+}
