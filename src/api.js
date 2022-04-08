@@ -74,6 +74,7 @@ export class NodeAPI {
   constructor(sess) {
     this.sess = sess;
     this.blocks = new Blocks(sess);
+    this.tx = new Transactions(sess);
     this.utils = new Utils(sess);
     this.addr = new Addresses(sess);
     this.ctrt = new Contract(sess);
@@ -147,6 +148,19 @@ class Blocks extends APIGrp {
   }
 }
 
+class Transactions extends APIGrp {
+  static PREFIX = '/transactions';
+
+  /**
+   * getInfo gets the information about a transaction.
+   * @param {string} txId - The transaction ID.
+   * @returns {object} The response.
+   */
+  async getInfo(txId) {
+    return await this.get(`/info/${txId}`);
+  }
+}
+
 /** Utils is the class for API group 'utils' */
 class Utils extends APIGrp {
   static PREFIX = '/utils';
@@ -205,5 +219,15 @@ class Contract extends APIGrp {
    */
   async broadcastExecute(data) {
     return await this.post('/broadcast/execute', JSON.stringify(data));
+  }
+
+  /**
+   * getTokBal gets the token balance for the account address.
+   * @param {string} addr - The account address.
+   * @param {string} tokId - The token ID.
+   * @returns {object} The response.
+   */
+  async getTokBal(addr, tokId) {
+    return await this.get(`/balance/${addr}/${tokId}`);
   }
 }
