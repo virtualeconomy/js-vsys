@@ -32,7 +32,7 @@ beforeAll(function () {
    * @param {string} status - The status of the transaction.
    */
   this.assertTxStatus = async function (txId, status) {
-    resp = await this.api.tx.getInfo(txId);
+    const resp = await this.api.tx.getInfo(txId);
     assert.deepEqual(resp.status, status);
   };
 
