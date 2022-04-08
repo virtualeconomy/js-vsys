@@ -28,6 +28,15 @@ class Model {
   validate() {
     throw new Error('Not implemented');
   }
+
+  /**
+   * equal compares this instance with the given instance to see if they are equal.
+   * @param {Model} other - The other instance to compare.
+   * @returns {boolean} - If the 2 instances are equal.
+   */
+  equal(other) {
+    return this.constructor === other.constructor && this.data === other.data;
+  }
 }
 
 /** Bytes is the data model class for bytes */
