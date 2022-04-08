@@ -54,4 +54,6 @@ beforeAll(function () {
     const resp = await this.api.ctrt.getTokBal(addr, tokId);
     return resp.balance;
   };
+
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = this.AVG_BLOCK_DELAY * 1000 * 10;
 });
