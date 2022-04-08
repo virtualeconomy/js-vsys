@@ -12,6 +12,7 @@ import * as ch from '../chain.js';
 import * as de from '../data_entry.js';
 import * as bp from '../utils/bytes_packer.js';
 import * as en from '../utils/enum.js';
+import * as hs from '../utils/hashes.js';
 
 /** Bytes is the helper data container for bytes used in contract meta data
  * with handy methods.
@@ -300,5 +301,31 @@ export class BaseTokCtrt extends Ctrt {
    */
   async getUnit() {
     throw new Error('Not implemented');
+  }
+
+  /**
+   * getTokId gets the token ID of the token contract with the given token index.
+   * @param {number} tokIdx - The token index.
+   * @returns {md.TokenID} The token ID.
+   */
+  async getTokId(tokIdx) {
+    new md.TokenIdx(tokIdx); // for validation
+
+    const b = this.ctrtId.bytes;
+    const rawCtrtId = b.slice(1, b.length - CtrtMeta.CHECKSUM_LEN);
+    const ctrtIdNoChecksum = Buffer.concat([
+      bp.packInt8(CtrtMeta.TOKEN_ADDR_VER),
+      rawCtrtId,
+      bp.packUInt32(tokIdx),
+    ]);
+
+    const h = hs.keccak256Hash(hs.blake2b32Hash(ctrtIdNoChecksum));
+
+    const tokIdBytes = bs58.encode(
+      Buffer.concat([ctrtIdNoChecksum, h.slice(0, CtrtMeta.CHECKSUM_LEN)])
+    );
+
+    const tokId = tokIdBytes.toString('latin1');
+    return new md.TokenID(tokId);
   }
 }
