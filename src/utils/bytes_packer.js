@@ -19,6 +19,17 @@ export function packUInt8(val) {
 }
 
 /**
+ * packInt8 packs the given integer into 1 byte
+ * @param {number} val - The value to pack.
+ * @returns {Buffer} The packing result.
+ */
+export function packInt8(val) {
+  const buf = Buffer.alloc(1);
+  buf.writeInt8(val);
+  return buf;
+}
+
+/**
  * packUInt16 packs the given integer into 2 bytes in Big Endian order.
  * @param {number} val - The value to pack.
  * @returns {Buffer} The packing result.
