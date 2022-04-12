@@ -15,6 +15,14 @@ export class DataEntry {
   static SIZE = 0;
 
   /**
+   * Creates DataEntry object.
+   * @param {md.Model} data
+   */
+  constructor(data) {
+    this.data = data;
+  }
+
+  /**
    * idxBytes returns the bytes representation of the data entry index.
    * @returns {Buffer} The bytes representation of the data entry index.
    */
@@ -75,7 +83,7 @@ class FixedSizeB58Str extends DataEntry {
    * @param {md.FixedSizedB58Str} data - The data model to contain.
    */
   constructor(data = new md.FixedSizedB58Str()) {
-    this.data = data;
+    super(data);
   }
 
   /**
@@ -86,6 +94,15 @@ class FixedSizeB58Str extends DataEntry {
    */
   static fromBytes(b) {
     return new this(this.MODEL.fromBytes(b));
+  }
+
+  /**
+   * fromStr takes the given string as the raw data to contain and constructs a data entry.
+   * @param {string} s - The string to contain.
+   * @returns {FixedSizeB58Str} The data entry.
+   */
+  static fromStr(s) {
+    return new this(new this.MODEL(s));
   }
 
   /**
@@ -127,7 +144,7 @@ class Long extends DataEntry {
    * @param {md.Long} data - The data model to contain.
    */
   constructor(data = new md.Long()) {
-    this.data = data;
+    super(data);
   }
 
   /**
@@ -228,7 +245,7 @@ export class Addr extends FixedSizeB58Str {
    * @param {md.Addr} data - The data model to contain.
    */
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 }
 
@@ -299,7 +316,6 @@ export class Str extends Text {
    */
   constructor(data = new md.Str()) {
     super(data);
-    this.data = data;
   }
 
   /**
@@ -341,7 +357,7 @@ export class CtrtAcnt extends FixedSizeB58Str {
    * @param {md.CtrtID} data - The data model to contain.
    */
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 }
 
@@ -356,7 +372,7 @@ export class Acnt extends FixedSizeB58Str {
    * @param {md.Addr} data - The data model to contain.
    */
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 }
 
@@ -371,7 +387,7 @@ export class TokenID extends FixedSizeB58Str {
    * @param {md.TokenID} data - The data model to contain.
    */
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 }
 
@@ -384,7 +400,7 @@ export class Timestamp extends Long {
    * @param {md.VSYSTimestamp} data - The data model to contain.
    */
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 
   /**
@@ -406,7 +422,7 @@ export class Bool extends DataEntry {
    * @param {md.Bool} data - The data model to contain.
    */
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 
   /**
@@ -456,7 +472,7 @@ export class Bytes extends Text {
    * @param {md.Bytes} data - The data model to contain.
    */
   constructor(data = new md.Bytes()) {
-    this.data = data;
+    super(data);
   }
 
   /**
