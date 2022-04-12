@@ -272,7 +272,7 @@ export class Ctrt {
   /**
    * Creates a new smart contract instance.
    * @param {string} ctrtId - The contract ID.
-   * @param {ch.chain} chain - The chain.
+   * @param {ch.Chain} chain - The chain.
    */
   constructor(ctrtId, chain) {
     this.ctrtId = new md.CtrtID(ctrtId);
