@@ -188,6 +188,15 @@ class Addresses extends APIGrp {
   async getBalance(addr) {
     return await this.get(`/balance/${addr}`);
   }
+
+  /**
+   * getBalanceDetails gets the ledger(regular) balance of the given address.
+   * @param {string} addr - The account address.
+   * @returns {object} The response.
+   */
+  async getBalanceDetails(addr) {
+    return await this.get(`/balance/details/${addr}`);
+  }
 }
 
 /** Contract is the class for API group 'contract'*/
