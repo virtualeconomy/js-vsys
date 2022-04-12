@@ -560,6 +560,9 @@ export class Fee extends VSYS {
   }
 }
 
+/** PaymentFee is the data model class for payment fee */
+export class PaymentFee extends Fee {}
+
 /** RegCtrtFee is the data model class for register contract fee */
 export class RegCtrtFee extends Fee {
   static DEFAULT = VSYS.UNIT * 100;
