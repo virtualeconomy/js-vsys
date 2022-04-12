@@ -89,6 +89,15 @@ class FixedSizeB58Str extends DataEntry {
   }
 
   /**
+   * fromStr takes the given string as the raw data to contain and constructs a data entry.
+   * @param {string} s - The string to contain.
+   * @returns {FixedSizeB58Str} The data entry.
+   */
+  static fromStr(s) {
+    return new this(new this.MODEL(s));
+  }
+
+  /**
    * deserialize deserializes the given bytes and constructs a data entry.
    * It is assumed that the given bytes has meta bytes
    * (e.g. data entry index, size, etc) at its front.
