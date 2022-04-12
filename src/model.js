@@ -12,7 +12,7 @@ import * as hs from './utils/hashes.js';
 import { WORDS_SET } from './words.js';
 
 /** Model is the base class for data models */
-class Model {
+export class Model {
   /**
    * Create a new Model instance.
    * @param {any} data - The data to contain.
