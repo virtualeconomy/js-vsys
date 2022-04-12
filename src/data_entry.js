@@ -244,6 +244,10 @@ export class Amount extends Long {
   static forVsysAmount(amnt) {
     return new this(md.VSYS.forAmount(amnt));
   }
+
+  static forTokAmount(amnt, unit) {
+    return new this(md.Token.forAmount(amnt, unit));
+  }
 }
 
 /** Int32 is the data entry class for 4-byte integer */

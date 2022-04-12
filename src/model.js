@@ -497,6 +497,42 @@ export class VSYSTimestamp extends NonNegativeBigInt {
   }
 }
 
+export class Token extends NonNegativeBigInt{
+  constructor(data, unit){
+    this.data = data;
+    this.unit = unit;
+  }
+
+  /**
+   * amount returns the natural amount
+   * @returns {bn.BigNumber}
+   */
+  get amount() {
+    return this.data.dividedBy(this.unit);
+  }
+
+  /**
+   * forAmount creates a new Token where the amount equals to the given amount.
+   * @param {number} amnt - The natural amount.
+   * @returns {Token} The Token instance.
+   */
+  static forAmount(amnt,unit) {
+    const amntBN = new bn.BigNumber(amnt);
+    const data = amntBN.times(unit);
+
+    if (!data.isInteger()) {
+      throw new Error(
+        `Invalid amount for ${
+          this.name
+        }: ${amnt}. The minimal valid amount granularity is ${1 / unit}`
+      );
+    }
+
+    return new this(data);
+  }
+
+}
+
 /** VSYS is the data model class for VSYS coin amount */
 export class VSYS extends NonNegativeBigInt {
   static UNIT = 1e8;

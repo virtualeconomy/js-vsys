@@ -230,4 +230,15 @@ class Contract extends APIGrp {
   async getTokBal(addr, tokId) {
     return await this.get(`/balance/${addr}/${tokId}`);
   }
+
+  /**
+   * getTokInfo gets the data of the token with the given token ID.
+   * @param {string} tokId - The token ID.
+   * @returns {object} The response.
+   */
+  async getTokInfo(tokId) {
+    return await this.get(`/tokenInfo/${tokId}`);
+  }
+
 }
+
