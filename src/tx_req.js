@@ -70,14 +70,14 @@ export class PaymentTxReq extends TxReq {
    * @param {md.VSYS} amount - The amount of VSYS coins to sends.
    * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
    * @param {md.Str} attachment - The attachment for this request. Defaults to md.Str().
-   * @param {md.PaymentFee} fee - The fee for this request. Defaults to md.PaymentFee().
+   * @param {md.PaymentFee} fee - The fee for this request. Defaults to md.PaymentFee.default().
    */
   constructor(
     recipient,
     amount,
     timestamp,
     attachment = new md.Str(),
-    fee = new md.PaymentFee()
+    fee = md.PaymentFee.default()
   ) {
     super();
     this.recipient = recipient;
