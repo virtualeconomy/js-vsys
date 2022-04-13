@@ -1,5 +1,5 @@
 /**
- * Contract module provides utilities & base classes for smart contracts.
+ * module contract/ctrt provides utilities & base classes for smart contracts.
  * @module contract/ctrt
  */
 
@@ -27,7 +27,7 @@ class Bytes {
   }
 
   /**
-   * lenBytes returns the length of the data in bytes
+   * lenBytes returns the length of the data in bytes.
    * @returns {Buffer} The bytes data to contain.
    */
   get lenBytes() {
@@ -114,13 +114,13 @@ export class CtrtMeta {
 
   /**
    * Create a new CtrtMeta instance.
-   * @param {string} langCode
-   * @param {int} langVer
-   * @param {BytesList} triggers
-   * @param {BytesList} descriptors
-   * @param {BytesList} stateVars
-   * @param {BytesList} stateMap
-   * @param {BytesList} textual
+   * @param {string} langCode - The language code of the contract. E.g. 'vdds'.
+   * @param {int} langVer - The language version of the contract. E.g. 1.
+   * @param {BytesList} triggers - The triggers of the contract.
+   * @param {BytesList} descriptors - The descriptors of the contract.
+   * @param {BytesList} stateVars - The state variables of the contract.
+   * @param {BytesList} stateMap - The state map of the contract.
+   * @param {BytesList} textual - The textual of the contract.
    */
   constructor(
     langCode,
@@ -166,7 +166,7 @@ export class CtrtMeta {
   static deserialize(b) {
     /**
      * parseLen unpacks the given 2 bytes as an unsigned short integer.
-     * @param {Buffer} b
+     * @param {Buffer} b - The bytes to deserialize.
      * @returns {number} The length.
      */
     function parseLen(b) {
@@ -216,8 +216,8 @@ export class CtrtMeta {
 
   /**
    * fromB58Str creates a CtrtMeta object from the given base58 string.
-   * @param {string} s
-   * @returns {CtrtMeta}
+   * @param {string} s - The base58 string to parse.
+   * @returns {CtrtMeta} The result CtrtMeta object.
    */
   static fromB58Str(s) {
     return this.deserialize(Buffer.from(bs58.decode(s)));
@@ -244,8 +244,8 @@ export class StateMapIdx extends en.Enum {}
 /** StateMap is the class for state map */
 export class StateMap {
   /**
-   * @param {StateMapIdx} idx
-   * @param {de.DataEntry} dataEntry
+   * @param {StateMapIdx} idx - The state map index.
+   * @param {de.DataEntry} dataEntry - The data entry.
    */
   constructor(idx, dataEntry) {
     this.idx = idx;
