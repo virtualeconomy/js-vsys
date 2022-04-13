@@ -197,4 +197,45 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     );
     return data;
   }
+
+  /**
+   * transfer transfers the NFT token from the sender to the recipient.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} sender - The account address of the sender.
+   * @param {string} recipient - The account address of the recipient.
+   * @param {number} tokIdx - The index of the token within this contract to send.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async transfer(
+    by,
+    sender,
+    recipient,
+    tokIdx,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const senderMd = new md.Addr(sender);
+    senderMd.mustOn(this.chain);
+
+    const rcptMd = new md.Addr(recipient);
+    rcptMd.mustOn(this.chain);
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.TRANSFER,
+        new de.DataStack(
+          new de.Addr(senderMd),
+          new de.Addr(rcptMd),
+          new de.Int32(new md.TokenIdx(tokIdx))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
 }
