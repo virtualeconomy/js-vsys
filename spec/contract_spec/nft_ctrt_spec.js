@@ -46,9 +46,48 @@ describe('Test class NFTCtrt', function () {
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
-      const tokId = await this.nc.getTokId(0);
+      const tokId = await this.nc.getTokId(this.nc.getLastTokenIndex());
       const bal = await this.getTokBal(this.acnt0.addr.data, tokId.data);
       expect(bal).toBe(1);
+    });
+  });
+
+  describe('Test method send', function () {
+    beforeEach(async function () {
+      const resp = await this.nc.issue(this.acnt0);
+      await this.waitForBlock();
+      await this.assertTxSuccess(resp.id);
+    });
+
+    it('should send an NFT to the recipient', async function () {
+      const sender = this.acnt0;
+      const recipient = this.acnt1;
+
+      const tokIdx = await this.nc.getLastTokIdx();
+      const tokId = await this.nc.getTokId(tokIdx);
+
+      const senderBalBefore = await this.getTokBal(
+        sender.addr.data,
+        tokId.data
+      );
+      const recipientBalBefore = await this.getTokBal(
+        recipient.addr.data,
+        tokId.data
+      );
+      expect(senderBalBefore).toBe(1);
+      expect(recipientBalBefore).toBe(0);
+
+      const resp = await this.nc.send(sender, recipient.addr.data, tokIdx);
+      await this.waitForBlock();
+      await this.assertTxSuccess(resp.id);
+
+      const senderBalAfter = await this.getTokBal(sender.addr.data, tokId.data);
+      const recipientBalAfter = await this.getTokBal(
+        recipient.addr.data,
+        tokId.data
+      );
+      expect(senderBalAfter).toBe(0);
+      expect(recipientBalAfter).toBe(1);
     });
   });
 });
