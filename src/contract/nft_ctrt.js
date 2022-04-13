@@ -107,6 +107,36 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
   }
 
   /**
+   * supersede transafers the issuer role of the contract to a new account.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} newIssuer - The account address of the new issuer.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async supersede(
+    by,
+    newIssuer,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const newIssuerMd = new md.Addr(newIssuer);
+    newIssuerMd.mustOn(by.chain);
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.SUPERSEDE,
+        new de.DataStack(new de.Addr(newIssuerMd)),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
    * issue issues a token of the NFT contract.
    * @param {acnt.Account} by - The action taker.
    * @param {string} tokDescription - The description of the token. Defaults to ''.

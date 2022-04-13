@@ -23,6 +23,23 @@ describe('Test class NFTCtrt', function () {
     });
   });
 
+  describe('Test method supersede', function () {
+    it('should supersede the issuer role to another account', async function () {
+      const curIssuer = this.acnt0;
+      const newIssuer = this.acnt1;
+
+      const curIssuerAddr = await this.nc.getIssuer();
+      expect(curIssuerAddr.equal(curIssuer.addr)).toBeTrue();
+
+      const resp = await this.nc.supersede(curIssuer, newIssuer.addr.data);
+      await this.waitForBlock();
+      await this.assertTxSuccess(resp.id);
+
+      const newIssuerAddr = await this.nc.getIssuer();
+      expect(newIssuerAddr.equal(newIssuer.addr)).toBeTrue();
+    });
+  });
+
   describe('Test method issue', function () {
     it('should issue a new NFT to the issuer', async function () {
       const resp = await this.nc.issue(this.acnt0);

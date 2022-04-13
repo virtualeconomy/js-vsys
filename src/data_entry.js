@@ -129,7 +129,7 @@ class FixedSizeB58Str extends DataEntry {
    * @returns {Buffer} The serialization result.
    */
   serialize() {
-    return this.idxBytes + this.bytes;
+    return Buffer.concat([this.idxBytes, this.bytes]);
   }
 }
 
