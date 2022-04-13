@@ -69,7 +69,7 @@ export class PaymentTxReq extends TxReq {
    * @param {md.Addr} recipient - The address of the recipient.
    * @param {md.VSYS} amount - The amount of VSYS coins to sends.
    * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
-   * @param {md.Str} attachment - The attachment for this request. Defaults to md.Str().
+   * @param {md.Str} attachment - The attachment for this request. Defaults to new md.Str().
    * @param {md.PaymentFee} fee - The fee for this request. Defaults to md.PaymentFee.default().
    */
   constructor(
@@ -106,7 +106,7 @@ export class PaymentTxReq extends TxReq {
   }
 
   /**
-   * toBroadcastRegisterPayload returns the payload for node api /vsys/broadcast/payment
+   * toBroadcastPaymentPayload returns the payload for node api /vsys/broadcast/payment
    * @param {md.KeyPair} keyPair - The key pair used for signing.
    * @returns {object} The payload.
    */
