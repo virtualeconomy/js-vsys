@@ -7,7 +7,7 @@
 
 import * as jv from '../src/index.js';
 
-describe('Test Account', function () {
+describe('Test class Account', function () {
   describe('Test method pay', function () {
     it('should be able to pay from the action taker to the recipient', async function () {
       const payAmount = 1;
