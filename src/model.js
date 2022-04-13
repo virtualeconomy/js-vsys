@@ -1,7 +1,8 @@
 /**
- * Model module provides data models as data containers with handy methods.
+ * module model provides data models as data containers with handy methods.
  * @module model
  */
+
 'use strict';
 
 import bs58 from 'bs58';
@@ -19,15 +20,14 @@ export class Model {
    */
   constructor(data) {
     this.data = data;
+    this.validate();
   }
 
   /**
    * validate validates the instance.
    * @abstract
    */
-  validate() {
-    throw new Error('Not implemented');
-  }
+  validate() {}
 
   /**
    * equal compares this instance with the given instance to see if they are equal.
@@ -43,11 +43,10 @@ export class Model {
 export class Bytes extends Model {
   /**
    * Creates a new Bytes instance.
-   * @param {Buffer} - The data to contain.
+   * @param {Buffer} data - The data to contain.
    */
   constructor(data = Buffer.of()) {
     super(data);
-    this.validate();
   }
 
   /**
@@ -62,6 +61,8 @@ export class Bytes extends Model {
    * validate validates the instance.
    */
   validate() {
+    super.validate();
+
     if (!(this.data instanceof Buffer)) {
       const cls = this.constructor;
       throw new Error(`Data in ${cls.name} must be Buffer`);
@@ -91,11 +92,10 @@ export class Bytes extends Model {
 export class Str extends Model {
   /**
    * Creates a new Str instance.
-   * @param {string} data The data to contain.
+   * @param {string} data - The data to contain.
    */
   constructor(data = '') {
     super(data);
-    this.validate();
   }
 
   /**
@@ -127,6 +127,8 @@ export class Str extends Model {
    * validate validates the instance.
    */
   validate() {
+    super.validate();
+
     if (!(typeof this.data === 'string')) {
       throw new Error(`Data in ${this.constructor.name} must be a string`);
     }
@@ -174,7 +176,7 @@ export class B58Str extends Str {
   /**
    * fromBytes parses the given bytes and constructs a data model.
    * @param {Buffer} b - The data to parse.
-   * @returns {B58Str} A new Str instance.
+   * @returns {B58Str} A new B58Str instance.
    */
   static fromBytes(b) {
     return new this(bs58.encode(b));
@@ -344,8 +346,8 @@ export class TokenID extends FixedSizedB58Str {
 export class KeyPair {
   /**
    * Create a new KeyPair instance.
-   * @param {PubKey} pub
-   * @param {PriKey} pri
+   * @param {PubKey} pub - The public key.
+   * @param {PriKey} pri - The private key.
    */
   constructor(pub, pri) {
     this.pub = pub;
@@ -361,13 +363,14 @@ export class Int extends Model {
    */
   constructor(data = 0) {
     super(data);
-    this.validate();
   }
 
   /**
    * validate validates the instance.
    */
   validate() {
+    super.validate();
+
     if (!Number.isInteger(this.data)) {
       throw new Error(`Data in ${this.constructor.name} must be an integer`);
     }
@@ -402,7 +405,6 @@ export class Long extends Model {
    */
   constructor(data = new bn.BigNumber(0)) {
     super(data);
-    this.validate();
   }
 
   /**
@@ -417,6 +419,8 @@ export class Long extends Model {
    * validate validates the instance.
    */
   validate() {
+    super.validate();
+
     if (!bn.BigNumber.isBigNumber(this.data)) {
       throw new Error(`Data in ${this.constructor.name} must be BigNumber`);
     }
@@ -432,7 +436,7 @@ export class Long extends Model {
   }
 }
 
-/** NonNegativeBigInt is the data model class for non-negative big integers*/
+/** NonNegativeBigInt is the data model class for non-negative big integers */
 export class NonNegativeBigInt extends Long {
   /**
    * validate validates the instance.
