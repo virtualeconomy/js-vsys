@@ -52,11 +52,10 @@ export class DataEntry {
 
   /**
    * serialize serializes the containing data to bytes.
-   * @abstract
    * @returns {Buffer} The serialization result.
    */
   serialize() {
-    throw new Error('Not implemented');
+    return Buffer.concat([this.idxBytes, this.bytes]);
   }
 
   /**
@@ -123,14 +122,6 @@ class FixedSizeB58Str extends DataEntry {
   get bytes() {
     return this.data.bytes;
   }
-
-  /**
-   * serialize serializes the containing data to bytes.
-   * @returns {Buffer} The serialization result.
-   */
-  serialize() {
-    return Buffer.concat([this.idxBytes, this.bytes]);
-  }
 }
 
 /** Long is the base class for data entries that contain
@@ -174,14 +165,6 @@ class Long extends DataEntry {
    */
   get bytes() {
     return bp.packUInt64(this.data.data);
-  }
-
-  /**
-   * serialize serializes the containing data to bytes.
-   * @returns {Buffer} The serialization result.
-   */
-  serialize() {
-    return this.idxBytes + this.bytes;
   }
 }
 
@@ -296,14 +279,6 @@ export class Int32 extends DataEntry {
    */
   get bytes() {
     return bp.packUInt32(this.data.data);
-  }
-
-  /**
-   * serialize serializes the containing data to bytes.
-   * @returns {Buffer} The serialization result.
-   */
-  serialize() {
-    return this.idxBytes + this.bytes;
   }
 }
 
@@ -454,14 +429,6 @@ export class Bool extends DataEntry {
   get bytes() {
     return bp.packBool(this.data.data);
   }
-
-  /**
-   * serialize serializes the containing data to bytes.
-   * @returns {Buffer} The serialization result.
-   */
-  serialize() {
-    return this.idxBytes + this.bytes;
-  }
 }
 
 /** Bytes is the data entry class for bytes */
@@ -550,6 +517,7 @@ export class DataStack {
    */
   serialize() {
     const bufs = [bp.packUInt16(this.entries.length)];
+
     this.entries.forEach((de) => bufs.push(de.serialize()));
     return Buffer.concat(bufs);
   }
