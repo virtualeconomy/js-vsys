@@ -25,18 +25,22 @@ describe('Test class NFTCtrt', function () {
 
   describe('Test method supersede', function () {
     it('should supersede the issuer role to another account', async function () {
-      const curIssuer = this.acnt0;
+      const maker = this.acnt0;
+      const oldIssuer = this.acnt0;
       const newIssuer = this.acnt1;
 
-      const curIssuerAddr = await this.nc.getIssuer();
-      expect(curIssuerAddr.equal(curIssuer.addr)).toBeTrue();
+      const oldIssuerAddr = await this.nc.getIssuer();
+      expect(oldIssuerAddr.equal(oldIssuer.addr)).toBeTrue();
 
-      const resp = await this.nc.supersede(curIssuer, newIssuer.addr.data);
+      const resp = await this.nc.supersede(maker, newIssuer.addr.data);
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
       const newIssuerAddr = await this.nc.getIssuer();
       expect(newIssuerAddr.equal(newIssuer.addr)).toBeTrue();
+
+      await this.nc.supersede(maker, oldIssuer.addr.data);
+      await this.waitForBlock();
     });
   });
 
@@ -46,7 +50,7 @@ describe('Test class NFTCtrt', function () {
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
-      const tokId = await this.nc.getTokId(this.nc.getLastTokenIndex());
+      const tokId = await this.nc.getTokId(await this.nc.getLastTokIdx());
       const bal = await this.getTokBal(this.acnt0.addr.data, tokId.data);
       expect(bal).toBe(1);
     });
