@@ -241,6 +241,15 @@ class Contract extends APIGrp {
   async getTokBal(addr, tokId) {
     return await this.get(`/balance/${addr}/${tokId}`);
   }
+
+  /**
+   * getLastTokenIndex gets the last token index for the contract.
+   * @param {string} ctrtId - The contract ID.
+   * @returns {object} The response.
+   */
+  async getLastTokenIndex(ctrtId) {
+    return await this.get(`/lastTokenIndex/${ctrtId}`);
+  }
 }
 
 /** VSYS is the class for API group 'VSYS' */
