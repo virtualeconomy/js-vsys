@@ -1,6 +1,6 @@
 /**
  * NFT contract module provides functionalities for NFT contract.
- * @module contract/nft_ctrt
+ * @module contract/nftCtrt
  */
 
 'use strict';
