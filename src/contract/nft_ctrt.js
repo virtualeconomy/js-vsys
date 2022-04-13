@@ -238,4 +238,37 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     );
     return data;
   }
+
+  /**
+   * deposit deposits the NFT from the action taker to another token-holding contract.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} ctrtId - The contract ID.
+   * @param {number} tokIdx - The index of the token within this contract to send.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async deposit(
+    by,
+    ctrtId,
+    tokIdx,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.DEPOSIT,
+        new de.DataStack(
+          new de.Addr(by.addr.data),
+          de.CtrtAcnt.fromStr(ctrtId),
+          new de.Int32(new md.TokenIdx(tokIdx))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
 }
