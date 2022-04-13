@@ -1,5 +1,5 @@
 /**
- * Enum module provides supports for enum classes.
+ * module utils/enum provides supports for enum classes.
  * @module utils/enum
  */
 

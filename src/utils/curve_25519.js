@@ -1,6 +1,6 @@
 /**
- * Curve 25519 module provides functionalities for curve 25519 encryption.
- * @module utils/curve_25519
+ * utils/curve25519 module provides functionalities for curve 25519 encryption.
+ * @module utils/curve25519
  */
 
 'use strict';

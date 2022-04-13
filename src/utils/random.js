@@ -1,5 +1,5 @@
 /**
- * Random module provides functionalities for generating random bytes.
+ * module utils/random provides functionalities for generating random bytes.
  * @module utils/random
  */
 

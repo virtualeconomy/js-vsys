@@ -1,6 +1,6 @@
 /**
- * Big Number module provides functionalities for big numbers.
- * @module utils/big_number
+ * module utils/bigNumber provides functionalities for big numbers.
+ * @module utils/bigNumber
  */
 
 'use strict';

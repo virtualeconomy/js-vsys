@@ -1,5 +1,5 @@
 /**
- * Hashes module provides functionalities for hashings.
+ * module utils/hashes provides functionalities for hashings.
  * @module utils/hashes
  */
 
