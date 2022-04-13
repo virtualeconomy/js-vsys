@@ -22,7 +22,7 @@ class Bytes {
    * Creates a new Bytes instance.
    * @param {any} data - The bytes data to contain.
    */
-  constructor(data = Buffer.of) {
+  constructor(data = Buffer.of()) {
     this.data = data;
   }
 
