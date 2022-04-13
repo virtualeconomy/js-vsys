@@ -1,6 +1,6 @@
 /**
- * NFT contract module provides functionalities for NFT contract.
- * @module contract/nft_ctrt
+ * module contract/nftCtrt provides functionalities for NFT contract.
+ * @module contract/nftCtrt
  */
 
 'use strict';
@@ -11,6 +11,7 @@ import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 
+/** FuncIdx is the class for function indexes */
 class FuncIdx extends ctrt.FuncIdx {
   static elems = {
     SUPERSEDE: 0,
@@ -23,6 +24,7 @@ class FuncIdx extends ctrt.FuncIdx {
   static _ = this.createElems();
 }
 
+/** StateVar is the class for state variables */
 class StateVar extends ctrt.StateVar {
   static elems = {
     ISSUER: 0,
@@ -31,37 +33,64 @@ class StateVar extends ctrt.StateVar {
   static _ = this.createElems();
 }
 
+/** DBKey is the class for DB key */
 class DBKey extends ctrt.DBKey {
+  /**
+   * forIssuer returns the DBKey object for querying the issuer.
+   * @returns {DBKey} The DBKey object for querying the issuer.
+   */
   static forIssuer() {
     return new this(StateVar.ISSUER.serialize());
   }
 
+  /**
+   * forMaker returns the DBKey object for querying the maker.
+   * @returns {DBKey} The DBKey object for querying the maker.
+   */
   static forMaker() {
     return new this(StateVar.MAKER.serialize());
   }
 }
 
+/** NFTCtrt is the class for NFT Contract V1 */
 export class NFTCtrt extends ctrt.BaseTokCtrt {
   static CTRT_META = ctrt.CtrtMeta.fromB58Str(
     'VJodouhmnHVDwtkBZ2NdgahT7NAgNE9EpWoZApzobhpua2nDL9D3sbHSoRRk8bEFeme2BHrXPdcq5VNJcPdGMUD54Smwatyx74cPJyet6bCWmLciHE2jGw9u5TmatjdpFSjGKegh76GvJstK3VaLagvsJJMaaKM9MNXYtgJyDr1Zw7U9PXV7N9TQnSsqz6EHMgDvd8aTDqEG7bxxAotkAgeh4KHqnk6Ga117q5AJctJcbUtD99iUgPmJrC8vzX85TEXgHRY1psW7D6daeExfVVrEPHFHrU6XfhegKv9vRbJBGL861U4Qg6HWbWxbuitgtKoBazSp7VofDtrZebq2NSpZoXCAZC8DRiaysanAqyCJZf7jJ8NfXtWej8L9vg8PVs65MrEmK8toadcyCA2UGzg6pQKrMKQEUahruBiS7zuo62eWwJBxUD1fQ1RGPk9BbMDk9FQQxXu3thSJPnKktq3aJhD9GNFpvyEAaWigp5nfjgH5doVTQk1PgoxeXRAWQNPztjNvZWv6iD85CoZqfCWdJbAXPrWvYW5FsRLW1xJ4ELRUfReMAjCGYuFWdA3CZyefpiDEWqVTe5SA6J6XeUppRyXKpKQTc6upesoAGZZ2NtFDryq22izC6D5p1i98YpC6Dk1qcKevaANKHH8TfFoQT717nrQEY2aLoWrA1ip2t5etdZjNVFmghxXEeCAGy3NcLDFHmAfcBZhHKeJHp8H8HbiMRtWe3wmwKX6mPx16ahnd3dMGCsxAZfjQcy4J1HpuCm7rHMULkixUFYRYqx85c7UpLcijLRybE1MLRjEZ5SEYtazNuiZBwq1KUcNipzrxta9Rpvt2j4WyMadxPf5r9YeAaJJp42PiC6SGfyjHjRQN4K3pohdQRbbG4HQ95NaWCy7CAwbpXRCh9NDMMQ2cmTfB3KFW2M'
   );
 
+  /**
+   * getIssuer queries & returns the issuer of the contract.
+   * @returns {md.Addr} The issuer of the contract.
+   */
   async getIssuer() {
     const rawVal = await this.queryDbKey(DBKey.forIssuer());
     return new md.Addr(rawVal);
   }
 
+  /**
+   * getMaker queries & returns the maker of the contract.
+   * @returns {md.Addr} The maker of the contract.
+   */
   async getMaker() {
     const rawVal = await this.queryDbKey(DBKey.forMaker());
     return new md.Addr(rawVal);
   }
 
   /**
+   * getUnit queries & returns the unit of the contract.
+   * This method exists to be compatible with fungible token contracts.
+   * @returns {number} The unit of the contract.
+   */
+  async getUnit() {
+    return 1;
+  }
+
+  /**
    * register registers an NFT Contract.
-   * @param {acnt.Account} by
-   * @param {string} ctrtDescription
-   * @param {number} fee
-   * @returns {NFTCtrt}
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
+   * @returns {NFTCtrt} The NFTCtrt object of the registered NFT Contract.
    */
   static async register(by, ctrtDescription, fee = md.RegCtrtFee.DEFAULT) {
     const data = await by.registerContractImpl(
@@ -77,17 +106,13 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     return new this(data['contractId'], by.chain);
   }
 
-  async getUnit() {
-    return 1;
-  }
-
   /**
    * issue issues a token of the NFT contract.
-   * @param {acnt.Account} by
-   * @param {string} tokDescription
-   * @param {string} attachment
-   * @param {number} fee
-   * @returns {object}
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} tokDescription - The description of the token. Defaults to ''.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
    */
   async issue(
     by,
@@ -108,7 +133,22 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
-  async send(by, recipient, tokIdx, attachment = '', fee) {
+  /**
+   * send sends the NFT token from the action taker to the recipient.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} recipient - The account address of the recipient.
+   * @param {number} tokIdx - The index of the token within this contract to send.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async send(
+    by,
+    recipient,
+    tokIdx,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
     const rcptMd = new md.Addr(recipient);
     rcptMd.mustOn(by.chain);
 

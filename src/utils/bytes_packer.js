@@ -1,6 +1,6 @@
 /**
- * Bytes packer module provides functionalities to pack & unpack values to & from bytes.
- * @module utils/bytes_packer
+ * module utils/bytesPacker provides functionalities to pack & unpack values to & from bytes.
+ * @module utils/bytesPacker
  */
 
 'use strict';

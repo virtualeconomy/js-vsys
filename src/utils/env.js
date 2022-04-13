@@ -1,5 +1,5 @@
 /**
- * Env module provides functions to detect the runtime environment(e.g. node.js or browsers).
+ * module utils/env provides functions to detect the runtime environment(e.g. node.js or browsers).
  * @module utils/env
  */
 

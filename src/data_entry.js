@@ -1,6 +1,6 @@
 /**
- * Data entry module provides data entries for communicating with the node api.
- * @module data_entry
+ * module dataEntry provides data entries for communicating with the node api.
+ * @module dataEntry
  */
 
 'use strict';
@@ -16,7 +16,7 @@ export class DataEntry {
 
   /**
    * Creates DataEntry object.
-   * @param {md.Model} data
+   * @param {md.Model} data - The data model to contain.
    */
   constructor(data) {
     this.data = data;
@@ -190,8 +190,8 @@ class Long extends DataEntry {
  */
 class Text extends DataEntry {
   /**
-   * lenBytes returns the length in bytes of the bytes representation of the containing data.
-   * @returns {Buffer}
+   * lenBytes returns the length in bytes representation of the containing data.
+   * @returns {Buffer} The length bytes representation.
    */
   get lenBytes() {
     return bp.packUInt16(this.bytes.length);
@@ -255,8 +255,9 @@ export class Amount extends Long {
 
   /**
    * forVsysAmount creates an Amount instance based on the given VSYS coin amount.
-   * @param {number} amnt
-   * @returns {Amount}
+   * @param {number} amnt - The amount.
+   * @returns {Amount} - The data entry.
+   *
    */
   static forVsysAmount(amnt) {
     return new this(md.VSYS.forAmount(amnt));
@@ -463,7 +464,7 @@ export class Bool extends DataEntry {
   }
 }
 
-/** Bytes is the data entry class for bytes*/
+/** Bytes is the data entry class for bytes */
 export class Bytes extends Text {
   static IDX = 11;
 
@@ -487,7 +488,7 @@ export class Bytes extends Text {
 
   /**
    * fromStr gets the data entry from a string.
-   * @param {string} s
+   * @param {string} s - The string to parse.
    * @returns {Bytes} The Bytes instance.
    */
   static fromStr(s) {
@@ -496,7 +497,7 @@ export class Bytes extends Text {
 
   /**
    * fromBase58Str get the data entry from a b58 string.
-   * @param {string} s
+   * @param {string} s - The base58 string to parse.
    * @returns {Bytes} The Bytes instance.
    */
   static fromBase58Str() {

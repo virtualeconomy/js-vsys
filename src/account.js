@@ -1,5 +1,5 @@
 /**
- * Account module provides functionalities for Wallet & Account.
+ * module account provides functionalities for Wallet & Account.
  * @module account
  */
 
@@ -118,10 +118,11 @@ export class Wallet {
   }
 
   /**
-   * @param {Chain} chain
-   * @param {number} nonce
+   * getAcnt gets the account of the given nonce of the wallet on the given chain.
+   * @param {ch.Chain} chain - The chain where the account is on.
+   * @param {number} nonce - The nonce. Defaults to 0.
    */
-  getAcnt(chain, nonce) {
+  getAcnt(chain, nonce = 0) {
     return new Account(chain, this, new md.Nonce(nonce));
   }
 }
@@ -132,9 +133,9 @@ export class Account {
 
   /**
    * Creates a new Account instance.
-   * @param {ch.Chain} chain
-   * @param {Wallet} wallet
-   * @param {md.Nonce} nonce
+   * @param {ch.Chain} chain - The chain where the account is on.
+   * @param {Wallet} wallet - The wallet that owns the account.
+   * @param {md.Nonce} nonce - The nonce of the account. Defaults to new md.Nonce(0).
    */
   constructor(chain, wallet, nonce) {
     this.chain = chain;

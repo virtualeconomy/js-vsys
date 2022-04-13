@@ -1,15 +1,20 @@
+/**
+ * nftCtrtSpec tests module contract/nftCtrt
+ * @module nftCtrtSpec
+ */
+
 'use strict';
 
 import * as jv from '../../src/index.js';
 
-describe('Test NFTCtrt', function () {
+describe('Test class NFTCtrt', function () {
   beforeAll(async function () {
     this.nc = await jv.NFTCtrt.register(this.acnt0);
     await this.waitForBlock();
   });
 
   describe('Test method register', function () {
-    it('should work properly', async function () {
+    it('should register an instance of NFT Contract', async function () {
       const issuer = await this.nc.getIssuer();
       expect(issuer.equal(this.acnt0.addr)).toBeTrue();
 

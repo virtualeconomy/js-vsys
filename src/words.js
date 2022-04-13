@@ -1,5 +1,5 @@
 /**
- * Words module provides words for generating wallet seed.
+ * module words provides words for generating wallet seed.
  * @module words
  */
 

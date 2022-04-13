@@ -1,6 +1,6 @@
 /**
- * Transaction request module provides transaction requests.
- * @module tx_req
+ * module txReq provides transaction requests.
+ * @module txReq
  */
 
 'use strict';
@@ -130,11 +130,11 @@ export class RegCtrtTxReq extends TxReq {
 
   /**
    * Creates a new RegCtrtTxReq instance.
-   * @param {de.DataStack} dataStack
-   * @param {ctrt.CtrtMeta} ctrtMeta
-   * @param {md.VSYSTimestamp} timestamp
-   * @param {md.Str} description
-   * @param {md.Fee} fee
+   * @param {de.DataStack} dataStack - The payload of this request.
+   * @param {ctrt.CtrtMeta} ctrtMeta - The meta data of the contract to register.
+   * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
+   * @param {md.Str} description - The description for this request. Defaults to new md.Str().
+   * @param {md.RegCtrtFee} fee - The fee for this request. Defaults to md.RegCtrtFee.default().
    */
   constructor(dataStack, ctrtMeta, timestamp, description, fee) {
     super();
@@ -193,12 +193,12 @@ export class ExecCtrtFuncTxReq extends TxReq {
 
   /**
    * Creates a new ExecCtrtFuncTxReq instance.
-   * @param {md.CtrtID} ctrtId
-   * @param {ctrt.FuncIdx} funcId
-   * @param {de.DataStack} dataStack
-   * @param {md.VSYSTimestamp} timestamp
-   * @param {md.Str} attachment
-   * @param {md.ExecCtrtFee} fee
+   * @param {md.CtrtID} ctrtId - The contract id.
+   * @param {ctrt.FuncIdx} funcId - The function index.
+   * @param {de.DataStack} dataStack - The payload of this request.
+   * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
+   * @param {md.Str} attachment - The attachment for this request. Defaults to new md.Str().
+   * @param {md.ExecCtrtFee} fee - The fee for this request. Defaults to md.ExecCtrtFee.default().
    */
   constructor(ctrtId, funcId, dataStack, timestamp, attachment, fee) {
     super();

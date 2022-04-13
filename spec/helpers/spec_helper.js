@@ -1,3 +1,8 @@
+/**
+ * specHelper is the helper for test cases.
+ * @module specHelper
+ */
+
 'use strict';
 
 import assert from 'assert/strict';
