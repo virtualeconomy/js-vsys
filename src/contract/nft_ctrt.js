@@ -107,6 +107,36 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
   }
 
   /**
+   * supersede transafers the issuer role of the contract to a new account.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} newIssuer - The account address of the new issuer.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async supersede(
+    by,
+    newIssuer,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const newIssuerMd = new md.Addr(newIssuer);
+    newIssuerMd.mustOn(by.chain);
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.SUPERSEDE,
+        new de.DataStack(new de.Addr(newIssuerMd)),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
    * issue issues a token of the NFT contract.
    * @param {acnt.Account} by - The action taker.
    * @param {string} tokDescription - The description of the token. Defaults to ''.
@@ -158,6 +188,113 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
         FuncIdx.SEND,
         new de.DataStack(
           new de.Addr(rcptMd),
+          new de.Int32(new md.TokenIdx(tokIdx))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * transfer transfers the NFT token from the sender to the recipient.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} sender - The account address of the sender.
+   * @param {string} recipient - The account address of the recipient.
+   * @param {number} tokIdx - The index of the token within this contract to send.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async transfer(
+    by,
+    sender,
+    recipient,
+    tokIdx,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const senderMd = new md.Addr(sender);
+    senderMd.mustOn(this.chain);
+
+    const rcptMd = new md.Addr(recipient);
+    rcptMd.mustOn(this.chain);
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.TRANSFER,
+        new de.DataStack(
+          new de.Addr(senderMd),
+          new de.Addr(rcptMd),
+          new de.Int32(new md.TokenIdx(tokIdx))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * deposit deposits the NFT from the action taker to another token-holding contract.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} ctrtId - The contract ID.
+   * @param {number} tokIdx - The index of the token within this contract to send.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async deposit(
+    by,
+    ctrtId,
+    tokIdx,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.DEPOSIT,
+        new de.DataStack(
+          new de.Addr(by.addr.data),
+          de.CtrtAcnt.fromStr(ctrtId),
+          new de.Int32(new md.TokenIdx(tokIdx))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * withdraw withdraws the NFT from a token-holding contract to the action taker.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} ctrtId - The contract ID.
+   * @param {number} tokIdx - The index of the token within this contract to send.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async withdraw(
+    by,
+    ctrtId,
+    tokIdx,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.WITHDRAW,
+        new de.DataStack(
+          de.CtrtAcnt.fromStr(ctrtId),
+          new de.Addr(by.addr.data),
           new de.Int32(new md.TokenIdx(tokIdx))
         ),
         md.VSYSTimestamp.now(),

@@ -328,4 +328,13 @@ export class BaseTokCtrt extends Ctrt {
     const tokId = tokIdBytes.toString('latin1');
     return new md.TokenID(tokId);
   }
+
+  /**
+   * getLastTokIdx gets the last token index of the contract.
+   * @returns {number} The last token index.
+   */
+  async getLastTokIdx() {
+    const resp = await this.chain.api.ctrt.getLastTokenIndex(this.ctrtId.data);
+    return resp.lastTokenIndex;
+  }
 }
