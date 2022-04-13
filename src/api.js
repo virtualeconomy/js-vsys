@@ -1,5 +1,5 @@
 /**
- * API module provides functionalities for calling RESTful APIs exposed by a node in the VSYS blockchain network.
+ * module api provides functionalities for calling RESTful APIs exposed by a node in the VSYS blockchain network.
  * @module api
  */
 
@@ -84,7 +84,7 @@ export class NodeAPI {
   /**
    * new creates a new NodeAPI instance.
    * @param {string} host - The host of the node.
-   * @param {string} apiKey - The api key of the node.
+   * @param {string} apiKey - The api key of the node. Defaults to ''.
    * @returns {NodeAPI} The new NodeAPI instance.
    */
   static new(host, apiKey = '') {
@@ -149,6 +149,7 @@ class Blocks extends APIGrp {
   }
 }
 
+/** Transactions is the class for API group 'transactions' */
 class Transactions extends APIGrp {
   static PREFIX = '/transactions';
 
@@ -242,6 +243,7 @@ class Contract extends APIGrp {
   }
 }
 
+/** VSYS is the class for API group 'VSYS' */
 class VSYS extends APIGrp {
   static PREFIX = '/vsys';
 
