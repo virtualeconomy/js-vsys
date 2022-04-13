@@ -1,5 +1,5 @@
 /**
- * Chain module provides functionalities for the chain in VSYS blockchain network..
+ * module chain provides functionalities for the chain in VSYS blockchain network.
  * @module chain
  */
 
@@ -35,7 +35,7 @@ export class ChainID extends en.Enum {
 export class Chain {
   /**
    * @param {api.NodeAPI} nodeApi - The NodeAPI instance.
-   * @param {ChainID} chainId=ChainID.TEST_NET
+   * @param {ChainID} chainId - The chain ID. Defaults to ChainID.TEST_NET.
    */
   constructor(nodeApi, chainId = ChainID.TEST_NET) {
     this.api = nodeApi;
