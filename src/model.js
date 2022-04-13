@@ -400,7 +400,7 @@ export class Long extends Model {
    * Creates a new Long instance.
    * @param {bn.BigNumber} data - The data to contain.
    */
-  constructor(data = bn.BigNumber(0)) {
+  constructor(data = new bn.BigNumber(0)) {
     super(data);
     this.validate();
   }
@@ -535,17 +535,6 @@ export class Fee extends VSYS {
   static DEFAULT = VSYS.UNIT * 0.1;
 
   /**
-   * Creates a new Fee instance.
-   * @param {bn.BigNumber} data - The data to contain.
-   */
-  constructor(data = new bn.BigNumber(0)) {
-    super(data);
-    if (data.isEqualTo(0)) {
-      this.data = new bn.BigNumber(this.constructor.DEFAULT);
-    }
-  }
-
-  /**
    * validate validates the instance.
    */
   validate() {
@@ -558,7 +547,18 @@ export class Fee extends VSYS {
       );
     }
   }
+
+  /**
+   * default creates a Fee object with default value.
+   * @returns {Fee} The Fee object.
+   */
+  static default() {
+    return this.fromNumber(this.DEFAULT);
+  }
 }
+
+/** PaymentFee is the data model class for payment fee */
+export class PaymentFee extends Fee {}
 
 /** RegCtrtFee is the data model class for register contract fee */
 export class RegCtrtFee extends Fee {

@@ -78,6 +78,7 @@ export class NodeAPI {
     this.utils = new Utils(sess);
     this.addr = new Addresses(sess);
     this.ctrt = new Contract(sess);
+    this.vsys = new VSYS(sess);
   }
 
   /**
@@ -187,6 +188,15 @@ class Addresses extends APIGrp {
   async getBalance(addr) {
     return await this.get(`/balance/${addr}`);
   }
+
+  /**
+   * getBalanceDetails gets the ledger(regular) balance of the given address.
+   * @param {string} addr - The account address.
+   * @returns {object} The response.
+   */
+  async getBalanceDetails(addr) {
+    return await this.get(`/balance/details/${addr}`);
+  }
 }
 
 /** Contract is the class for API group 'contract'*/
@@ -229,5 +239,27 @@ class Contract extends APIGrp {
    */
   async getTokBal(addr, tokId) {
     return await this.get(`/balance/${addr}/${tokId}`);
+  }
+}
+
+class VSYS extends APIGrp {
+  static PREFIX = '/vsys';
+
+  /**
+   * broadcastPayment broadcasts the request for payment of VSYS coins.
+   * @param {object} data - The payload for the API call.
+   * @returns {object} The response.
+   */
+  async broadcastPayment(data) {
+    return await this.post('/broadcast/payment', JSON.stringify(data));
+  }
+
+  /**
+   * payment makes the payment of VSYS coins for one of the built-in account of the node (API Key required).
+   * @param {object} data - The payload for the API call.
+   * @returns {object} The response.
+   */
+  async payment(data) {
+    return await this.post('/payment', JSON.stringify(data));
   }
 }

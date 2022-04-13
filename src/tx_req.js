@@ -60,6 +60,70 @@ class TxReq {
   }
 }
 
+/** PaymentTxReq is the class for payment transaction request */
+export class PaymentTxReq extends TxReq {
+  static TX_TYPE = TxType.PAYMENT;
+
+  /**
+   * Creates a PaymentTxReq object.
+   * @param {md.Addr} recipient - The address of the recipient.
+   * @param {md.VSYS} amount - The amount of VSYS coins to sends.
+   * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
+   * @param {md.Str} attachment - The attachment for this request. Defaults to new md.Str().
+   * @param {md.PaymentFee} fee - The fee for this request. Defaults to md.PaymentFee.default().
+   */
+  constructor(
+    recipient,
+    amount,
+    timestamp,
+    attachment = new md.Str(),
+    fee = md.PaymentFee.default()
+  ) {
+    super();
+    this.recipient = recipient;
+    this.amount = amount;
+    this.timestamp = timestamp;
+    this.attachment = attachment;
+    this.fee = fee;
+  }
+
+  /**
+   * dataToSign returns the data to sign.
+   * @returns {Buffer} The data to sign.
+   */
+  get dataToSign() {
+    const cls = this.constructor;
+    return Buffer.concat([
+      cls.TX_TYPE.serialize(),
+      bp.packUInt64(this.timestamp.bigInt),
+      bp.packUInt64(this.amount.bigInt),
+      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt16(cls.FEE_SCALE),
+      this.recipient.bytes,
+      bp.packUInt16(this.attachment.data.length),
+      this.attachment.bytes,
+    ]);
+  }
+
+  /**
+   * toBroadcastPaymentPayload returns the payload for node api /vsys/broadcast/payment
+   * @param {md.KeyPair} keyPair - The key pair used for signing.
+   * @returns {object} The payload.
+   */
+  toBroadcastPaymentPayload(keyPair) {
+    return {
+      senderPublicKey: keyPair.pub.data,
+      recipient: this.recipient.data,
+      amount: this.amount.data.toNumber(),
+      fee: this.fee.data.toNumber(),
+      feeScale: this.constructor.FEE_SCALE,
+      timestamp: this.timestamp.data.toNumber(),
+      attachment: this.attachment.b58Str,
+      signature: new md.Bytes(this.sign(keyPair)).b58Str,
+    };
+  }
+}
+
 /** RegCtrtTxReq is the class for register contract transaction request */
 export class RegCtrtTxReq extends TxReq {
   static TX_TYPE = TxType.REGISTER_CONTRACT;

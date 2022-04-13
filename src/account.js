@@ -158,6 +158,50 @@ export class Account {
   }
 
   /**
+   * getBal returns the account's ledger(regular) balance.
+   * NOTE: The amount leased out will NOT be reflected in this balance.
+   * @returns {md.VSYS} The account's ledger(regular) balance.
+   */
+  async getBal() {
+    const resp = await this.api.addr.getBalanceDetails(this.addr.data);
+    return md.VSYS.fromNumber(resp.regular);
+  }
+
+  /**
+   * payImpl provides the internal implementation of paying.
+   * @param {tx.PaymentTxReq} req - The Payment Transaction Request.
+   * @returns {object} The response returned by the NodeAPI.
+   */
+  async payImpl(req) {
+    return await this.api.vsys.broadcastPayment(
+      req.toBroadcastPaymentPayload(this.keyPair)
+    );
+  }
+
+  /**
+   * pay pays the VSYS coins from the action taker to the recipient.
+   * @param {string} recipient - The account address of the recipient
+   * @param {number} amount - The amount of VSYS coins to pay.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - Teh fee to pay for this action. Defaults to md.PaymentFee.DEFAULT.
+   */
+  async pay(recipient, amount, attachment = '', fee = md.PaymentFee.DEFAULT) {
+    const rcptMd = new md.Addr(recipient);
+    rcptMd.mustOn(this.chain);
+
+    const data = await this.payImpl(
+      new tx.PaymentTxReq(
+        rcptMd,
+        md.VSYS.forAmount(amount),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.PaymentFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
    * registerContractImpl provides the internal implementation of registering a contract.
    * @param {tx.RegCtrtTxReq} req - The Register Contract Transaction Request.
    * @returns {object} The response returned by the NodeAPI.
