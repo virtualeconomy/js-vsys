@@ -271,4 +271,37 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     );
     return data;
   }
+
+  /**
+   * withdraw withdraws the NFT from a token-holding contract to the action taker.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} ctrtId - The contract ID.
+   * @param {number} tokIdx - The index of the token within this contract to send.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async withdraw(
+    by,
+    ctrtId,
+    tokIdx,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.WITHDRAW,
+        new de.DataStack(
+          de.CtrtAcnt.fromStr(ctrtId),
+          new de.Addr(by.addr.data),
+          new de.Int32(new md.TokenIdx(tokIdx))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
 }
