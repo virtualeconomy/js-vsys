@@ -309,7 +309,7 @@ export class BaseTokCtrt extends Ctrt {
    * @param {number} tokIdx - The token index.
    * @returns {md.TokenID} The token ID.
    */
-  async getTokId(tokIdx) {
+  getTokId(tokIdx) {
     new md.TokenIdx(tokIdx); // for validation
 
     const b = this.ctrtId.bytes;
