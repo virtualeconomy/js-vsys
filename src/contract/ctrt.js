@@ -298,6 +298,7 @@ export class BaseTokCtrt extends Ctrt {
   /**
    * getUnit returns the unit of the token contract.
    * @abstract
+   * @returns {number} The unit of the token.
    */
   async getUnit() {
     throw new Error('Not implemented');
