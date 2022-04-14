@@ -30,12 +30,33 @@ export class Model {
   validate() {}
 
   /**
+   * hasSameType compares this instance with the given instance to see if the types are the same.
+   * @param {Model} other - The other instance to compare.
+   * @returns {boolean} If the 2 instances have the same type.
+   */
+  hasSameType(other) {
+    return this.constructor === other.constructor;
+  }
+
+  /**
+   * hasSameData compares this instance with the given instance to see if the data are the same.
+   * @param {Model} other - The other instance to compare.
+   * @returns {boolean} If the 2 instances have the same data.
+   */
+  hasSameData(other) {
+    if (this.data instanceof bn.BigNumber) {
+      return this.data.isEqualTo(other.data);
+    }
+    return this.data === other.data;
+  }
+
+  /**
    * equal compares this instance with the given instance to see if they are equal.
    * @param {Model} other - The other instance to compare.
-   * @returns {boolean} - If the 2 instances are equal.
+   * @returns {boolean} If the 2 instances are equal.
    */
   equal(other) {
-    return this.constructor === other.constructor && this.data === other.data;
+    return this.hasSameType(other) && this.hasSameData(other);
   }
 }
 
