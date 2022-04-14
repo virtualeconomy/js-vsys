@@ -1,3 +1,8 @@
+/**
+ * module contract/lockCtrt provides functionalities for Lock Contract.
+ * @module contract/lockCtrt
+ */
+
 'use strict';
 
 import * as ctrt from './ctrt.js';
@@ -81,8 +86,6 @@ class LockCtrt extends ctrt.BaseTokCtrt {
    */
   constructor(ctrtId, chain) {
     super(ctrtId, chain);
-    this.tokId = null;
-    this.tokCtrt = null;
   }
 
   /**
@@ -128,5 +131,59 @@ class LockCtrt extends ctrt.BaseTokCtrt {
   async getTokId() {
     const rawVal = await this.queryDbKey(DBKey.forTokenId());
     return new md.TokenID(rawVal);
+  }
+
+  /**
+   * getUnit returns the unit of the token locked in the contract.
+   * @returns {number} The unit of the token.
+   */
+  async getUnit() {
+    const tokId = await this.getTokId();
+    const tokInfo = await this.chain.api.ctrt.getTokInfo(tokId.data);
+    return tokInfo.unity;
+  }
+
+  /**
+   * getCtrtBal gets the token balance within this contract belonging to the user address.
+   * @param {string} addr - The account address.
+   * @returns {md.Token} The token balance.
+   */
+  async getCtrtBal(addr) {
+    const rawVal = await this.queryDbKey(this.DBKey.forContractBalance(addr));
+    const unit = await this.getUnit();
+    return new md.TokenID(rawVal, unit);
+  }
+
+  /**
+   * getCtrtLockTime gets the lock time of the token locked in this contract
+   * belonging to the user address.
+   * @param {string} addr - The account address.
+   * @returns {md.VSYSTimestamp} The lock time of the token.
+   */
+  async getCtrtLockTime(addr) {
+    const rawVal = await this.queryDbKey(this.DBKey.forContractLockTime(addr));
+    return new md.VSYSTimestamp(rawVal);
+  }
+
+  /**
+   * lock locks the user's deposited tokens in the contract until the given timestamp.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} expireAt - Unix timestamp when the lock will expire.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async lock(by, expireAt, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.LOCK,
+        new de.DataStack(de.Timestamp.fromUnixTs(expireAt)),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
   }
 }
