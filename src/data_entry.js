@@ -164,7 +164,7 @@ class Long extends DataEntry {
    * @returns {Buffer} The bytes representation of this data entry.
    */
   get bytes() {
-    return bp.packUInt64(this.data.data);
+    return bp.packUInt64(this.data.bigInt);
   }
 }
 
