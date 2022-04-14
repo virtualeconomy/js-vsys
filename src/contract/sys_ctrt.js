@@ -23,7 +23,7 @@ class FuncIdx extends ctrt.FuncIdx {
 }
 
 /** SysCtrt is the class for System Contract */
-export class SysCtrt extends ctrt.Ctrt {
+export class SysCtrt extends ctrt.BaseTokCtrt {
   static MAINNET_CTRT_ID = 'CCL1QGBqPAaFjYiA8NMGVhzkd3nJkGeKYBq';
   static TESTNET_CTRT_ID = 'CF9Nd9wvQ8qVsGk8jYHbj6sf8TK7MJ2GYgt';
 
@@ -43,6 +43,38 @@ export class SysCtrt extends ctrt.Ctrt {
    */
   static forTestnet(chain) {
     return new this(this.TESTNET_CTRT_ID, chain);
+  }
+
+  /**
+   * Creates a new System Contract instance.
+   * @param {string} ctrtId - The contract ID.
+   * @param {ch.Chain} chain - The chain.
+   */
+  constructor(ctrtId, chain) {
+    super(ctrtId, chain);
+    /**
+     * @type {(md.TokenID|undefined)}
+     */
+    this._tokId = undefined;
+  }
+
+  /**
+   * tokId returns the tokenID of the contract.
+   * @returns {md.TokenID}
+   */
+  get tokId() {
+    if (!this._tokId) {
+      this._tokId = this.getTokId(0);
+    }
+    return this._tokId;
+  }
+
+  /**
+   * unit returns the unit of tokens defined in System Contract(VSYS coins)
+   * @returns {number} The unit.
+   */
+  get unit() {
+    return md.VSYS.UNIT;
   }
 
   /**
@@ -139,7 +171,7 @@ export class SysCtrt extends ctrt.Ctrt {
         this.ctrtId,
         FuncIdx.DEPOSIT,
         new de.DataStack(
-          new de.Addr(senderMd),
+          de.Addr.fromStr(by.addr.data),
           de.CtrtAcnt.fromStr(ctrtId),
           de.Amount.forVsysAmount(amount)
         ),
@@ -172,8 +204,8 @@ export class SysCtrt extends ctrt.Ctrt {
         this.ctrtId,
         FuncIdx.WITHDRAW,
         new de.DataStack(
-          new de.Addr(senderMd),
           de.CtrtAcnt.fromStr(ctrtId),
+          de.Addr.fromStr(by.addr.data),
           de.Amount.forVsysAmount(amount)
         ),
         md.VSYSTimestamp.now(),
