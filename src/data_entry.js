@@ -386,6 +386,15 @@ export class Timestamp extends Long {
   static now() {
     return new this(md.VSYSTimestamp.now());
   }
+
+  /**
+   * fromUnixTs creates a new Timestamp from the given UNIX timestamp at milliseconds.
+   * @param {number} uxTs - UNIX timestamp as interger.
+   * @returns {Timestamp} The Timestamp instance.
+   */
+  static fromUnixTs(uxTs) {
+    return new this(md.VSYSTimestamp.fromUnixTs(uxTs));
+  }
 }
 
 /** Bool is the data entry class for boolean values */

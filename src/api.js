@@ -243,12 +243,21 @@ class Contract extends APIGrp {
   }
 
   /**
-   * getLastTokenIndex gets the last token index for the contract.
+   * getLastTokIdx gets the last token index for the contract.
    * @param {string} ctrtId - The contract ID.
    * @returns {object} The response.
    */
-  async getLastTokenIndex(ctrtId) {
+  async getLastTokIdx(ctrtId) {
     return await this.get(`/lastTokenIndex/${ctrtId}`);
+  }
+
+  /**
+   * getTokInfo gets the token information for the token ID.
+   * @param {string} tokId - The token ID.
+   * @returns {object} The response.
+   */
+  async getTokInfo(tokId) {
+    return await this.get(`/tokenInfo/${tokId}`);
   }
 }
 

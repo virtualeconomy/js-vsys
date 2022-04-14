@@ -272,7 +272,7 @@ export class Ctrt {
   /**
    * Creates a new smart contract instance.
    * @param {string} ctrtId - The contract ID.
-   * @param {ch.chain} chain - The chain.
+   * @param {ch.Chain} chain - The chain.
    */
   constructor(ctrtId, chain) {
     this.ctrtId = new md.CtrtID(ctrtId);
@@ -298,6 +298,7 @@ export class BaseTokCtrt extends Ctrt {
   /**
    * getUnit returns the unit of the token contract.
    * @abstract
+   * @returns {number} The unit of the token.
    */
   async getUnit() {
     throw new Error('Not implemented');
@@ -308,7 +309,7 @@ export class BaseTokCtrt extends Ctrt {
    * @param {number} tokIdx - The token index.
    * @returns {md.TokenID} The token ID.
    */
-  async getTokId(tokIdx) {
+  getTokId(tokIdx) {
     new md.TokenIdx(tokIdx); // for validation
 
     const b = this.ctrtId.bytes;
@@ -334,7 +335,7 @@ export class BaseTokCtrt extends Ctrt {
    * @returns {number} The last token index.
    */
   async getLastTokIdx() {
-    const resp = await this.chain.api.ctrt.getLastTokenIndex(this.ctrtId.data);
+    const resp = await this.chain.api.ctrt.getLastTokIdx(this.ctrtId.data);
     return resp.lastTokenIndex;
   }
 }
