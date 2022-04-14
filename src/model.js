@@ -501,6 +501,57 @@ export class VSYSTimestamp extends NonNegativeBigInt {
   }
 }
 
+/** Token is the data model class for general token amount */
+export class Token extends NonNegativeBigInt {
+  /**
+   * Create a Token instance.
+   * @param {bn.BigNumber} data - The data to contain.
+   * @param {number} unit - The unit of the token.
+   */
+  constructor(data, unit) {
+    super(data);
+    this.unit = unit;
+  }
+
+  /**
+   * amount returns the natural amount (without multiplying the unit)
+   * @returns {bn.BigNumber}
+   */
+  get amount() {
+    return this.data.dividedBy(this.unit);
+  }
+
+  /**
+   * forAmount creates a new Token where the amount is equal to the given amount.
+   * @param {number} amount - The raw amount.
+   * @param {number} unit - The unit of the token.
+   * @returns {Token} The Token instance.
+   */
+  static forAmount(amount, unit) {
+    const amntBN = new bn.BigNumber(amount);
+    const data = amntBN.times(unit);
+
+    if (!data.isInteger()) {
+      throw new Error(
+        `Invalid amount for ${
+          this.name
+        }: ${amount}. The minimal valid amount granularity is ${1 / unit}`
+      );
+    }
+    return new this(data, unit);
+  }
+
+  /**
+   * fromNumber creates a new Token isntance from the given number.
+   * @param {any} n - The number.
+   * @param {any} unit - The unit.
+   * @returns {Token} The Token instance.
+   */
+  static fromNumber(n, unit) {
+    return new this(new bn.BigNumber(n), unit);
+  }
+}
+
 /** VSYS is the data model class for VSYS coin amount */
 export class VSYS extends NonNegativeBigInt {
   static UNIT = 1e8;
