@@ -334,7 +334,7 @@ export class BaseTokCtrt extends Ctrt {
    * @returns {number} The last token index.
    */
   async getLastTokIdx() {
-    const resp = await this.chain.api.ctrt.getLastTokenIndex(this.ctrtId.data);
+    const resp = await this.chain.api.ctrt.getLastTokIdx(this.ctrtId.data);
     return resp.lastTokenIndex;
   }
 }
