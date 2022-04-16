@@ -260,7 +260,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.DEPOSIT,
         new de.DataStack(
-          new de.Addr(by.addr.data),
+          new de.Addr(by.addr),
           de.CtrtAcnt.fromStr(ctrtId),
           new de.Int32(new md.TokenIdx(tokIdx))
         ),
@@ -294,7 +294,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
         FuncIdx.WITHDRAW,
         new de.DataStack(
           de.CtrtAcnt.fromStr(ctrtId),
-          new de.Addr(by.addr.data),
+          new de.Addr(by.addr),
           new de.Int32(new md.TokenIdx(tokIdx))
         ),
         md.VSYSTimestamp.now(),
