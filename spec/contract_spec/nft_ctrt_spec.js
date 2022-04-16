@@ -20,6 +20,9 @@ describe('Test class NFTCtrt', function () {
 
       const maker = await this.nc.getMaker();
       expect(maker.equal(this.acnt0.addr)).toBeTrue();
+
+      const unit = await this.nc.getUnit();
+      expect(unit).toBe(1);
     });
   });
 
