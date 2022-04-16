@@ -20,6 +20,9 @@ describe('Test class NFTCtrt', function () {
 
       const maker = await this.nc.getMaker();
       expect(maker.equal(this.acnt0.addr)).toBeTrue();
+
+      const unit = await this.nc.getUnit();
+      expect(unit).toBe(1);
     });
   });
 
@@ -136,6 +139,64 @@ describe('Test class NFTCtrt', function () {
       );
       expect(senderBalAfter).toBe(0);
       expect(recipientBalAfter).toBe(1);
+    });
+  });
+
+  describe('Test method deposit & withdraw', function () {
+    beforeAll(async function () {
+      const resp = await this.nc.issue(this.acnt0);
+      await this.waitForBlock();
+      await this.assertTxSuccess(resp.id);
+
+      this.tokIdx = await this.nc.getLastTokIdx();
+      this.tokId = await this.nc.getTokId(this.tokIdx);
+
+      this.lc = await jv.LockCtrt.register(this.acnt0, this.tokId.data);
+      await this.waitForBlock();
+    });
+
+    it('should be able to deposit into and withdraw from a contract', async function () {
+      const amount = 1;
+      const acnt = this.acnt0;
+      const unit = await this.nc.getUnit();
+
+      const ctrtBalInit = await this.lc.getCtrtBal(acnt.addr.data);
+      const acntBalInit = await this.getTokBal(acnt.addr.data, this.tokId.data);
+      expect(acntBalInit).toBe(1);
+
+      // deposit
+      const depResp = await this.nc.deposit(
+        acnt,
+        this.lc.ctrtId.data,
+        this.tokIdx
+      );
+      await this.waitForBlock();
+      await this.assertTxSuccess(depResp.id);
+
+      const ctrtBalDep = await this.lc.getCtrtBal(acnt.addr.data);
+      const ctrtBalGainActual = ctrtBalDep.data.minus(ctrtBalInit.data);
+      const ctrtBalGainExpected = jv.Token.forAmount(amount, unit).data;
+      expect(ctrtBalGainActual.isEqualTo(ctrtBalGainExpected)).toBeTrue();
+
+      const acntBalDep = await this.getTokBal(acnt.addr.data, this.tokId.data);
+      expect(acntBalDep).toBe(0);
+
+      // withdraw
+      const withResp = await this.nc.withdraw(
+        acnt,
+        this.lc.ctrtId.data,
+        this.tokIdx
+      );
+      await this.waitForBlock();
+      await this.assertTxSuccess(withResp.id);
+
+      const ctrtBalWith = await this.lc.getCtrtBal(acnt.addr.data);
+      const ctrtBalLossActual = ctrtBalDep.data.minus(ctrtBalWith.data);
+      const ctrtBalLossExpected = jv.Token.forAmount(amount, unit).data;
+      expect(ctrtBalLossActual.isEqualTo(ctrtBalLossExpected)).toBeTrue();
+
+      const acntBalWith = await this.getTokBal(acnt.addr.data, this.tokId.data);
+      expect(acntBalWith).toBe(1);
     });
   });
 });
