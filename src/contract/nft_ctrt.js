@@ -12,7 +12,7 @@ import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 
 /** FuncIdx is the class for function indexes */
-class FuncIdx extends ctrt.FuncIdx {
+export class FuncIdx extends ctrt.FuncIdx {
   static elems = {
     SUPERSEDE: 0,
     ISSUE: 1,
@@ -25,7 +25,7 @@ class FuncIdx extends ctrt.FuncIdx {
 }
 
 /** StateVar is the class for state variables */
-class StateVar extends ctrt.StateVar {
+export class StateVar extends ctrt.StateVar {
   static elems = {
     ISSUER: 0,
     MAKER: 1,
@@ -34,7 +34,7 @@ class StateVar extends ctrt.StateVar {
 }
 
 /** DBKey is the class for DB key */
-class DBKey extends ctrt.DBKey {
+export class DBKey extends ctrt.DBKey {
   /**
    * forIssuer returns the DBKey object for querying the issuer.
    * @returns {DBKey} The DBKey object for querying the issuer.

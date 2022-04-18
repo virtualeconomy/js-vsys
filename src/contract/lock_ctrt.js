@@ -11,6 +11,7 @@ import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 
+/** FuncIdx is the class for function indexes */
 class FuncIdx extends ctrt.FuncIdx {
   static elems = {
     LOCK: 0,
@@ -18,6 +19,7 @@ class FuncIdx extends ctrt.FuncIdx {
   static _ = this.createElems();
 }
 
+/** StateVar is the class for state variables */
 class StateVar extends ctrt.StateVar {
   static elems = {
     MAKER: 0,
@@ -26,6 +28,7 @@ class StateVar extends ctrt.StateVar {
   static _ = this.createElems();
 }
 
+/** StateMapIdx is the class for state map indexes */
 class StateMapIdx extends ctrt.StateMapIdx {
   static elems = {
     CONTRACT_BALANCE: 0,
@@ -34,6 +37,7 @@ class StateMapIdx extends ctrt.StateMapIdx {
   static _ = this.createElems();
 }
 
+/** DBKey is the class for DB key */
 class DBKey extends ctrt.DBKey {
   /**
    * forMaker returns the DBKey object for querying the maker.
@@ -78,6 +82,7 @@ class DBKey extends ctrt.DBKey {
   }
 }
 
+/** LockCtrt is the class for Lock Contract */
 export class LockCtrt extends ctrt.Ctrt {
   static CTRT_META = ctrt.CtrtMeta.fromB58Str(
     '4Qgfi31k6qfLxTguJg8AeYzmmgaCTJCEPQyAdoRUUSrFDc91PhkdU6C8QQSsNCFc2xEud2XnuQ4YNJ51HgdNtBdnxZcU5Rnqdzyop41Ck81v4nRKkHpTdTrfD8vTur2w4mTFeTFKVzGvGjpHXUVvT47vZiKLBHSB7FHHpGf69bu8DQGXWu6xnZZkn9v2Rfc9mByhwVLSNghNdRhrQwRWPFJ9Qt7Yb8N8WdmcUCAC6PrC3Ha3Z9w7dyf6CsKcCMS6JmB2gvNQitm9jqAfjRxDdqPBUR6TtyjSdmHP9BZRGgiVCaQH7X8fbJZVWSib4RXvFoSrqY4SfVftDY3PU4hXASaRWbaheB8m4VgM4mA8nKDbZvRWZtZ4cHdWeNFyVPs6HxHQZHrQ3GZGNPjmBSyAkGRFS7i5dK8aYWQDEYu1Xijk63UFAWuf6tRdR44ZgRjWGUZJtdQBDFB38XaU8LSFEj2eaC1yNqZ6nnGeRXDzS1q3YKsGyJTqaDDMHvPHiHonGn76JQHAZN7eGU7biaSLxoikW4MaTPSfmcTmDyPGJyJNHjc8MrpV8aQSaGGyDkf1a9MpoJcyEjsPFQbxYzSJVqFEFg2oUL7Z8VUtJK2kYcWDz7w8UiiQqe3uuQnKDGb1nJ5Ad3W8ZPfVP6YHbJrnBKZXMMypNoveokVvxZMCkSNYDsoBxJzrwFvm5DcDJbePQU6VbeZ5SzQw9XTAw4DZpxkQm9RwRE9PXPqogpp9P6LhaiUa6ZD1cWUAHypjWLJ2Rds96oap3biBp5aESunuh99HByoXg5Aa7EQ3FrEvmeq9TLVFYpJraZyW'
