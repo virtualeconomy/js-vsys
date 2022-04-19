@@ -1,6 +1,6 @@
 /**
- * module contract/tokCtrt provides functionalities for Token contract.
- * @module contract/tokCtrt
+ * module contract/tokCtrtNoSplit provides functionalities for Token contract V1 without split.
+ * @module contract/tokCtrtNoSplit
  */
 
 'use strict';
