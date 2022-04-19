@@ -10,3 +10,5 @@ export * from './contract/atomic_swap_ctrt.js';
 export * from './contract/nft_ctrt.js';
 export * from './contract/nft_ctrt_v2.js';
 export * from './contract/sys_ctrt.js';
+export * from './contract/tok_ctrt_no_split.js';
+export * from './contract/tok_ctrt_split.js';
