@@ -57,6 +57,7 @@ export class DBKey extends ctrt.DBKey {
   }
 }
 
+/** TokCtrtWithoutSplit is the class for Token Contract V1 without split */
 export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
   constructor(ctrtId, chain) {
     super(ctrtId, chain);
