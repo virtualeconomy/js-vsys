@@ -141,7 +141,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
         md.RegCtrtFee.fromNumber(fee)
       )
     );
-    return data;
+    return new this(data.contractId, by.chain);
   }
 
   /**
