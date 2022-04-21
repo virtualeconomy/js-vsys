@@ -1,5 +1,5 @@
 /**
- * tokCtrtNoSplitSpec tests module contract/TokCtrtWithoutSplit
+ * tokCtrtNoSplitSpec tests module contract/tokCtrtNoSplit
  * @module tokCtrtNoSplitSpec
  */
 
@@ -9,20 +9,38 @@ import * as jv from '../../src/index.js';
 
 describe('Test class TokCtrtWithoutSplit', function () {
   beforeAll(async function () {
-    this.nc = await jv.TokCtrtWithoutSplit.register(this.acnt0,100,1);
+    this.max = 1000;
+    this.unit = 1;
+
+    this.tc = await jv.TokCtrtWithoutSplit.register(
+      this.acnt0,
+      this.max,
+      this.unit
+    );
     await this.waitForBlock();
+
+    const resp = await this.tc.issue(this.acnt0, this.max);
+    await this.waitForBlock();
+    await this.assertTxSuccess(resp.id);
+
+    const tokBal = await this.getTokBal(
+      this.acnt0.addr.data,
+      this.tc.tokId.data
+    );
+
+    expect(tokBal).toBe(this.max);
   });
 
   describe('Test method register', function () {
     it('should register an instance of Token Contract', async function () {
-      const issuer = await this.nc.getIssuer();
+      const issuer = await this.tc.getIssuer();
       expect(issuer.equal(this.acnt0.addr)).toBeTrue();
 
-      const maker = await this.nc.getMaker();
+      const maker = await this.tc.getMaker();
       expect(maker.equal(this.acnt0.addr)).toBeTrue();
 
-      const unit = await this.nc.getUnit();
-      expect(unit).toBe(1);
+      const unit = await this.tc.getUnit();
+      expect(unit).toBe(this.unit);
     });
   });
 
@@ -32,46 +50,27 @@ describe('Test class TokCtrtWithoutSplit', function () {
       const oldIssuer = this.acnt0;
       const newIssuer = this.acnt1;
 
-      const oldIssuerAddr = await this.nc.getIssuer();
+      const oldIssuerAddr = await this.tc.getIssuer();
       expect(oldIssuerAddr.equal(oldIssuer.addr)).toBeTrue();
 
-      const resp = await this.nc.supersede(maker, newIssuer.addr.data);
+      const resp = await this.tc.supersede(maker, newIssuer.addr.data);
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
-      const newIssuerAddr = await this.nc.getIssuer();
+      const newIssuerAddr = await this.tc.getIssuer();
       expect(newIssuerAddr.equal(newIssuer.addr)).toBeTrue();
 
-      await this.nc.supersede(maker, oldIssuer.addr.data);
+      await this.tc.supersede(maker, oldIssuer.addr.data);
       await this.waitForBlock();
-    });
-  });
-
-  describe('Test method issue', function () {
-    it('should issue new tokens to the issuer', async function () {
-      const resp = await this.nc.issue(this.acnt0,100);
-      await this.waitForBlock();
-      await this.assertTxSuccess(resp.id);
-
-      const tokId = await this.nc.getTokId(await this.nc.getLastTokIdx());
-      const bal = await this.getTokBal(this.acnt0.addr.data, tokId.data);
-      expect(bal).toBe(100);
     });
   });
 
   describe('Test method send', function () {
-    beforeEach(async function () {
-      const resp = await this.nc.issue(this.acnt0,100);
-      await this.waitForBlock();
-      await this.assertTxSuccess(resp.id);
-    });
-
     it('should send tokens to the recipient', async function () {
       const sender = this.acnt0;
       const recipient = this.acnt1;
-
-      const tokIdx = await this.nc.getLastTokIdx();
-      const tokId = await this.nc.getTokId(tokIdx);
+      const tokId = this.tc.tokId;
+      const amount = 50;
 
       const senderBalBefore = await this.getTokBal(
         sender.addr.data,
@@ -81,10 +80,8 @@ describe('Test class TokCtrtWithoutSplit', function () {
         recipient.addr.data,
         tokId.data
       );
-      expect(senderBalBefore).toBe(100);
-      expect(recipientBalBefore).toBe(0);
 
-      const resp = await this.nc.send(sender, recipient.addr.data, 50);
+      const resp = await this.tc.send(sender, recipient.addr.data, amount);
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
@@ -93,24 +90,21 @@ describe('Test class TokCtrtWithoutSplit', function () {
         recipient.addr.data,
         tokId.data
       );
-      expect(senderBalAfter).toBe(50);
-      expect(recipientBalAfter).toBe(50);
+
+      const senderLoss = senderBalBefore - senderBalAfter;
+      expect(senderLoss).toBe(amount);
+
+      const rcptGain = recipientBalAfter - recipientBalBefore;
+      expect(rcptGain).toBe(amount);
     });
   });
 
   describe('Test method transfer', function () {
-    beforeEach(async function () {
-      const resp = await this.nc.issue(this.acnt0,100);
-      await this.waitForBlock();
-      await this.assertTxSuccess(resp.id);
-    });
-
     it('should send tokens to the recipient', async function () {
       const sender = this.acnt0;
       const recipient = this.acnt1;
-
-      const tokIdx = await this.nc.getLastTokIdx();
-      const tokId = await this.nc.getTokId(tokIdx);
+      const tokId = this.tc.tokId;
+      const amount = 50;
 
       const senderBalBefore = await this.getTokBal(
         sender.addr.data,
@@ -120,14 +114,12 @@ describe('Test class TokCtrtWithoutSplit', function () {
         recipient.addr.data,
         tokId.data
       );
-      expect(senderBalBefore).toBe(100);
-      expect(recipientBalBefore).toBe(0);
 
-      const resp = await this.nc.transfer(
+      const resp = await this.tc.transfer(
         sender,
         sender.addr.data,
         recipient.addr.data,
-        50
+        amount
       );
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
@@ -137,66 +129,59 @@ describe('Test class TokCtrtWithoutSplit', function () {
         recipient.addr.data,
         tokId.data
       );
-      expect(senderBalAfter).toBe(50);
-      expect(recipientBalAfter).toBe(50);
+
+      const senderLoss = senderBalBefore - senderBalAfter;
+      expect(senderLoss).toBe(amount);
+
+      const rcptGain = recipientBalAfter - recipientBalBefore;
+      expect(rcptGain).toBe(amount);
     });
   });
 
   describe('Test method deposit & withdraw', function () {
     beforeAll(async function () {
-      const resp = await this.nc.issue(this.acnt0,100);
-      await this.waitForBlock();
-      await this.assertTxSuccess(resp.id);
-
-      this.tokIdx = await this.nc.getLastTokIdx();
-      this.tokId = await this.nc.getTokId(this.tokIdx);
-
-      this.lc = await jv.LockCtrt.register(this.acnt0, this.tokId.data);
+      this.lc = await jv.LockCtrt.register(this.acnt0, this.tc.tokId.data);
       await this.waitForBlock();
     });
 
     it('should be able to deposit into and withdraw from a contract', async function () {
       const amount = 100;
       const acnt = this.acnt0;
-      const unit = await this.nc.getUnit();
 
       const ctrtBalInit = await this.lc.getCtrtBal(acnt.addr.data);
-      const acntBalInit = await this.getTokBal(acnt.addr.data, this.tokId.data);
-      expect(acntBalInit).toBe(100);
+      const acntBalInit = await this.getTokBal(
+        acnt.addr.data,
+        this.tc.tokId.data
+      );
 
       // deposit
-      const depResp = await this.nc.deposit(
-        acnt,
-        this.lc.ctrtId.data,
-        50
-      );
+      const depResp = await this.tc.deposit(acnt, this.lc.ctrtId.data, amount);
       await this.waitForBlock();
       await this.assertTxSuccess(depResp.id);
 
       const ctrtBalDep = await this.lc.getCtrtBal(acnt.addr.data);
       const ctrtBalGainActual = ctrtBalDep.data.minus(ctrtBalInit.data);
-      const ctrtBalGainExpected = jv.Token.forAmount(amount, unit).data;
+      const ctrtBalGainExpected = jv.Token.forAmount(amount, this.unit).data;
       expect(ctrtBalGainActual.isEqualTo(ctrtBalGainExpected)).toBeTrue();
 
-      const acntBalDep = await this.getTokBal(acnt.addr.data, this.tokId.data);
-      expect(acntBalDep).toBe(0);
+      const acntBalDep = await this.getTokBal(
+        acnt.addr.data,
+        this.tc.tokId.data
+      );
 
       // withdraw
-      const withResp = await this.nc.withdraw(
+      const withResp = await this.tc.withdraw(
         acnt,
         this.lc.ctrtId.data,
-        100
+        amount
       );
       await this.waitForBlock();
       await this.assertTxSuccess(withResp.id);
 
       const ctrtBalWith = await this.lc.getCtrtBal(acnt.addr.data);
       const ctrtBalLossActual = ctrtBalDep.data.minus(ctrtBalWith.data);
-      const ctrtBalLossExpected = jv.Token.forAmount(amount, unit).data;
+      const ctrtBalLossExpected = jv.Token.forAmount(amount, this.unit).data;
       expect(ctrtBalLossActual.isEqualTo(ctrtBalLossExpected)).toBeTrue();
-
-      const acntBalWith = await this.getTokBal(acnt.addr.data, this.tokId.data);
-      expect(acntBalWith).toBe(100);
     });
   });
 });
