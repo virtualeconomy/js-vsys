@@ -172,7 +172,7 @@ class Long extends DataEntry {
    * @param {number} n - The number.
    * @returns {Long} The new Long instance.
    */
-  static fromNumer(n) {
+  static fromNumber(n) {
     return new this(md.Long.fromNumber(n));
   }
 }
