@@ -293,7 +293,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const rcptMd = new md.Addr(recipient);
     rcptMd.mustOn(by.chain);
 
-    const unit = await this.unit;
+    const unit = await this.getUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
@@ -328,6 +328,8 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
+    const unit = await this.getUnit();
+
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
@@ -361,6 +363,8 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
+    const unit = await this.getUnit();
+
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
