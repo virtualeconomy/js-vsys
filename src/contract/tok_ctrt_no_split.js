@@ -120,7 +120,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
    * @returns {TokCtrtWithoutSplit} A token contract without split.
    */
-  async register(
+  static async register(
     by,
     max,
     unit,
