@@ -439,8 +439,8 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   ) {
     const dictData = await by.chain.api.tx.getInfo(makerSolveTxId);
     const funcData = dictData['functionData'];
-    const ds = de.DataStack.deserialize(bs58.decode(funcData));
-    const revealedSecret = ds.entries[1].data.data.decode();
+    const ds = de.DataStack.deserialize(Buffer.from(bs58.decode(funcData)));
+    const revealedSecret = ds.entries[1].data.data.toString('latin1');
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
