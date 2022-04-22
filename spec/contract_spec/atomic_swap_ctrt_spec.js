@@ -10,7 +10,7 @@ import * as jv from '../../src/index.js';
 import * as hs from '../../src/utils/hashes.js';
 
 describe('Test class AtomicSwapCtrt', function () {
-  beforeAll(async function () {
+  beforeEach(async function () {
     this.maker = this.acnt0;
     this.taker = this.acnt1;
 
@@ -121,6 +121,74 @@ describe('Test class AtomicSwapCtrt', function () {
       const takerBalAfterLockExpected =
         takerBalInit.amount.minus(takerLockAmount);
       expect(takerBalAfterLockActual.isEqualTo(takerBalAfterLockExpected));
+    });
+  });
+
+  describe('Test method makerSolve & takerSolve', function () {
+    it('should be able to lock for maker & taker', async function () {
+      // maker lock
+      const makerLockAmount = 1;
+      const makerLockTimestamp = Date.now() + 1800 * 1000;
+      const makerPuzzlePlain = 'abc';
+
+      const makerLockTxInfo = await this.makerAc.makerLock(
+        this.maker,
+        makerLockAmount,
+        this.taker.addr.data,
+        makerPuzzlePlain,
+        makerLockTimestamp
+      );
+      await this.waitForBlock();
+      const makerLockTxId = makerLockTxInfo.id;
+      await this.assertTxSuccess(makerLockTxId);
+
+      // taker lock
+      const takerLockAmount = 1;
+      const takerLockTimestamp = Date.now() + 1500 * 1000;
+
+      const takerLockTxInfo = await this.takerAc.takerLock(
+        this.taker,
+        takerLockAmount,
+        this.makerAc.ctrtId.data,
+        this.maker.addr.data,
+        makerLockTxId,
+        takerLockTimestamp
+      );
+      await this.waitForBlock();
+      const takerLockTxId = takerLockTxInfo.id;
+      await this.assertTxSuccess(takerLockTxId);
+
+      // maker solve
+      const makerSolveTxInfo = await this.makerAc.makerSolve(
+        this.maker,
+        this.takerAc.ctrtId.data,
+        takerLockTxId,
+        makerPuzzlePlain
+      );
+      await this.waitForBlock();
+      const makerSolveTxId = makerSolveTxInfo.id;
+      await this.assertTxSuccess(makerSolveTxId);
+
+      const makerSolveTxInfoResp = await this.maker.api.tx.getInfo(
+        makerSolveTxId
+      );
+      const funcData = makerSolveTxInfoResp.functionData;
+      const ds = jv.de.DataStack.deserialize(
+        Buffer.from(bs58.decode(funcData))
+      );
+      const revealedSecret = ds.entries[1].data.data.toString('latin1');
+      expect(revealedSecret).toBe(makerPuzzlePlain);
+
+      // taker solve
+      const takerSolveTxInfo = await this.takerAc.takerSolve(
+        this.taker,
+        this.makerAc.ctrtId.data,
+        makerLockTxId,
+        makerSolveTxId
+      );
+      await this.waitForBlock();
+      const takerSolveTxId = takerSolveTxInfo.id;
+      await this.assertTxSuccess(takerSolveTxId);
     });
   });
 });
