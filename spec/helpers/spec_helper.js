@@ -60,5 +60,5 @@ beforeAll(function () {
     return resp.balance;
   };
 
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = this.AVG_BLOCK_DELAY * 1000 * 10;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 1800 * 1000;
 });
