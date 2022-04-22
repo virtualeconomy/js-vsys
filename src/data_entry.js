@@ -553,7 +553,7 @@ export class DataStack {
     const entries = [];
 
     for (let i = 0; i < entriesCnt; i++) {
-      const idx = bp.unpackUInt8(b.slice(0, 1));
+      const idx = bp.unpackUInt8(data.slice(0, 1));
       const deCls = INDEX_MAP.get(idx);
       entries.push(deCls.deserialize(data));
       data = data.slice(deCls.SIZE);
