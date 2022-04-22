@@ -5,7 +5,9 @@
 
 'use strict';
 
+import bs58 from 'bs58';
 import * as jv from '../../src/index.js';
+import * as hs from '../../src/utils/hashes.js';
 
 describe('Test class AtomicSwapCtrt', function () {
   beforeAll(async function () {
@@ -45,6 +47,80 @@ describe('Test class AtomicSwapCtrt', function () {
       const ctrtMakerActual = await this.makerAc.getMaker();
       const ctrtMakerExpected = this.maker.addr;
       expect(ctrtMakerActual.equal(ctrtMakerExpected)).toBeTrue();
+    });
+  });
+
+  describe('Test method makerLock & takerLock', function () {
+    it('should be able to lock for maker & taker', async function () {
+      const makerBalInit = await this.makerAc.getCtrtBal(this.maker.addr.data);
+      const takerBalInit = await this.takerAc.getCtrtBal(this.taker.addr.data);
+
+      const makerLockAmount = 1;
+      const makerLockTimestamp = Date.now() + 1800 * 1000;
+      const makerPuzzlePlain = 'abc';
+
+      const makerLockTxInfo = await this.makerAc.makerLock(
+        this.maker,
+        makerLockAmount,
+        this.taker.addr.data,
+        makerPuzzlePlain,
+        makerLockTimestamp
+      );
+      await this.waitForBlock();
+      const makerLockTxId = makerLockTxInfo.id;
+      await this.assertTxSuccess(makerLockTxId);
+
+      const makerSwapOwner = await this.makerAc.getSwapOwner(makerLockTxId);
+      expect(makerSwapOwner.equal(this.maker.addr)).toBeTrue();
+
+      const makerSwapRcpt = await this.makerAc.getSwapRecipient(makerLockTxId);
+      expect(makerSwapRcpt.equal(this.taker.addr)).toBeTrue();
+
+      const makerSwapAmount = await this.makerAc.getSwapAmount(makerLockTxId);
+      expect(makerSwapAmount.amount.toNumber()).toBe(makerLockAmount);
+
+      const makerSwapExp = await this.makerAc.getSwapExpiredTime(makerLockTxId);
+      expect(makerSwapExp.unixTs).toBe(makerLockTimestamp);
+
+      const makerSwapStatus = await this.makerAc.getSwapStatus(makerLockTxId);
+      expect(makerSwapStatus).toBeTrue();
+
+      const makerPuzzleActual = await this.makerAc.getSwapPuzzle(makerLockTxId);
+      const makerPuzzleExpected = bs58.encode(
+        hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'))
+      );
+      expect(makerPuzzleActual).toBe(makerPuzzleExpected);
+
+      const makerBalAfterLockActual = (
+        await this.makerAc.getCtrtBal(this.maker.addr.data)
+      ).data;
+      const makerBalAfterLockExpected =
+        makerBalInit.amount.minus(makerLockAmount);
+      expect(
+        makerBalAfterLockActual.isEqualTo(makerBalAfterLockExpected)
+      ).toBeTrue();
+
+      // taker lock
+      const takerLockAmount = 1;
+      const takerLockTimestamp = Date.now() + 1500 * 1000;
+
+      const takerLockTxInfo = await this.takerAc.takerLock(
+        this.taker,
+        takerLockAmount,
+        this.makerAc.ctrtId.data,
+        this.maker.addr.data,
+        makerLockTxId,
+        takerLockTimestamp
+      );
+      await this.waitForBlock();
+      await this.assertTxSuccess(takerLockTxInfo.id);
+
+      const takerBalAfterLockActual = (
+        await this.takerAc.getCtrtBal(this.taker.addr.data)
+      ).data;
+      const takerBalAfterLockExpected =
+        takerBalInit.amount.minus(takerLockAmount);
+      expect(takerBalAfterLockActual.isEqualTo(takerBalAfterLockExpected));
     });
   });
 });
