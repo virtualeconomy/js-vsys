@@ -6,6 +6,7 @@
 'use strict';
 
 import bs58 from 'bs58';
+import * as ut from '../helpers/utils.js';
 import * as jv from '../../src/index.js';
 import * as hs from '../../src/utils/hashes.js';
 
@@ -189,6 +190,41 @@ describe('Test class AtomicSwapCtrt', function () {
       await this.waitForBlock();
       const takerSolveTxId = takerSolveTxInfo.id;
       await this.assertTxSuccess(takerSolveTxId);
+    });
+  });
+
+  describe('Test method expWithdraw', function () {
+    it('should be able to withdraw tokens on expiration', async function () {
+      // maker lock
+      const makerLockAmount = 1;
+      const makerLockTimestamp = Date.now() + 8 * 1000;
+      const makerPuzzlePlain = 'abc';
+
+      const makerLockTxInfo = await this.makerAc.makerLock(
+        this.maker,
+        makerLockAmount,
+        this.taker.addr.data,
+        makerPuzzlePlain,
+        makerLockTimestamp
+      );
+      await this.waitForBlock();
+      const makerLockTxId = makerLockTxInfo.id;
+      await this.assertTxSuccess(makerLockTxId);
+
+      const balOld = await this.makerAc.getCtrtBal(this.maker.addr.data);
+      await ut.sleep(10 * 1000);
+
+      // expire withdraw
+      const expWithdrawTxInfo = await this.makerAc.expWithdraw(
+        this.maker,
+        makerLockTxId
+      );
+      await this.waitForBlock();
+      const expWithdrawTxId = expWithdrawTxInfo.id;
+      await this.assertTxSuccess(expWithdrawTxId);
+
+      const bal = await this.makerAc.getCtrtBal(this.maker.addr.data);
+      expect(bal.amount.isEqualTo(balOld.amount.plus(1))).toBeTrue();
     });
   });
 });
