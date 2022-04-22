@@ -404,7 +404,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   ) {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
-        takerCtrtId,
+        new md.CtrtID(takerCtrtId),
         FuncIdx.SOLVE_PUZZLE,
         new de.DataStack(
           de.Bytes.fromBase58Str(txId),
@@ -444,7 +444,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
-        makerCtrtId,
+        new md.CtrtID(makerCtrtId),
         FuncIdx.SOLVE_PUZZLE,
         new de.DataStack(
           de.Bytes.fromBase58Str(makerLockTxId),
