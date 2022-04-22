@@ -1,17 +1,17 @@
 /**
  * atomic swap contract module provides functionalities for V Atomic Swap contract.
- * @module contract/nft_ctrt
+ * @module contract/atomicSwapCtrt
  */
 
 'use strict';
 
+import bs58 from 'bs58';
 import * as ctrt from './ctrt.js';
 import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 import * as hs from '../utils/hashes.js';
-import base58 from 'bs58';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -247,7 +247,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * getSwapPuzzle query & returns the hashed secret.
+   * getSwapPuzzle queries returns the hashed secret.
    * @param {string} txId - The lock transaction ID.
    * @returns {string} The puzzle.
    */
@@ -257,24 +257,34 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * getSwapAmount query & returns the swap amount.
+   * getSwapAmount queries returns the swap amount.
    * @param {string} txId - The lock transaction ID.
    * @returns {md.Token} The balance of the token locked.
    */
   async getSwapAmount(txId) {
     const rawVal = await this.queryDbKey(DBKey.forSwapAmount(txId));
     const unit = await this.getUnit();
-    return new md.Token(rawVal, unit);
+    return md.Token.fromNumber(rawVal, unit);
   }
 
   /**
-   * getSwapExpiredTime query & returns the the expiration time.
+   * getSwapExpiredTime queries returns the the expiration time.
    * @param {string} txId - The lock transaction ID.
    * @returns {md.VSYSTimestamp} The expiration time.
    */
   async getSwapExpiredTime(txId) {
-    rawVal = await this.queryDbKey(DBKey.forSwapExpiredTime(txId));
-    return new md.VSYSTimestamp(rawVal);
+    const rawVal = await this.queryDbKey(DBKey.forSwapExpiredTime(txId));
+    return md.VSYSTimestamp.fromNumber(rawVal);
+  }
+
+  /**
+   * getSwapStatus queries returns the status of the swap contract.
+   * @param {string} txId - The lock transaction ID.
+   * @returns {boolean} The status of the swap contract.
+   */
+  async getSwapStatus(txId) {
+    const status = await this.queryDbKey(DBKey.forSwapStatus(txId));
+    return status === 'true';
   }
 
   /**
@@ -284,9 +294,9 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
    * @param {string} recipient - The taker's address.
    * @param {string} secret - The secret.
    * @param {number} expireTime - The expired timestamp to lock.
-   * @param {any} attachment=""
-   * @param {any} fee=md.ExecCtrtFee.DEFAULT
-   * @returns {any}
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
    */
   async makerLock(
     by,
@@ -305,7 +315,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
         this.ctrtId,
         FuncIdx.LOCK,
         new de.DataStack(
-          de.Amount.for_tok_amount(amount, unit),
+          de.Amount.forTokAmount(amount, unit),
           de.Addr.fromStr(recipient),
           de.Bytes.fromBytes(puzzleBytes),
           de.Timestamp.fromUnixTs(expireTime)
@@ -351,7 +361,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
       puzzleDbKey.b58Str
     );
     const hashedPuzzle = resp.value;
-    const puzzleBytes = base58.decode(hashedPuzzle);
+    const puzzleBytes = bs58.decode(hashedPuzzle);
 
     const unit = await this.getUnit();
 
@@ -360,7 +370,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
         this.ctrtId,
         FuncIdx.LOCK,
         new de.DataStack(
-          de.Amount.for_tok_amount(amount, unit),
+          de.Amount.forTokAmount(amount, unit),
           de.Addr.fromStr(recipient),
           de.Bytes.fromBytes(puzzleBytes),
           de.Timestamp.fromUnixTs(expireTime)
@@ -377,7 +387,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
    * makerSolve solves the puzzle and reveals the secret to get taker's locked tokens for maker.
    * @param {acnt.Account} by - The action taker.
    * @param {string} takerCtrtId - The swap contract ID of the taker's.
-   * @param {string} tx_id - The lock transaction ID of taker's.
+   * @param {string} txId - The lock transaction ID of taker's.
    * @param {string} secret - The secret.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -428,7 +438,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   ) {
     const dictData = await by.chain.api.tx.getInfo(makerSolveTxId);
     const funcData = dictData['functionData'];
-    const ds = de.DataStack.deserialize(base58.decode(funcData));
+    const ds = de.DataStack.deserialize(bs58.decode(funcData));
     const revealedSecret = ds.entries[1].data.data.decode();
 
     const data = await by.executeContractImpl(
