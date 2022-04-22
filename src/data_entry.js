@@ -555,8 +555,9 @@ export class DataStack {
     for (let i = 0; i < entriesCnt; i++) {
       const idx = bp.unpackUInt8(data.slice(0, 1));
       const deCls = INDEX_MAP.get(idx);
-      entries.push(deCls.deserialize(data));
-      data = data.slice(deCls.SIZE);
+      const de = deCls.deserialize(data);
+      entries.push(de);
+      data = data.slice(de.serialize().length);
     }
     return new this(...entries);
   }
