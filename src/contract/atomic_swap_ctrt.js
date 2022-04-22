@@ -6,6 +6,7 @@
 'use strict';
 
 import bs58 from 'bs58';
+import { Buffer } from 'buffer';
 import * as ctrt from './ctrt.js';
 import * as acnt from '../account.js';
 import * as md from '../model.js';
@@ -361,7 +362,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
       puzzleDbKey.b58Str
     );
     const hashedPuzzle = resp.value;
-    const puzzleBytes = bs58.decode(hashedPuzzle);
+    const puzzleBytes = Buffer.from(bs58.decode(hashedPuzzle));
 
     const unit = await this.getUnit();
 

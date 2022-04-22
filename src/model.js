@@ -564,8 +564,8 @@ export class Token extends NonNegativeBigInt {
 
   /**
    * fromNumber creates a new Token isntance from the given number.
-   * @param {any} n - The number.
-   * @param {any} unit - The unit.
+   * @param {number} n - The number.
+   * @param {number} unit - The unit.
    * @returns {Token} The Token instance.
    */
   static fromNumber(n, unit) {
