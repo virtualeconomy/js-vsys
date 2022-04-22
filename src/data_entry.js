@@ -245,6 +245,17 @@ export class Amount extends Long {
   static forVsysAmount(amnt) {
     return new this(md.VSYS.forAmount(amnt));
   }
+
+  /**
+   * forTokAmount creates an Amount instance based on the given
+   * token amount & unit.
+   * @param {number} amnt - The desired tokens amount.
+   * @param {number} unit - The unit for the token.
+   * @returns {Amount} The Amount instance.
+   */
+  static forTokAmount(amnt, unit) {
+    return new this(md.Token.forAmount(amnt, unit));
+  }
 }
 
 /** Int32 is the data entry class for 4-byte integer */
@@ -476,7 +487,7 @@ export class Bytes extends Text {
    * @param {string} s - The base58 string to parse.
    * @returns {Bytes} The Bytes instance.
    */
-  static fromBase58Str() {
+  static fromBase58Str(s) {
     return new this(md.Bytes.fromB58Str(s));
   }
 
