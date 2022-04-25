@@ -9,22 +9,22 @@ import * as jv from '../../src/index.js';
 
 describe('Test class TokCtrtV2', function () {
   beforeAll(async function () {
-    this.nc = await jv.TokCtrtV2Whitelist.register(this.acnt0, 100, 1);
+    this.tc = await jv.TokCtrtV2Whitelist.register(this.acnt0, 100, 1);
     await this.waitForBlock();
   });
 
   describe('Test method register', function () {
     it('should register an instance of token Contract', async function () {
-      const issuer = await this.nc.getIssuer();
+      const issuer = await this.tc.getIssuer();
       expect(issuer.equal(this.acnt0.addr)).toBeTrue();
 
-      const maker = await this.nc.getMaker();
+      const maker = await this.tc.getMaker();
       expect(maker.equal(this.acnt0.addr)).toBeTrue();
 
-      const unit = await this.nc.getUnit();
+      const unit = await this.tc.getUnit();
       expect(unit).toBe(1);
 
-      const regulator = await this.nc.getRegulator();
+      const regulator = await this.tc.getRegulator();
       expect(regulator.equal(this.acnt0.addr)).toBeTrue();
     });
   });
@@ -37,10 +37,10 @@ describe('Test class TokCtrtV2', function () {
       const oldRegulator = this.acnt0;
       const newRegulator = this.acnt1;
 
-      const oldIssuerAddr = await this.nc.getIssuer();
+      const oldIssuerAddr = await this.tc.getIssuer();
       expect(oldIssuerAddr.equal(oldIssuer.addr)).toBeTrue();
 
-      const resp = await this.nc.supersede(
+      const resp = await this.tc.supersede(
         maker,
         newIssuer.addr.data,
         newRegulator.addr.data
@@ -48,12 +48,12 @@ describe('Test class TokCtrtV2', function () {
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
-      const newIssuerAddr = await this.nc.getIssuer();
+      const newIssuerAddr = await this.tc.getIssuer();
       expect(newIssuerAddr.equal(newIssuer.addr)).toBeTrue();
-      const newRegulatorAddr = await this.nc.getRegulator();
+      const newRegulatorAddr = await this.tc.getRegulator();
       expect(newRegulatorAddr.equal(newRegulator.addr)).toBeTrue();
 
-      await this.nc.supersede(
+      await this.tc.supersede(
         maker,
         oldIssuer.addr.data,
         oldRegulator.addr.data
@@ -66,21 +66,21 @@ describe('Test class TokCtrtV2', function () {
     it('should be able to update the presence of the user in the list', async function () {
       const acnt = this.acnt0;
 
-      const userInListInit = await this.nc.isUserInList(acnt.addr.data);
+      const userInListInit = await this.tc.isUserInList(acnt.addr.data);
       expect(userInListInit).toBe(false);
 
-      const respAdd = await this.nc.updateListUser(acnt, acnt.addr.data, true);
+      const respAdd = await this.tc.updateListUser(acnt, acnt.addr.data, true);
       await this.waitForBlock();
       await this.assertTxSuccess(respAdd.id);
 
-      const userInListAdd = await this.nc.isUserInList(acnt.addr.data);
+      const userInListAdd = await this.tc.isUserInList(acnt.addr.data);
       expect(userInListAdd).toBe(true);
 
-      const respDel = await this.nc.updateListUser(acnt, acnt.addr.data, false);
+      const respDel = await this.tc.updateListUser(acnt, acnt.addr.data, false);
       await this.waitForBlock();
       await this.assertTxSuccess(respDel.id);
 
-      const userInListDel = await this.nc.isUserInList(acnt.addr.data);
+      const userInListDel = await this.tc.isUserInList(acnt.addr.data);
       expect(userInListDel).toBe(false);
     });
   });
@@ -91,21 +91,21 @@ describe('Test class TokCtrtV2', function () {
 
       const ctrtId = 'CFCQKY6ze2oYXyoxz3uKZ721jimqoBn7KYm';
 
-      const ctrtInListInit = await this.nc.isCtrtInList(ctrtId);
+      const ctrtInListInit = await this.tc.isCtrtInList(ctrtId);
       expect(ctrtInListInit).toBe(false);
 
-      const respAdd = await this.nc.updateListCtrt(acnt, ctrtId, true);
+      const respAdd = await this.tc.updateListCtrt(acnt, ctrtId, true);
       await this.waitForBlock();
       await this.assertTxSuccess(respAdd.id);
 
-      const ctrtInListAdd = await this.nc.isCtrtInList(ctrtId);
+      const ctrtInListAdd = await this.tc.isCtrtInList(ctrtId);
       expect(ctrtInListAdd).toBe(true);
 
-      const respDel = await this.nc.updateListCtrt(acnt, ctrtId, false);
+      const respDel = await this.tc.updateListCtrt(acnt, ctrtId, false);
       await this.waitForBlock();
       await this.assertTxSuccess(respDel.id);
 
-      const ctrtInListDel = await this.nc.isCtrtInList(ctrtId);
+      const ctrtInListDel = await this.tc.isCtrtInList(ctrtId);
       expect(ctrtInListDel).toBe(false);
     });
   });
