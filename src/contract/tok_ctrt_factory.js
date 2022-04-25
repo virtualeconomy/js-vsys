@@ -15,7 +15,7 @@ import * as nft_ctrt_v2 from './nft_ctrt_v2.js';
 import * as sys_ctrt from './sys_ctrt.js';
 
 /** TokCtrtType is the class for token contract types */
-export class TokCtrtType extends en.Enum {
+class TokCtrtType extends en.Enum {
   static elems = {
     NFT: 'NonFungibleContract',
     NFT_V2_BLACKLIST: 'NFTContractWithBlacklist',
@@ -28,21 +28,15 @@ export class TokCtrtType extends en.Enum {
   static _ = this.createElems();
 }
 
-export class TokCtrtMap {
-  static MAP = new Map([
-    [TokCtrtType.NFT, nft_ctrt.NFTCtrt],
-    [TokCtrtType.NFT_V2_BLACKLIST, nft_ctrt_v2.NFTCtrtV2Blacklist],
-    [TokCtrtType.NFT_V2_WHITELIST, nft_ctrt_v2.NFTCtrtV2Whitelist],
-    [TokCtrtType.TOK_NO_SPLIT, tok_ctrt_no_split.TokCtrt],
-    [TokCtrtType.TOK_WITH_SPLIT, tok_ctrt_split.TokCtrtWithSplit],
-    [TokCtrtType.TOK_V2_WHITELIST, tok_ctrt_v2.TokCtrtV2Whitelist],
-    [TokCtrtType.TOK_V2_BLACKLIST, tok_ctrt_v2.TokCtrtV2Blacklist],
-  ]);
-
-  static getTokCtrtCls(type) {
-    return this.MAP[type];
-  }
-}
+const TokCtrtMap = new Map([
+  [TokCtrtType.NFT, nft_ctrt.NFTCtrt],
+  [TokCtrtType.NFT_V2_BLACKLIST, nft_ctrt_v2.NFTCtrtV2Blacklist],
+  [TokCtrtType.NFT_V2_WHITELIST, nft_ctrt_v2.NFTCtrtV2Whitelist],
+  [TokCtrtType.TOK_NO_SPLIT, tok_ctrt_no_split.TokCtrt],
+  [TokCtrtType.TOK_WITH_SPLIT, tok_ctrt_split.TokCtrtWithSplit],
+  [TokCtrtType.TOK_V2_WHITELIST, tok_ctrt_v2.TokCtrtV2Whitelist],
+  [TokCtrtType.TOK_V2_BLACKLIST, tok_ctrt_v2.TokCtrtV2Blacklist],
+]);
 
 /**
  * fromTokId creates a token contract instance based on the given token ID.
@@ -70,6 +64,6 @@ export async function fromTokId(tokId, chain) {
   const ctrtInfo = await chain.api.ctrt.getCtrtInfo(ctrtId);
   const type = TokCtrtType(ctrtInfo.type);
 
-  const cls = TokCtrtMap.getTokCtrtCls(type);
+  const cls = TokCtrtMap.get(type);
   return new cls(ctrtId, chain);
 }
