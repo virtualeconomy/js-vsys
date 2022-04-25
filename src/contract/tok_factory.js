@@ -1,11 +1,10 @@
 /**
- * token module provides factory methods to create a token contract(NFT included) instance.
- * @module contract/tok_ctrt
+ * module tokCtrtFactory provides factory methods to create a token contract(NFT included) instance.
+ * @module contract/tokCtrtFactory
  */
 
 'use strict';
 
-import * as ctrt from './ctrt.js';
 import * as en from '../utils/enum.js';
 import * as tok_ctrt_no_split from './tok_ctrt_no_split.js';
 import * as tok_ctrt_split from './tok_ctrt_split.js';
@@ -17,20 +16,18 @@ import * as sys_ctrt from './sys_ctrt.js';
 /** TokCtrtType is the class for token contract types */
 export class TokCtrtType extends en.Enum {
   static elems = {
-    NFT : "NonFungibleContract",
-    NFT_V2_BLACKLIST : "NFTContractWithBlacklist",
-    NFT_V2_WHITELIST : "NFTContractWithWhitelist",
-    TOK_NO_SPLIT : "TokenContract",
-    TOK_WITH_SPLIT : "TokenContractWithSplit",
-    TOK_V2_WHITELIST : "TokenContractWithWhitelist",
-    TOK_V2_BLACKLIST : "TokenContractWithBlacklist",
-  }
+    NFT: 'NonFungibleContract',
+    NFT_V2_BLACKLIST: 'NFTContractWithBlacklist',
+    NFT_V2_WHITELIST: 'NFTContractWithWhitelist',
+    TOK_NO_SPLIT: 'TokenContract',
+    TOK_WITH_SPLIT: 'TokenContractWithSplit',
+    TOK_V2_WHITELIST: 'TokenContractWithWhitelist',
+    TOK_V2_BLACKLIST: 'TokenContractWithBlacklist',
+  };
   static _ = this.createElems();
 }
 
-
-
-export class TokCtrtMap{
+export class TokCtrtMap {
   static MAP = new Map([
     [TokCtrtType.NFT, nft_ctrt.NFTCtrt],
     [TokCtrtType.NFT_V2_BLACKLIST, nft_ctrt_v2.NFTCtrtV2Blacklist],
@@ -52,19 +49,19 @@ export class TokCtrtMap{
  * @param {ch.Chain} chain - The chain.
  * @returns {TokCtrtType} The token contract instance.
  */
-async function fromTokId(tokId,chain) {
-  if(tokId.isMainnetVsysTok) {
+async function fromTokId(tokId, chain) {
+  if (tokId.isMainnetVsysTok) {
     return sys_ctrt.SysCtrt.forMainnet(chain);
   }
-  if(tokId.isTestnetVsysTok) {
+  if (tokId.isTestnetVsysTok) {
     return sys_ctrt.SysCtrt.forTestnet(chain);
   }
 
   tokInfo = await chain.api.ctrt.getTokInfo(tokId.data);
-  ctrtId = tokInfo["contractId"];
+  ctrtId = tokInfo['contractId'];
 
   ctrtInfo = await chain.api.ctrt.getCtrtInfo(ctrtId);
-  ctrtType = tokInfo["type"];
+  ctrtType = tokInfo['type'];
   type = TokCtrtType(ctrtType);
 
   cls = TokCtrtMap.get_tok_ctrt_cls(type);
