@@ -39,7 +39,7 @@ export class TokCtrtMap {
     [TokCtrtType.TOK_V2_BLACKLIST, tok_ctrt_v2.TokCtrtV2Blacklist],
   ]);
 
-  static get_tok_ctrt_cls(type) {
+  static getTokCtrtCls(type) {
     return this.MAP[type];
   }
 }
@@ -58,13 +58,18 @@ export async function fromTokId(tokId, chain) {
     return sys_ctrt.SysCtrt.forTestnet(chain);
   }
 
-  tokInfo = await chain.api.ctrt.getTokInfo(tokId.data);
-  ctrtId = tokInfo['contractId'];
+  const resp = await chain.api.ctrt.getTokInfo(tokId.data);
 
-  ctrtInfo = await chain.api.ctrt.getCtrtInfo(ctrtId);
-  ctrtType = tokInfo['type'];
-  type = TokCtrtType(ctrtType);
+  let ctrtId;
+  try {
+    ctrtId = tokInfo.contractId;
+  } catch {
+    throw new Error(resp);
+  }
 
-  cls = TokCtrtMap.get_tok_ctrt_cls(type);
-  return cls(ctrtId, chain);
+  const ctrtInfo = await chain.api.ctrt.getCtrtInfo(ctrtId);
+  const type = TokCtrtType(ctrtInfo.type);
+
+  const cls = TokCtrtMap.getTokCtrtCls(type);
+  return new cls(ctrtId, chain);
 }
