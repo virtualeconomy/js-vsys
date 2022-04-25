@@ -31,11 +31,6 @@ export class TokCtrtType extends en.Enum {
 
 
 export class TokCtrtMap{
-  Map() {
-    this.keys = new Array();
-    this.values= new ctrt.BaseTokCtrt();
-  }
-
   static MAP = new Map([
     [TokCtrtType.NFT, nft_ctrt.NFTCtrt],
     [TokCtrtType.NFT_V2_BLACKLIST, nft_ctrt_v2.NFTCtrtV2Blacklist],
