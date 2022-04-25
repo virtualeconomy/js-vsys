@@ -166,6 +166,15 @@ class Long extends DataEntry {
   get bytes() {
     return bp.packUInt64(this.data.bigInt);
   }
+
+  /**
+   * fromNumber creates a new Long instance from the given number.
+   * @param {number} n - The number.
+   * @returns {Long} The new Long instance.
+   */
+  static fromNumber(n) {
+    return new this(md.Long.fromNumber(n));
+  }
 }
 
 /** Text is the baes class for data entries that contain texts
