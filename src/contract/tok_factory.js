@@ -6,6 +6,7 @@
 'use strict';
 
 import * as en from '../utils/enum.js';
+import * as ctrt from './contract/ctrt.js';
 import * as tok_ctrt_no_split from './tok_ctrt_no_split.js';
 import * as tok_ctrt_split from './tok_ctrt_split.js';
 import * as tok_ctrt_v2 from './tok_ctrt_v2.js';
@@ -47,9 +48,9 @@ export class TokCtrtMap {
  * fromTokId creates a token contract instance based on the given token ID.
  * @param {string} tokId - The token ID.
  * @param {ch.Chain} chain - The chain.
- * @returns {TokCtrtType} The token contract instance.
+ * @returns {ctrt.BaseTokCtrt} The token contract instance.
  */
-async function fromTokId(tokId, chain) {
+export async function fromTokId(tokId, chain) {
   if (tokId.isMainnetVsysTok) {
     return sys_ctrt.SysCtrt.forMainnet(chain);
   }
