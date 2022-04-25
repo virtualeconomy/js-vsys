@@ -9,10 +9,9 @@ import * as jv from '../../src/index.js';
 
 describe('Test class TokCtrtV2', function () {
   beforeAll(async function () {
-    this.nc = await jv.TokCtrtV2Whitelist.register(this.acnt0,100,1);
+    this.nc = await jv.TokCtrtV2Whitelist.register(this.acnt0, 100, 1);
     await this.waitForBlock();
   });
-
 
   describe('Test method register', function () {
     it('should register an instance of token Contract', async function () {
@@ -28,25 +27,37 @@ describe('Test class TokCtrtV2', function () {
       const regulator = await this.nc.getRegulator();
       expect(regulator.equal(this.acnt0.addr)).toBeTrue();
     });
-});
+  });
 
   describe('Test method supersede', function () {
     it('should supersede the issuer role to another account', async function () {
       const maker = this.acnt0;
       const oldIssuer = this.acnt0;
       const newIssuer = this.acnt1;
+      const oldRegulator = this.acnt0;
+      const newRegulator = this.acnt1;
 
       const oldIssuerAddr = await this.nc.getIssuer();
       expect(oldIssuerAddr.equal(oldIssuer.addr)).toBeTrue();
 
-      const resp = await this.nc.supersede(maker, newIssuer.addr.data);
+      const resp = await this.nc.supersede(
+        maker,
+        newIssuer.addr.data,
+        newRegulator.addr.data
+      );
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
       const newIssuerAddr = await this.nc.getIssuer();
       expect(newIssuerAddr.equal(newIssuer.addr)).toBeTrue();
+      const newRegulatorAddr = await this.nc.getRegulator();
+      expect(newRegulatorAddr.equal(newRegulator.addr)).toBeTrue();
 
-      await this.nc.supersede(maker, oldIssuer.addr.data);
+      await this.nc.supersede(
+        maker,
+        oldIssuer.addr.data,
+        oldRegulator.addr.data
+      );
       await this.waitForBlock();
     });
   });
@@ -98,5 +109,4 @@ describe('Test class TokCtrtV2', function () {
       expect(ctrtInListDel).toBe(false);
     });
   });
-
 });
