@@ -91,7 +91,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
    * tokId returns the token ID of the contract.
    * @returns {md.TokenID} The token ID.
    */
-  tokId() {
+  get tokId() {
     if (!this._tokId) {
       this._tokId = this.getTokId(0);
     }
@@ -108,7 +108,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
       this._unit = resp.unity;
     }
     return this._unit;
-  } 
+  }
 
   /**
    * register registers a new contract instance.
