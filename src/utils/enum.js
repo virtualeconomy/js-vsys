@@ -65,4 +65,18 @@ export class Enum {
   static createElems() {
     Object.entries(this.elems).forEach(([k, v]) => (this[k] = new this(k, v)));
   }
+
+  /**
+   * fromStr returns an Enum instance by the given string.
+   * @param {string} s - The string for the element.
+   * @returns {Enum} The Enum instance.
+   */
+  static fromStr(s) {
+    for (const [k, v] of Object.entries(this.elems)) {
+      if (v === s) {
+        return this[k];
+      }
+    }
+    throw new Error(`Invalid element name: ${s}`);
+  }
 }

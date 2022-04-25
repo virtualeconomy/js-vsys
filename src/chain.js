@@ -15,20 +15,6 @@ export class ChainID extends en.Enum {
     TEST_NET: 'T',
   };
   static _ = this.createElems();
-
-  /**
-   * fromStr returns a ChainID instance by the given string.
-   * @param {string} s - The string for chain ID.
-   * @returns {ChainID} The ChainID instance.
-   */
-  static fromStr(s) {
-    for (const [k, v] of Object.entries(this.elems)) {
-      if (v === s) {
-        return this[k];
-      }
-    }
-    throw new Error('Invalid chain ID string');
-  }
 }
 
 /** Chain is the class for chain in VSYS blockchain network */
