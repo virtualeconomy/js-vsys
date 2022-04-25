@@ -224,6 +224,15 @@ class Contract extends APIGrp {
   }
 
   /**
+   * getCtrtInfo gets the information of the contract.
+   * @param {string} ctrtId - The contract ID.
+   * @returns {object} The response.
+   */
+  async getCtrtInfo(ctrtId) {
+    return await this.get(`/info/${ctrtId}`);
+  }
+
+  /**
    * broadcastRegister broadcasts the register contract request.
    * @param {object} data - The payload for the API call.
    * @returns {object} The response.
