@@ -88,10 +88,10 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
   }
 
   /**
-   * getTokId returns the token ID of the contract.
+   * tokId returns the token ID of the contract.
    * @returns {md.TokenID} The token ID.
    */
-  get tokId() {
+  tokId() {
     if (!this._tokId) {
       this._tokId = this.getTokId(0);
     }
@@ -108,7 +108,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
       this._unit = resp.unity;
     }
     return this._unit;
-  }
+  } 
 
   /**
    * register registers a new contract instance.
@@ -150,7 +150,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
    * @returns {md.Token} The balance.
    */
   async getTokBal(addr) {
-    const resp = await this.chain.api.ctrt.getTokBal(addr, this.getTokId.data);
+    const resp = await this.chain.api.ctrt.getTokBal(addr, this.tokId.data);
     const unit = await this.getUnit();
     return new md.Token(resp.balance, unit);
   }

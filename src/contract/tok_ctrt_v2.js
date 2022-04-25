@@ -82,12 +82,12 @@ export class DBKey extends tcns.DBKey {
 
   /**
    * forIsCtrtInList returns the DBKey for querying the status of if the given
-   * contract address is in the list.
-   * @param {string} addr - The contract address.
+   * contract ID is in the list.
+   * @param {string} ctrtID - The contract ID.
    * @returns {DBKey} The DBKey object.
    */
-  static forIsCtrtInList(addr) {
-    return this.forIsInListImpl(de.CtrtAcnt.fromStr(addr));
+  static forIsCtrtInList(ctrtID) {
+    return this.forIsInListImpl(de.CtrtAcnt.fromStr(ctrtID));
   }
 }
 
@@ -127,12 +127,12 @@ export class TokCtrtV2Whitelist extends tcns.TokCtrtWithoutSplit {
   }
 
   /**
-   * isCtrtInList queries & returns the status of whether the contract address is in the list.
-   * @param {string} addr - The contract address.
+   * isCtrtInList queries & returns the status of whether the contract id is in the list.
+   * @param {string} ctrtID - The contract address.
    * @returns {boolean} If the address is in the list.
    */
-  async isCtrtInList(addr) {
-    return await this.isInListImpl(DBKey.forIsCtrtInList(addr));
+  async isCtrtInList(ctrtID) {
+    return await this.isInListImpl(DBKey.forIsCtrtInList(ctrtID));
   }
 
   /**
