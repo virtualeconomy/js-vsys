@@ -215,6 +215,15 @@ class Contract extends APIGrp {
   }
 
   /**
+   * getTokInfo gets the information of the token.
+   * @param {string} tokId - The token ID.
+   * @returns {object} The response.
+   */
+  async getTokInfo(tokId) {
+    return await this.get(`/tokenInfo/${tokId}`);
+  }
+
+  /**
    * broadcastRegister broadcasts the register contract request.
    * @param {object} data - The payload for the API call.
    * @returns {object} The response.
