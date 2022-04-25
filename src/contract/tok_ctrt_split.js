@@ -1,5 +1,5 @@
 /**
- * module contract/tokCtrtSplit provides functionalities for Token contract V1 without split.
+ * module contract/tokCtrtSplit provides functionalities for Token contract V1 with split.
  * @module contract/tokCtrtSplit
  */
 
