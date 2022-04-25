@@ -6,7 +6,7 @@
 'use strict';
 
 import * as en from '../utils/enum.js';
-import * as ctrt from './contract/ctrt.js';
+import * as ctrt from './ctrt.js';
 import * as tok_ctrt_no_split from './tok_ctrt_no_split.js';
 import * as tok_ctrt_split from './tok_ctrt_split.js';
 import * as tok_ctrt_v2 from './tok_ctrt_v2.js';
@@ -56,13 +56,13 @@ export async function fromTokId(tokId, chain) {
 
   let ctrtId;
   try {
-    ctrtId = tokInfo.contractId;
+    ctrtId = resp.contractId;
   } catch {
     throw new Error(resp);
   }
 
   const ctrtInfo = await chain.api.ctrt.getCtrtInfo(ctrtId);
-  const type = TokCtrtType(ctrtInfo.type);
+  const type = TokCtrtType.fromStr(ctrtInfo.type);
 
   const cls = TokCtrtMap.get(type);
   return new cls(ctrtId, chain);
