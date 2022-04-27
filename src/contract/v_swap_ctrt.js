@@ -229,43 +229,43 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTokARes() {
     const rawVal = await this.queryDbKey(DBKey.forTokARes());
     unit = await this.getTokAUnit();
-    return md.Token(rawVal, unit);
+    return new md.Token(rawVal, unit);
   }
 
   async getTokBRes() {
     const rawVal = await this.queryDbKey(DBKey.forTokBRes());
     unit = await this.getTokBUnit();
-    return md.Token(rawVal, unit);
+    return new md.Token(rawVal, unit);
   }
 
   async getTotalSupply() {
     const rawVal = await this.queryDbKey(DBKey.forTotalSupply());
     unit = await this.getLiqTokUnit();
-    return md.Token(rawVal, unit);
+    return new md.Token(rawVal, unit);
   }
 
   async getLiqTokLeft() {
     const rawVal = await this.queryDbKey(DBKey.forLiqTokLeft());
     unit = await this.getLiqTokUnit();
-    return md.Token(rawVal, unit);
+    return new md.Token(rawVal, unit);
   }
 
   async getTokABal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forTokABal(addr));
     unit = await this.getTokAUnit();
-    return md.Token(rawVal, unit);
+    return new md.Token(rawVal, unit);
   }
 
   async getTokBBal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forTokBBal(addr));
     unit = await this.getTokBUnit();
-    return md.Token(rawVal, unit);
+    return new md.Token(rawVal, unit);
   }
 
   async getLiqTokBal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forLiqTokBal(addr));
     unit = await this.getLiqTokUnit();
-    return md.Token(rawVal, unit);
+    return new md.Token(rawVal, unit);
   }
 
   static async register(
@@ -280,10 +280,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     const data = await by.registerContractImpl(
       new tx.RegCtrtTxReq(
         new de.DataStack(
-          de.TokenID(md.TokenID(tokAId)),
-          de.TokenID(md.TokenID(tokBId)),
-          de.TokenID(md.TokenID(liqTokId)),
-          de.Amount(md.NonNegativeInt(minLiq))
+          new de.TokenID(new md.TokenID(tokAId)),
+          new de.TokenID(new md.TokenID(tokBId)),
+          new de.TokenID(new md.TokenID(liqTokId)),
+          new de.Amount(new md.NonNegativeInt(minLiq))
         ),
         this.CTRT_META,
         md.VSYSTimestamp.now(),
@@ -326,8 +326,8 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SET_SWAP,
         new de.DataStack(
-          de.Amount.forTokAmount(amntA, tokAUnit),
-          de.Amount.forTokAmount(amntB, tokBUnit)
+          new de.Amount.forTokAmount(amntA, tokAUnit),
+          new de.Amount.forTokAmount(amntB, tokBUnit)
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -355,11 +355,11 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.ADD_LIQUIDITY,
         new de.DataStack(
-          de.Amount.forTokAmount(amntA, tokAUnit),
-          de.Amount.forTokAmount(amntB, tokBUnit),
-          de.Amount.forTokAmount(amntAMin, tokAUnit),
-          de.Amount.forTokAmount(amntBMin, tokBUnit),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+          new de.Amount.forTokAmount(amntA, tokAUnit),
+          new de.Amount.forTokAmount(amntB, tokBUnit),
+          new de.Amount.forTokAmount(amntAMin, tokAUnit),
+          new de.Amount.forTokAmount(amntBMin, tokBUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -387,10 +387,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.REMOVE_LIQUIDITY,
         new de.DataStack(
-          de.Amount.forTokAmount(amntLiq, liqTokUnit),
-          de.Amount.forTokAmount(amntAMin, tokAUnit),
-          de.Amount.forTokAmount(amntBMin, tokBUnit),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+          new de.Amount.forTokAmount(amntLiq, liqTokUnit),
+          new de.Amount.forTokAmount(amntAMin, tokAUnit),
+          new de.Amount.forTokAmount(amntBMin, tokBUnit),
+          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -416,9 +416,9 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SWAP_B_FOR_EXACT_A,
         new de.DataStack(
-          de.Amount.forTokAmount(amntA, tokAUnit),
-          de.Amount.forTokAmount(amntBMax, tokBUnit),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+          new de.Amount.forTokAmount(amntA, tokAUnit),
+          new de.Amount.forTokAmount(amntBMax, tokBUnit),
+          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -444,9 +444,9 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SWAP_EXACT_B_FOR_A,
         new de.DataStack(
-          de.Amount.forTokAmount(amntAMin, tokAUnit),
-          de.Amount.forTokAmount(amntB, tokBUnit),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+          new de.Amount.forTokAmount(amntAMin, tokAUnit),
+          new de.Amount.forTokAmount(amntB, tokBUnit),
+          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -472,9 +472,9 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SWAP_A_FOR_EXACT_B,
         new de.DataStack(
-          de.Amount.forTokAmount(amntB, tokBUnit),
-          de.Amount.forTokAmount(amntAMax, tokAUnit),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+          new de.Amount.forTokAmount(amntB, tokBUnit),
+          new de.Amount.forTokAmount(amntAMax, tokAUnit),
+          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -500,9 +500,9 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SWAP_EXACT_A_FOR_B,
         new de.DataStack(
-          de.Amount.forTokAmount(amntBMin, tokBUnit),
-          de.Amount.forTokAmount(amntA, tokAUnit),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+          new de.Amount.forTokAmount(amntBMin, tokBUnit),
+          new de.Amount.forTokAmount(amntA, tokAUnit),
+          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
