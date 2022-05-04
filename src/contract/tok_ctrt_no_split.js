@@ -10,6 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as bn from '../utils/big_number.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -152,7 +153,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
   async getTokBal(addr) {
     const resp = await this.chain.api.ctrt.getTokBal(addr, this.tokId.data);
     const unit = await this.getUnit();
-    return new md.Token(resp.balance, unit);
+    return new md.Token(new bn.BigNumber(resp.balance), unit);
   }
 
   /**
