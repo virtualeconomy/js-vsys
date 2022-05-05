@@ -10,7 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
-import * as tcf from './tok_ctrt_factory.js'
+import * as tcf from './tok_ctrt_factory.js';
 import * as bn from '../utils/big_number.js';
 
 /** FuncIdx is the class for function indexes */
@@ -179,7 +179,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTokACtrt() {
     if (!this._tokACtrt) {
       const tokAId = await this.getTokAId();
-      this._tokACtrt = await tcf.fromTokId(tokAId,this.chain);
+      this._tokACtrt = await tcf.fromTokId(tokAId, this.chain);
     }
     return this._tokACtrt;
   }
@@ -187,7 +187,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTokBCtrt() {
     if (!this._tokBCtrt) {
       const tokBId = await this.getTokBId();
-      this._tokBCtrt = await tcf.fromTokId(tokBId,this.chain);
+      this._tokBCtrt = await tcf.fromTokId(tokBId, this.chain);
     }
     return this._tokBCtrt;
   }
@@ -195,7 +195,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getLiqTokCtrt() {
     if (!this._liqTokCtrt) {
       const liqTokId = await this.getLiqTokId();
-      this._liqTokCtrt = await tcf.fromTokId(liqTokId,this.chain);
+      this._liqTokCtrt = await tcf.fromTokId(liqTokId, this.chain);
     }
     return this._liqTokCtrt;
   }
@@ -224,7 +224,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     if (this._minLiq === 0) {
       const rawVal = await this.queryDbKey(DBKey.forMinLiq());
       const unit = await this.getLiqTokUnit();
-      this._minLiq = new md.Token(new bn.BigNumber(rawVal),unit);
+      this._minLiq = new md.Token(new bn.BigNumber(rawVal), unit);
     }
     return this._minLiq;
   }
@@ -289,7 +289,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
           new de.TokenID(new md.TokenID(tokAId)),
           new de.TokenID(new md.TokenID(tokBId)),
           new de.TokenID(new md.TokenID(liqTokId)),
-          de.Amount.forTokAmount(minLiq,liqUnit)
+          de.Amount.forTokAmount(minLiq, liqUnit)
         ),
         this.CTRT_META,
         md.VSYSTimestamp.now(),
