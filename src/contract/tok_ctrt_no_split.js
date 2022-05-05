@@ -153,7 +153,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
   async getTokBal(addr) {
     const resp = await this.chain.api.ctrt.getTokBal(addr, this.tokId.data);
     const unit = await this.getUnit();
-    return new md.Token(new bn.BigNumber(resp.balance), unit);
+    return md.Token.fromNumber(resp.balance, unit);
   }
 
   /**
