@@ -313,10 +313,10 @@ export class StableSwapCtrt extends ctrt.Ctrt {
    * @param {string} targetTokId - The target token ID.
    * @param {number} maxOrderPerUser - The max order number that per user can create.
    * @param {number} basePriceUnit - The unit of price of the base token.
-   * @param {number} targetPriceUnit - The unit of price of the base token.
+   * @param {number} targetPriceUnit - The unit of price of the target token.
    * @param {number} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
-   * @returns {AtomicSwapCtrt} The object of the registered Atomic Swap Contract.
+   * @returns {StableSwapCtrt} The object of the registered Stable Swap Contract.
    */
   static async register(
     by,
@@ -344,5 +344,40 @@ export class StableSwapCtrt extends ctrt.Ctrt {
       )
     );
     return new this(data.contractId, by.chain);
+  }
+
+  /**
+   * setOrder creates the order.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} feeBase - The fee of base token.
+   * @param {number} feeTarget - The fee of target token.
+   * @param {number} minBase - The minimum value of base token.
+   * @param {number} maxBase - The maximum value of base token.
+   * @param {number} minTarget - The minimum value of target token.
+   * @param {number} maxTarget - The maximum value of target token.
+   * @param {number} priceBase - The price of base token.
+   * @param {number} priceTarget - The price of target token.
+   * @param {number} baseDeposit - The deposit balance of base token.
+   * @param {any} targetDeposit - The deposit balance of target token.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {any}
+   */
+  static async setOrder(
+    by,
+    feeBase,
+    feeTarget,
+    minBase,
+    maxBase,
+    minTarget,
+    maxTarget,
+    priceBase,
+    priceTarget,
+    baseDeposit,
+    targetDeposit,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    //  baseUnit = await this.
   }
 }
