@@ -1,5 +1,5 @@
 /**
- * module VSwapCtrtSpec tests module contract/VSwapCtrtSpec
+ * module VSwapCtrtSpec tests module contract/VSwapCtrt
  * @module VSwapCtrtSpec
  */
 

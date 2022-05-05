@@ -6,7 +6,6 @@
 'use strict';
 
 import * as ctrt from './ctrt.js';
-import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
@@ -224,7 +223,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     if (this._minLiq === 0) {
       const rawVal = await this.queryDbKey(DBKey.forMinLiq());
       const unit = await this.getLiqTokUnit();
-      this._minLiq = new md.Token(new bn.BigNumber(rawVal), unit);
+      this._minLiq = md.Token.fromNumber(rawVal, unit);
     }
     return this._minLiq;
   }
@@ -286,9 +285,9 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     const data = await by.registerContractImpl(
       new tx.RegCtrtTxReq(
         new de.DataStack(
-          new de.TokenID(new md.TokenID(tokAId)),
-          new de.TokenID(new md.TokenID(tokBId)),
-          new de.TokenID(new md.TokenID(liqTokId)),
+          new de.TokenID.fromB58Str(tokAId),
+          new de.TokenID.fromB58Str(tokBId),
+          new de.TokenID.fromB58Str(liqTokId),
           de.Amount.forTokAmount(minLiq, liqUnit)
         ),
         this.CTRT_META,
