@@ -324,16 +324,16 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    tokAUnit = await this.getTokAUnit();
-    tokBUnit = await this.getTokBUnit();
+    const tokAUnit = await this.getTokAUnit();
+    const tokBUnit = await this.getTokBUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.SET_SWAP,
         new de.DataStack(
-          new de.Amount.forTokAmount(amntA, tokAUnit),
-          new de.Amount.forTokAmount(amntB, tokBUnit)
+          de.Amount.forTokAmount(amntA, tokAUnit),
+          de.Amount.forTokAmount(amntB, tokBUnit)
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -353,18 +353,18 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    tokAUnit = await this.getTokAUnit();
-    tokBUnit = await this.getTokBUnit();
+    const tokAUnit = await this.getTokAUnit();
+    const tokBUnit = await this.getTokBUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.ADD_LIQUIDITY,
         new de.DataStack(
-          new de.Amount.forTokAmount(amntA, tokAUnit),
-          new de.Amount.forTokAmount(amntB, tokBUnit),
-          new de.Amount.forTokAmount(amntAMin, tokAUnit),
-          new de.Amount.forTokAmount(amntBMin, tokBUnit),
+          de.Amount.forTokAmount(amntA, tokAUnit),
+          de.Amount.forTokAmount(amntB, tokBUnit),
+          de.Amount.forTokAmount(amntAMin, tokAUnit),
+          de.Amount.forTokAmount(amntBMin, tokBUnit),
           new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
@@ -384,19 +384,19 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    tokAUnit = await this.getTokAUnit();
-    tokBUnit = await this.getTokBUnit();
-    liqTokUnit = await this.getLiqTokUnit();
+    const tokAUnit = await this.getTokAUnit();
+    const tokBUnit = await this.getTokBUnit();
+    const liqTokUnit = await this.getLiqTokUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.REMOVE_LIQUIDITY,
         new de.DataStack(
-          new de.Amount.forTokAmount(amntLiq, liqTokUnit),
-          new de.Amount.forTokAmount(amntAMin, tokAUnit),
-          new de.Amount.forTokAmount(amntBMin, tokBUnit),
-          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
+          de.Amount.forTokAmount(amntLiq, liqTokUnit),
+          de.Amount.forTokAmount(amntAMin, tokAUnit),
+          de.Amount.forTokAmount(amntBMin, tokBUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -414,17 +414,17 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    tokAUnit = await this.getTokAUnit();
-    tokBUnit = await this.getTokBUnit();
+    const tokAUnit = await this.getTokAUnit();
+    const tokBUnit = await this.getTokBUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.SWAP_B_FOR_EXACT_A,
         new de.DataStack(
-          new de.Amount.forTokAmount(amntA, tokAUnit),
-          new de.Amount.forTokAmount(amntBMax, tokBUnit),
-          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
+          de.Amount.forTokAmount(amntA, tokAUnit),
+          de.Amount.forTokAmount(amntBMax, tokBUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -442,17 +442,17 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    tokAUnit = await this.getTokAUnit();
-    tokBUnit = await this.getTokBUnit();
+    const tokAUnit = await this.getTokAUnit();
+    const tokBUnit = await this.getTokBUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.SWAP_EXACT_B_FOR_A,
         new de.DataStack(
-          new de.Amount.forTokAmount(amntAMin, tokAUnit),
-          new de.Amount.forTokAmount(amntB, tokBUnit),
-          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
+          de.Amount.forTokAmount(amntAMin, tokAUnit),
+          de.Amount.forTokAmount(amntB, tokBUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -470,17 +470,17 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    tokAUnit = await this.getTokAUnit();
-    tokBUnit = await this.getTokBUnit();
+    const tokAUnit = await this.getTokAUnit();
+    const tokBUnit = await this.getTokBUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.SWAP_A_FOR_EXACT_B,
         new de.DataStack(
-          new de.Amount.forTokAmount(amntB, tokBUnit),
-          new de.Amount.forTokAmount(amntAMax, tokAUnit),
-          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
+          de.Amount.forTokAmount(amntB, tokBUnit),
+          de.Amount.forTokAmount(amntAMax, tokAUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -498,17 +498,17 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    tokAUnit = await this.getTokAUnit();
-    tokBUnit = await this.getTokBUnit();
+    const tokAUnit = await this.getTokAUnit();
+    const tokBUnit = await this.getTokBUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.SWAP_EXACT_A_FOR_B,
         new de.DataStack(
-          new de.Amount.forTokAmount(amntBMin, tokBUnit),
-          new de.Amount.forTokAmount(amntA, tokAUnit),
-          new de.Timestamp(new md.VSYSTimestamp.fromUnixTs(deadline))
+          de.Amount.forTokAmount(amntBMin, tokBUnit),
+          de.Amount.forTokAmount(amntA, tokAUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
