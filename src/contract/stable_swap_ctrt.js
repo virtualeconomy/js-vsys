@@ -54,3 +54,249 @@ export class StateMapIdx extends ctrt.StateMapIdx {
   };
   static _ = this.createElems();
 }
+
+/** DBKey is the class for DB key */
+export class DBKey extends ctrt.DBKey {
+  /**
+   * forMaker returns the DBKey object for querying the maker.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forMaker() {
+    return new this(StateVar.MAKER.serialize());
+  }
+
+  /**
+   * forBaseTokenId returns the DBKey object for querying the base token ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forBaseTokenId() {
+    return new this(StateVar.BASE_TOKEN_ID.serialize());
+  }
+
+  /**
+   * forTargetTokenId returns the DBKey object for querying the target token ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forTargetTokenID() {
+    return new this(StateVar.TARGET_TOKEN_ID.serialize());
+  }
+
+  /**
+   * forMaxOrderPerUser returns the DBKey object for querying the max order number per user.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forMaxOrderPerUser() {
+    return new this(StateVar.MAX_ORDER_PER_USER.serialize());
+  }
+
+  /**
+   * forBasePriceUnit returns the DBKey object for querying the unit of base token price.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forBasePriceUnit() {
+    return new this(StateVar.UNIT_PRICE_BASE.serialize());
+  }
+
+  /**
+   * forTargetPriceUnit returns the DBKey object for querying the unit of target token price.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forTargetPriceUnit() {
+    return new this(StateVar.UNIT_PRICE_TARGET.serialize());
+  }
+
+  /**
+   * forBaseTokenBalance returns the DBKey object for querying the base token balance.
+   * @param {string} addr - The address of the account that owns the base token.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forBaseTokenBalance(addr) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.BASE_TOKEN_BALANCE,
+      de.Addr.fromStr(addr)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forTargetTokenBalance returns the DBKey object for querying the target token balance.
+   * @param {string} addr - The address of the account that owns the target token.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forTargetTokenBalance(addr) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.TARGET_TOKEN_BALANCE,
+      de.Addr.fromStr(addr)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forUserOrders returns the DBKey object for querying the number of orders of the user's.
+   * @param {string} addr - The address of the account that creates the orders.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forUserOrders(addr) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.USER_ORDERS,
+      de.Addr.fromStr(addr)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forOrderOwner returns the DBKey object for querying the order owner.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forOrderOwner(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.ORDER_OWNER,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forFeeBase returns the DBKey object for querying the base token fee.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forFeeBase(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.FEE_BASE,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forFeeTarget returns the DBKey object for querying the target token fee.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forFeeTarget(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.FEE_TARGET,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forMinBase returns the DBKey object for querying the minimum value of base token.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forMinBase(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.MIN_BASE,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forMaxBase returns the DBKey object for querying the maximum value of base token.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forMaxBase(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.MAX_BASE,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forMinTarget returns the DBKey object for querying the minimum value of target token.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forMinTarget(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.MIN_TARGET,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forMaxTarget returns the DBKey object for querying the maximum value of target token.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forMaxTarget(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.MAX_TARGET,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forPriceBase returns the DBKey object for querying the price of the base token.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forPriceBase(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.PRICE_BASE,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forPriceTarget returns the DBKey object for querying the price of the target token.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forPriceTarget(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.PRICE_TARGET,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forBaseTokenLocked returns the DBKey object for querying the amount of base token locked.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forBaseTokenLocked(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.BASE_TOKEN_LOCKED,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forTargetTokenLocked returns the DBKey object for querying the amount of target token locked.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forTargetTokenLocked(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.TARGET_TOKEN_LOCKED,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+
+  /**
+   * forOrderStatus returns DBKey object for querying the order status.
+   * @param {string} orderId - The order ID.
+   * @returns {DBKey} The DBKey object.
+   */
+  static forOrderStatus(orderId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.ORDER_STATUS,
+      de.Bytes.fromBase58Str(orderId)
+    );
+    return new this(stmp.serialize());
+  }
+}
