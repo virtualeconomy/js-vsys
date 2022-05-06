@@ -151,6 +151,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return new md.Addr(rawVal);
   }
 
+  /**
+   * getTokAId queries & returns the token A id of the contract.
+   * @returns {md.TokenID} The token A id of the contract.
+   */
   async getTokAId() {
     if (!this._tokAId) {
       const rawVal = await this.queryDbKey(DBKey.forTokAId());
@@ -159,6 +163,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._tokAId;
   }
 
+  /**
+   * getTokBId queries & returns the token B id of the contract.
+   * @returns {md.TokenID} The token B id of the contract.
+   */
   async getTokBId() {
     if (!this._tokBId) {
       const rawVal = await this.queryDbKey(DBKey.forTokBId());
@@ -167,6 +175,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._tokBId;
   }
 
+  /**
+   * getLiqTokId queries & returns the liquidity token id of the contract.
+   * @returns {md.TokenID} The liquidity token id of the contract.
+   */
   async getLiqTokId() {
     if (!this._liqTokId) {
       const rawVal = await this.queryDbKey(DBKey.forLiqTokId());
@@ -175,6 +187,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._liqTokId;
   }
 
+  /**
+   * getTokACtrt queries & returns the instance of token A contract.
+   * @returns {ctrt.BaseTokCtrt} The instance of token A contract.
+   */
   async getTokACtrt() {
     if (!this._tokACtrt) {
       const tokAId = await this.getTokAId();
@@ -183,6 +199,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._tokACtrt;
   }
 
+  /**
+   * getTokBCtrt queries & returns the instance of token B contract.
+   * @returns {ctrt.BaseTokCtrt} The instance of token B contract.
+   */
   async getTokBCtrt() {
     if (!this._tokBCtrt) {
       const tokBId = await this.getTokBId();
@@ -191,6 +211,10 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._tokBCtrt;
   }
 
+  /**
+   * getLiqTokCtrt queries & returns the instance of liquidity token contract.
+   * @returns {ctrt.BaseTokCtrt} The instance of liquidity token contract.
+   */
   async getLiqTokCtrt() {
     if (!this._liqTokCtrt) {
       const liqTokId = await this.getLiqTokId();
@@ -199,26 +223,48 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._liqTokCtrt;
   }
 
+
+  /**
+   * getTokAUnit queries & returns the token A's unit.
+   * @returns {number} The unit of token A.
+   */
   async getTokAUnit() {
     const tc = await this.getTokACtrt();
     return await tc.getUnit();
   }
 
+  /**
+   * getTokBUnit queries & returns the token B's unit.
+   * @returns {number} The unit of token B.
+   */
   async getTokBUnit() {
     const tc = await this.getTokBCtrt();
     return await tc.getUnit();
   }
 
+  /**
+   * getLiqTokUnit queries & returns the liquidity token's unit.
+   * @returns {number} The unit of liquidity token.
+   */
   async getLiqTokUnit() {
     const tc = await this.getLiqTokCtrt();
     return await tc.getUnit();
   }
 
+
+  /**
+   * getSwapStatus queries & returns the status of the swap.
+   * @returns {bool} The status of the swap. True represents active and false is inactive.
+   */
   async getSwapStatus() {
     const rawVal = await this.queryDbKey(DBKey.forSwapStatus());
     return rawVal == 'true';
   }
 
+  /**
+   * getMinLiq queries & returns the minimum liquidity.
+   * @returns {md.Token} The minimum liquidity of the contract.
+   */
   async getMinLiq() {
     if (this._minLiq === 0) {
       const rawVal = await this.queryDbKey(DBKey.forMinLiq());
@@ -228,48 +274,91 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._minLiq;
   }
 
+  /**
+   * getTokARes queries & returns the amount of token A inside the pool.
+   * @returns {md.Token} The amount of token A inside the pool.
+   */
   async getTokARes() {
     const rawVal = await this.queryDbKey(DBKey.forTokARes());
     const unit = await this.getTokAUnit();
     return new md.Token(new bn.BigNumber(rawVal), unit);
   }
 
+  /**
+   * getTokBRes queries & returns the amount of token B inside the pool.
+   * @returns {md.Token} The amount of token B inside the pool.
+   */
   async getTokBRes() {
     const rawVal = await this.queryDbKey(DBKey.forTokBRes());
     const unit = await this.getTokBUnit();
     return new md.Token(new bn.BigNumber(rawVal), unit);
   }
 
+
+  /**
+   * getTotalSupply queries & returns the total amount of liquidity tokens that can be minted.
+   * @returns {md.Token} The total amount of liquidity tokens that can be minted.
+   */
   async getTotalSupply() {
     const rawVal = await this.queryDbKey(DBKey.forTotalSupply());
     const unit = await this.getLiqTokUnit();
     return new md.Token(new bn.BigNumber(rawVal), unit);
   }
 
+  /**
+   * getLiqTokLeft queries & returns the amount of liquidity tokens left to be minted.
+   * @returns {md.Token} The amount of liquidity tokens left to be minted.
+   */
   async getLiqTokLeft() {
     const rawVal = await this.queryDbKey(DBKey.forLiqTokLeft());
     const unit = await this.getLiqTokUnit();
     return new md.Token(new bn.BigNumber(rawVal), unit);
   }
 
+  /**
+   * getTokABal queries & returns the balance of token A stored within the contract belonging to the given user address.
+   * @param {string} addr - The address of the user.
+   * @returns {md.Token} The balance of token A stored within the contract belonging to the given user address.
+   */
   async getTokABal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forTokABal(addr));
     const unit = await this.getTokAUnit();
     return new md.Token(new bn.BigNumber(rawVal), unit);
   }
 
+  /**
+   * getTokBBal queries & returns the balance of token B stored within the contract belonging to the given user address.
+   * @param {string} addr - The address of the user.
+   * @returns {md.Token} The balance of token B stored within the contract belonging to the given user address.
+   */
   async getTokBBal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forTokBBal(addr));
     const unit = await this.getTokBUnit();
     return new md.Token(new bn.BigNumber(rawVal), unit);
   }
 
+  /**
+   * getLiqTokBal queries & returns the balance of liquidity token stored within the contract belonging to the given user address.
+   * @param {string} addr - The address of the user.
+   * @returns {md.Token} The balance of liquidity token stored within the contract belonging to the given user address.
+   */
   async getLiqTokBal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forLiqTokBal(addr));
     const unit = await this.getLiqTokUnit();
     return new md.Token(new bn.BigNumber(rawVal), unit);
   }
 
+  /**
+   * register registers a V Swap Contract.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} tokAId - The token A's id.
+   * @param {string} tokBId - The token B's id.
+   * @param {string} liqTokId - The liquidity token's id.
+   * @param {number} minLiq - The minimum liquidity of the contract.
+   * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
+   * @returns {VSwapCtrt} - The VSwapCtrt object of the registered V Swap Contract.
+   */
   static async register(
     by,
     tokAId,
@@ -299,6 +388,14 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return new this(data.contractId, by.chain);
   }
 
+  /**
+   * supersede transfers the issuer role of the contract to a new account.
+   * @param {any} by - The action taker.
+   * @param {any} newOwner - The account address of the new owner.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async supersede(by, newOwner, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
     const newOwnerMd = new md.Addr(newOwner);
     newOwnerMd.mustOn(by.chain);
@@ -316,6 +413,15 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
+  /**
+   * setSwap creates a swap and deposit initial amounts into the pool.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} amntA - The initial amount for token A.
+   * @param {number} amntB - The initial amount for token B.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async setSwap(
     by,
     amntA,
@@ -342,6 +448,20 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
+  /**
+   * addLiquidity adds liquidity to the pool. The final added amount of token A & B will
+     be in the same proportion as the pool at that moment as the liquidity provider shouldn't
+     change the price of the token while the price is determined by the ratio between A & B.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} amntA - The desired amount for token A.
+   * @param {number} amntB - The desired amount for token B.
+   * @param {number} amntAMin - The minimum acceptable amount for token A.
+   * @param {number} amntBMin - The minimum acceptable amount for token B.
+   * @param {number} deadline - The deadline for this operation to complete.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async addLiquidity(
     by,
     amntA,
@@ -374,6 +494,17 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
+  /**
+   * removeLiquidity removes liquidity from the pool by redeeming token A & B with liquidity tokens.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} amntLiq - The amount of liquidity token to return.
+   * @param {number} amntAMin - The minimum acceptable amount of token A to redeem.
+   * @param {number} amntBMin - The minimum acceptable amount of token B to redeem.
+   * @param {any} deadline - The deadline for this operation to complete.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async removeLiquidity(
     by,
     amntLiq,
@@ -405,6 +536,16 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
+  /**
+   * swapBForExactA swaps token B for token A where the desired amount of token A is fixed.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} amntA - The desired amount for token A.
+   * @param {number} amntBMax - The maximum amount of token B the action taker is willing to pay.
+   * @param {any} deadline - The deadline for this operation to complete.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async swapBForExactA(
     by,
     amntA,
@@ -433,6 +574,16 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
+  /**
+   * swapExactBForA swaps token B for token A where the amount of token B to pay is fixed.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} amntAMin - The minimum acceptable amount for token A.
+   * @param {number} amntB - The amount of token B to pay.
+   * @param {number} deadline - The deadline for this operation to complete.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async swapExactBForA(
     by,
     amntAMin,
@@ -461,6 +612,16 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
+  /**
+   * swapAForExactB swaps token A for token B where the desired amount of token B is fixed.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} amntB - The desired amount of token B.
+   * @param {number} amntAMax - The maximum amount of token A the action taker is willing to pay.
+   * @param {number} deadline - The deadline for this operation to complete.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async swapAForExactB(
     by,
     amntB,
@@ -489,6 +650,16 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return data;
   }
 
+  /**
+   * swapExactAForB swaps token A for token B where the amount of token A to pay is fixed.
+   * @param {acnt.Account} by - The action taker.
+   * @param {number} amntBMin - The minimum acceptable amount of token B.
+   * @param {number} amntA - The amount of token A to pay.
+   * @param {number} deadline - The deadline for this operation to complete.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
   async swapExactAForB(
     by,
     amntBMin,

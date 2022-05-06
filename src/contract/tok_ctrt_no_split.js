@@ -156,7 +156,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
   }
 
   /**
-   * supersede transafers the issuer role of the contract to a new account.
+   * supersede transfers the issuer role of the contract to a new account.
    * @param {acnt.Account} by - The action taker.
    * @param {string} newIssuer - The account address of the new issuer.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
