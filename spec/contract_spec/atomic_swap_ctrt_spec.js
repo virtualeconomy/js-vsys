@@ -1,5 +1,5 @@
 /**
- * module atomicSwapCtrtSpec tests module contract/atomicSwapCtrtSpec
+ * module atomicSwapCtrtSpec tests module contract/atomicSwapCtrt
  * @module atomicSwapCtrtSpec
  */
 

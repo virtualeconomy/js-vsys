@@ -285,9 +285,9 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     const data = await by.registerContractImpl(
       new tx.RegCtrtTxReq(
         new de.DataStack(
-          new de.TokenID.fromB58Str(tokAId),
-          new de.TokenID.fromB58Str(tokBId),
-          new de.TokenID.fromB58Str(liqTokId),
+          de.TokenID.fromB58Str(tokAId),
+          de.TokenID.fromB58Str(tokBId),
+          de.TokenID.fromB58Str(liqTokId),
           de.Amount.forTokAmount(minLiq, liqUnit)
         ),
         this.CTRT_META,
