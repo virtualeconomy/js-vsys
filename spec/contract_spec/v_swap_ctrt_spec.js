@@ -5,7 +5,6 @@
 
 'use strict';
 
-import * as ut from '../helpers/utils.js';
 import * as jv from '../../src/index.js';
 
 describe('Test class VSwapCtrt', function () {
@@ -31,8 +30,8 @@ describe('Test class VSwapCtrt', function () {
     await this.waitForBlock();
 
     await Promise.all([
-      tca.send(acnt0, addr1, HALF_TOK_MAX),
-      tcb.send(acnt0, addr1, HALF_TOK_MAX),
+      tca.send(this.acnt0, this.acnt1.addr.data, HALF_TOK_MAX),
+      tcb.send(this.acnt0, this.acnt1.addr.data, HALF_TOK_MAX),
     ]);
     await this.waitForBlock();
 
@@ -108,23 +107,19 @@ describe('Test class VSwapCtrt', function () {
         this.vc.getLiqTokLeft(),
       ]);
 
-      expect(
-        tokARes.amount.toNumber().toBe(tokAResOld.amount.toNumber() + DELTA)
-      );
-      expect(
-        tokBRes.amount.toNumber().toBe(tokBResOld.amount.toNumber() + DELTA)
-      );
-      expect(
-        liqTokLeft.amount
-          .toNumber()
-          .toBe(liqTokLeftOld.amount.toNumber() - DELTA)
-      );
+      const tokAResNum = tokARes.amount.toNumber();
+      const tokBResNum = tokBRes.amount.toNumber();
+      const liqTokResNum = liqTokLeft.amount.toNumber();
+
+      expect(tokAResNum).toBe(tokAResOld.amount.toNumber() + DELTA);
+      expect(tokBResNum).toBe(tokBResOld.amount.toNumber() + DELTA);
+      expect(liqTokResNum).toBe(liqTokLeftOld.amount.toNumber() - DELTA);
     });
   });
 
   describe('Test method removeLiquidity', function () {
     it('should remove liquidity from the pool', async function () {
-      const DELTA = 10_000;
+      const DELTA = 1000;
 
       const [tokAResOld, tokBResOld, liqTokLeftOld] = await Promise.all([
         this.vc.getTokARes(),
@@ -151,10 +146,8 @@ describe('Test class VSwapCtrt', function () {
         this.vc.getLiqTokLeft(),
       ]);
 
-      expect(
-        liqTokLeft.amount
-          .toNumber()
-          .toBe(liqTokLeftOld.amount.toNumber() + DELTA)
+      expect(liqTokLeft.amount.toNumber()).toBe(
+        liqTokLeftOld.amount.toNumber() + DELTA
       );
 
       const tokARedeemed =
@@ -172,7 +165,7 @@ describe('Test class VSwapCtrt', function () {
       const amountA = 10;
       const amountBMax = 20;
 
-      const [balAOld, balBOld] = Promise.all([
+      const [balAOld, balBOld] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);
@@ -180,7 +173,7 @@ describe('Test class VSwapCtrt', function () {
       const tenSec = Date.now() + 10 * 1000;
 
       const respInfo = await this.vc.swapBForExactA(
-        acnt1,
+        this.acnt1,
         amountA,
         amountBMax,
         tenSec
@@ -189,7 +182,7 @@ describe('Test class VSwapCtrt', function () {
       const swapTxId = respInfo.id;
       await this.assertTxSuccess(swapTxId);
 
-      const [balA, balB] = Promise.all([
+      const [balA, balB] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);
@@ -206,7 +199,7 @@ describe('Test class VSwapCtrt', function () {
       const amountAMin = 10;
       const amountB = 20;
 
-      const [balAOld, balBOld] = Promise.all([
+      const [balAOld, balBOld] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);
@@ -214,7 +207,7 @@ describe('Test class VSwapCtrt', function () {
       const tenSec = Date.now() + 10 * 1000;
 
       const respInfo = await this.vc.swapExactBForA(
-        acnt1,
+        this.acnt1,
         amountAMin,
         amountB,
         tenSec
@@ -223,14 +216,14 @@ describe('Test class VSwapCtrt', function () {
       const swapTxId = respInfo.id;
       await this.assertTxSuccess(swapTxId);
 
-      const [balA, balB] = Promise.all([
+      const [balA, balB] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);
 
       expect(
         balA.amount.toNumber() - balAOld.amount.toNumber()
-      ).toBeGreaterThanOrEqual(amountA);
+      ).toBeGreaterThanOrEqual(amountAMin);
       expect(balB.amount.toNumber()).toBe(balBOld.amount.toNumber() - amountB);
     });
   });
@@ -240,15 +233,15 @@ describe('Test class VSwapCtrt', function () {
       const amountAMax = 20;
       const amountB = 10;
 
-      const [balAOld, balBOld] = Promise.all([
+      const [balAOld, balBOld] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);
 
       const tenSec = Date.now() + 10 * 1000;
 
-      const respInfo = await this.vc.swapExactBForA(
-        acnt1,
+      const respInfo = await this.vc.swapAForExactB(
+        this.acnt1,
         amountAMax,
         amountB,
         tenSec
@@ -257,7 +250,7 @@ describe('Test class VSwapCtrt', function () {
       const swapTxId = respInfo.id;
       await this.assertTxSuccess(swapTxId);
 
-      const [balA, balB] = Promise.all([
+      const [balA, balB] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);
@@ -274,7 +267,7 @@ describe('Test class VSwapCtrt', function () {
       const amountA = 20;
       const amountBMin = 10;
 
-      const [balAOld, balBOld] = Promise.all([
+      const [balAOld, balBOld] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);
@@ -282,7 +275,7 @@ describe('Test class VSwapCtrt', function () {
       const tenSec = Date.now() + 10 * 1000;
 
       const respInfo = await this.vc.swapExactAForB(
-        acnt1,
+        this.acnt1,
         amountA,
         amountBMin,
         tenSec
@@ -291,7 +284,7 @@ describe('Test class VSwapCtrt', function () {
       const swapTxId = respInfo.id;
       await this.assertTxSuccess(swapTxId);
 
-      const [balA, balB] = Promise.all([
+      const [balA, balB] = await Promise.all([
         this.vc.getTokABal(this.acnt1.addr.data),
         this.vc.getTokBBal(this.acnt1.addr.data),
       ]);

@@ -285,9 +285,9 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     const data = await by.registerContractImpl(
       new tx.RegCtrtTxReq(
         new de.DataStack(
-          de.TokenID.fromB58Str(tokAId),
-          de.TokenID.fromB58Str(tokBId),
-          de.TokenID.fromB58Str(liqTokId),
+          de.TokenID.fromStr(tokAId),
+          de.TokenID.fromStr(tokBId),
+          de.TokenID.fromStr(liqTokId),
           de.Amount.forTokAmount(minLiq, liqUnit)
         ),
         this.CTRT_META,
@@ -477,8 +477,8 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SWAP_A_FOR_EXACT_B,
         new de.DataStack(
-          de.Amount.forTokAmount(amntB, tokBUnit),
           de.Amount.forTokAmount(amntAMax, tokAUnit),
+          de.Amount.forTokAmount(amntB, tokBUnit),
           new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
@@ -505,8 +505,8 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SWAP_EXACT_A_FOR_B,
         new de.DataStack(
-          de.Amount.forTokAmount(amntBMin, tokBUnit),
           de.Amount.forTokAmount(amntA, tokAUnit),
+          de.Amount.forTokAmount(amntBMin, tokBUnit),
           new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
