@@ -13,3 +13,4 @@ export * from './contract/sys_ctrt.js';
 export * from './contract/tok_ctrt_no_split.js';
 export * from './contract/tok_ctrt_split.js';
 export * from './contract/tok_ctrt_v2.js';
+export * from './contract/pay_chan_ctrt.js';
