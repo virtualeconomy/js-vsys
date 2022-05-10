@@ -5,6 +5,13 @@
 
 'use strict';
 
+import * as tcf from './tok_ctrt_factory.js';
+import * as ctrt from './ctrt.js';
+import * as acnt from '../account.js';
+import * as md from '../model.js';
+import * as tx from '../tx_req.js';
+import * as de from '../data_entry.js';
+
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
   static elems = {
@@ -352,6 +359,190 @@ export class StableSwapCtrt extends ctrt.Ctrt {
       )
     );
     return new this(data.contractId, by.chain);
+  }
+
+  /**
+   * getMaker queries & returns the maker of the contract.
+   * @returns {md.Addr} The address of the maker of the contract.
+   */
+  async getMaker() {
+    const rawVal = await this.queryDbKey(DBKey.forMaker());
+    return new md.Addr(rawVal);
+  }
+
+  /**
+   * getBaseTokId queries & returns the base token ID.
+   * @returns {md.TokenID} The base token ID.
+   */
+  async getBaseTokId() {
+    if (!this.baseTokId) {
+      const rawVal = await this.queryDbKey(DBKey.forBaseTokId());
+      this.baseTokId = new md.TokenID(rawVal);
+    }
+    return this.baseTokId;
+  }
+
+  /**
+   * getTargetTokId queries & returns the target token ID.
+   * @returns {md.TokenID} The target token ID.
+   */
+  async getTargetTokId() {
+    if (!this.targetTokId) {
+      const rawVal = await this.queryDbKey(DBKey.forTargetTokId());
+      this.targetTokId = new md.TokenID(rawVal);
+    }
+    return this.targetTokId;
+  }
+
+  /**
+   * getBaseTokCtrt returns the token contract instance for base token.
+   * @returns {ctrt.BaseTokCtrt} The token contract instance.
+   */
+  async getBaseTokCtrt() {
+    if (!this.baseTokCtrt) {
+      const baseTokId = await this.getBaseTokId();
+      this.baseTokCtrt = await tcf.fromTokId(baseTokId, this.chain);
+    }
+    return this.baseTokCtrt;
+  }
+
+  /**
+   * getTargetTokCtrt returns the token contract instance for target token.
+   * @returns {ctrt.BaseTokCtrt} The token contract instance.
+   */
+  async getTargetTokCtrt() {
+    if (!this.targetTokCtrt) {
+      const targetTokId = await this.getTargetTokId();
+      this.targetTokCtrt = await tcf.fromTokId(targetTokId, this.chain);
+    }
+    return this.targetTokCtrt;
+  }
+
+  /**
+   * getBaseTokUnit queries & returns the unit of base token.
+   * @returns {number} The unit of base token.
+   */
+  async getBaseTokUnit() {
+    const tc = await this.getBaseTokCtrt();
+    return await tc.getUnit();
+  }
+
+  /**
+   * getTargetTokUnit queries & returns the unit of target token.
+   * @returns {number} The unit of target token.
+   */
+  async getTargetTokUnit() {
+    const tc = await this.getTargetTokCtrt();
+    return await tc.getUnit();
+  }
+
+  /**
+   * getMaxOrderPerUser queries & returns the max order number that each user can create.
+   * @returns {number} The max order number.
+   */
+  async getMaxOrderPerUser() {
+    return await this.queryDbKey(DBKey.forMaxOrderPerUser());
+  }
+
+  /**
+   * getBasePriceUnit queries & returns the price unit of base token.
+   * @returns {number} The price unit of base token.
+   */
+  async getBasePriceUnit() {
+    return await this.queryDbKey(DBKey.forBasePriceUnit());
+  }
+
+  /**
+   * getTargetPriceUnit queries & returns the price unit of target token.
+   * @returns {number} The price unit of target token.
+   */
+  async getTargetPriceUnit() {
+    return await this.queryDbKey(DBKey.forTargetPriceUnit());
+  }
+
+  /**
+   * getBaseTokBal queries & returns the balance of the available base tokens.
+   * @param {string} addr - The account address that deposits the token.
+   * @returns {md.Token} The balance of the token.
+   */
+  async getBaseTokBal(addr) {
+    const rawVal = await this.queryDbKey(DBKey.forBaseTokenBalance(addr));
+    const unit = await this.getBaseTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getTargetTokBal queries & returns the balance of the available target tokens.
+   * @param {string} addr - The account address that deposits the token.
+   * @returns {md.Token} The balance of the token.
+   */
+  async getTargetTokBal(addr) {
+    const rawVal = await this.queryDbKey(DBKey.forTargetTokenBalance(addr));
+    const unit = await this.getTargetTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getUserOrders queries & returns the number of user orders.
+   * @param {string} addr - The account address.
+   * @returns {number} The number of user orders.
+   */
+  async getUserOrders(addr) {
+    return await this.queryDbKey(DBKey.forUserOrders(addr));
+  }
+
+  /**
+   * getOrderOwner queries & returns the address of the order owner.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Addr} The address of the order owner.
+   */
+  async getOrderOwner(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forOrderOwner(orderId));
+    return new md.Addr(rawVal);
+  }
+
+  /**
+   * getFeeBase queries & returns the fee for base token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The fee for base token.
+   */
+  async getFeeBase(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forFeeBase(orderId));
+    const unit = await this.getBaseTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getFeeTarget queries & returns the fee for target token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The fee for target token.
+   */
+  async getFeeTarget(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forFeeTarget(orderId));
+    const unit = await this.getTargetTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getMinBase queries & returns the minimum amount of base token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The minimum amount of base token.
+   */
+  async getMinBase(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forMinBase(orderId));
+    const unit = await this.getBaseTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getMaxBase queries & returns the maximum amount of base token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The maximum amount of base token.
+   */
+  async getMaxBase(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forMaxBase(orderId));
+    const unit = await this.getBaseTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
   }
 
   /**
