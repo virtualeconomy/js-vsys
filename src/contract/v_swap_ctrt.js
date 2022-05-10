@@ -10,7 +10,6 @@ import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 import * as tcf from './tok_ctrt_factory.js';
-import * as bn from '../utils/big_number.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -281,7 +280,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTokARes() {
     const rawVal = await this.queryDbKey(DBKey.forTokARes());
     const unit = await this.getTokAUnit();
-    return new md.Token(new bn.BigNumber(rawVal), unit);
+    return new md.Token.fromNumber(rawVal, unit);
   }
 
   /**
@@ -291,7 +290,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTokBRes() {
     const rawVal = await this.queryDbKey(DBKey.forTokBRes());
     const unit = await this.getTokBUnit();
-    return new md.Token(new bn.BigNumber(rawVal), unit);
+    return new md.Token.fromNumber(rawVal, unit);
   }
 
 
@@ -302,7 +301,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTotalSupply() {
     const rawVal = await this.queryDbKey(DBKey.forTotalSupply());
     const unit = await this.getLiqTokUnit();
-    return new md.Token(new bn.BigNumber(rawVal), unit);
+    return new md.Token.fromNumber(rawVal, unit);
   }
 
   /**
@@ -312,7 +311,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getLiqTokLeft() {
     const rawVal = await this.queryDbKey(DBKey.forLiqTokLeft());
     const unit = await this.getLiqTokUnit();
-    return new md.Token(new bn.BigNumber(rawVal), unit);
+    return new md.Token.fromNumber(rawVal, unit);
   }
 
   /**
@@ -323,7 +322,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTokABal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forTokABal(addr));
     const unit = await this.getTokAUnit();
-    return new md.Token(new bn.BigNumber(rawVal), unit);
+    return new md.Token.fromNumber(rawVal, unit);
   }
 
   /**
@@ -334,7 +333,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getTokBBal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forTokBBal(addr));
     const unit = await this.getTokBUnit();
-    return new md.Token(new bn.BigNumber(rawVal), unit);
+    return new md.Token.fromNumber(rawVal, unit);
   }
 
   /**
@@ -345,7 +344,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
   async getLiqTokBal(addr) {
     const rawVal = await this.queryDbKey(DBKey.forLiqTokBal(addr));
     const unit = await this.getLiqTokUnit();
-    return new md.Token(new bn.BigNumber(rawVal), unit);
+    return new md.Token.fromNumber(rawVal, unit);
   }
 
   /**
