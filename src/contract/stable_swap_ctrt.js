@@ -184,7 +184,7 @@ export class DBKey extends ctrt.DBKey {
   }
 
   /**
-   * forMinBase returns the DBKey object for querying the minimum value of base token.
+   * forMinBase returns the DBKey object for querying the minimum amount of base token.
    * @param {string} orderId - The order ID.
    * @returns {DBKey} The DBKey object.
    */
@@ -197,7 +197,7 @@ export class DBKey extends ctrt.DBKey {
   }
 
   /**
-   * forMaxBase returns the DBKey object for querying the maximum value of base token.
+   * forMaxBase returns the DBKey object for querying the maximum amount of base token.
    * @param {string} orderId - The order ID.
    * @returns {DBKey} The DBKey object.
    */
@@ -210,7 +210,7 @@ export class DBKey extends ctrt.DBKey {
   }
 
   /**
-   * forMinTarget returns the DBKey object for querying the minimum value of target token.
+   * forMinTarget returns the DBKey object for querying the minimum amount of target token.
    * @param {string} orderId - The order ID.
    * @returns {DBKey} The DBKey object.
    */
@@ -223,7 +223,7 @@ export class DBKey extends ctrt.DBKey {
   }
 
   /**
-   * forMaxTarget returns the DBKey object for querying the maximum value of target token.
+   * forMaxTarget returns the DBKey object for querying the maximum amount of target token.
    * @param {string} orderId - The order ID.
    * @returns {DBKey} The DBKey object.
    */
@@ -351,10 +351,10 @@ export class StableSwapCtrt extends ctrt.Ctrt {
    * @param {acnt.Account} by - The action taker.
    * @param {number} feeBase - The fee of base token.
    * @param {number} feeTarget - The fee of target token.
-   * @param {number} minBase - The minimum value of base token.
-   * @param {number} maxBase - The maximum value of base token.
-   * @param {number} minTarget - The minimum value of target token.
-   * @param {number} maxTarget - The maximum value of target token.
+   * @param {number} minBase - The minimum amount of base token.
+   * @param {number} maxBase - The maximum amount of base token.
+   * @param {number} minTarget - The minimum amount of target token.
+   * @param {number} maxTarget - The maximum amount of target token.
    * @param {number} priceBase - The price of base token.
    * @param {number} priceTarget - The price of target token.
    * @param {number} baseDeposit - The deposit balance of base token.
