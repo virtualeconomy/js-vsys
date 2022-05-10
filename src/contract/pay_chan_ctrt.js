@@ -5,22 +5,24 @@
 
 'use strict';
 
+import bs58 from 'bs58';
 import * as ctrt from './ctrt.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 import * as tcf from './tok_ctrt_factory.js';
 import * as curve from '../utils/curve_25519.js';
+import * as bp from '../utils/bytes_packer.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
   static elems = {
-    CREATE_AND_LOAD : 0,
-    EXTEND_EXPIRATION_TIME : 1,
-    LOAD : 2,
-    ABORT : 3,
-    UNLOAD : 4,
-    COLLECT_PAYMENT : 5
+    CREATE_AND_LOAD: 0,
+    EXTEND_EXPIRATION_TIME: 1,
+    LOAD: 2,
+    ABORT: 3,
+    UNLOAD: 4,
+    COLLECT_PAYMENT: 5,
   };
   static _ = this.createElems();
 }
@@ -44,7 +46,7 @@ export class StateMapIdx extends ctrt.StateMapIdx {
     CHANNEL_ACCUMULATED_LOAD: 4,
     CHANNEL_ACCUMULATED_PAYMENT: 5,
     CHANNEL_EXPIRATION_TIME: 6,
-    CHANNEL_STATUS: 7
+    CHANNEL_STATUS: 7,
   };
   static _ = this.createElems();
 }
@@ -168,15 +170,13 @@ export class DBKey extends ctrt.DBKey {
    * @param {string} chanId - The channel ID.
    * @returns {DBKey} The DBKey object for querying the channel status.
    */
-     static forChannelStatus(chanId) {
-      const stmp = new ctrt.StateMap(
-        StateMapIdx.CHANNEL_STATUS,
-        de.Bytes.fromBase58Str(chanId)
-      );
-      return new this(stmp.serialize());
-    }
-
-  
+  static forChannelStatus(chanId) {
+    const stmp = new ctrt.StateMap(
+      StateMapIdx.CHANNEL_STATUS,
+      de.Bytes.fromBase58Str(chanId)
+    );
+    return new this(stmp.serialize());
+  }
 }
 
 export class paymentChannelCtrt extends ctrt.Ctrt {
@@ -188,7 +188,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * getMaker queries & returns the maker of the contract.
    * @returns {md.Addr} The address of the maker of the contract.
    */
-   async getMaker() {
+  async getMaker() {
     const rawVal = await this.queryDbKey(DBKey.forMaker());
     return new md.Addr(rawVal);
   }
@@ -206,7 +206,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * getTokCtrt queries & returns the instance of token contract.
    * @returns {ctrt.BaseTokCtrt} The instance of token contract.
    */
-   async getTokCtrt() {
+  async getTokCtrt() {
     if (!this._tokCtrt) {
       const tokId = await this.getTokId();
       this._tokCtrt = await tcf.fromTokId(tokId, this.chain);
@@ -215,10 +215,10 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * getTokUnit queries & returns the token's unit.
+   * getUnit queries & returns the token's unit.
    * @returns {number} The unit of the token.
    */
-   async getTokUnit() {
+  async getUnit() {
     const tc = await this.getTokCtrt();
     return await tc.getUnit();
   }
@@ -228,18 +228,18 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} addr - The account address.
    * @returns {md.Token} The token balance.
    */
-     async getCtrtBal(addr) {
-      const rawVal = await this.queryDbKey(DBKey.forContractBalance(addr));
-      const unit = await this.getUnit();
-      return md.Token.fromNumber(rawVal, unit);
-    }
+  async getCtrtBal(addr) {
+    const rawVal = await this.queryDbKey(DBKey.forContractBalance(addr));
+    const unit = await this.getUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
 
   /**
    * getChanCreator queries & returns the address of the channel creator.
    * @param {string} chanId - The channel ID.
    * @returns {md.Addr} The address of the channel creator.
    */
-   async getChanCreator(chanId) {
+  async getChanCreator(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelCreator(chanId));
     return new md.Addr(rawVal);
   }
@@ -249,8 +249,10 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} chanId - The channel ID.
    * @returns {md.PubKey} The public key of the channel creator.
    */
-   async getChanCreatorPubKey(chanId) {
-    const rawVal = await this.queryDbKey(DBKey.forChannelCreatorPublicKey(chanId));
+  async getChanCreatorPubKey(chanId) {
+    const rawVal = await this.queryDbKey(
+      DBKey.forChannelCreatorPublicKey(chanId)
+    );
     return new md.PubKey(rawVal);
   }
 
@@ -259,7 +261,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} chanId - The channel ID.
    * @returns {md.Addr} The recipient of the channel.
    */
-   async getChanRecipient(chanId) {
+  async getChanRecipient(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelRecipient(chanId));
     return new md.Addr(rawVal);
   }
@@ -269,7 +271,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} chanId - The channel ID.
    * @returns {md.Token} The accumulated load of the channel.
    */
-   async getChanAccLoad(chanId) {
+  async getChanAccLoad(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelAccLoad(chanId));
     const unit = await this.getUnit();
     return new md.Token.fromNumber(rawVal, unit);
@@ -280,7 +282,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} chanId - The channel ID.
    * @returns {md.Token} The accumulated payment of the channel.
    */
-   async getChanAccPay(chanId) {
+  async getChanAccPay(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelAccPayment(chanId));
     const unit = await this.getUnit();
     return new md.Token.fromNumber(rawVal, unit);
@@ -291,7 +293,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} chanId - The channel ID.
    * @returns {md.VSYSTimestamp} The expired time of the channel.
    */
-   async getChanExpTime(chanId) {
+  async getChanExpTime(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelExpTime(chanId));
     return new md.VSYSTimestamp(rawVal);
   }
@@ -301,9 +303,9 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} chanId - The channel ID.
    * @returns {boolean} The status of the channel.
    */
-   async getChanStatus(chanId) {
+  async getChanStatus(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forcsStatus(chanId));
-    return rawVal === "true";
+    return rawVal === 'true';
   }
 
   /**
@@ -314,22 +316,258 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
    * @returns {AtomicSwapCtrt} The AtomicSwapCtrt object of the registered Atomic Swap Contract.
    */
-     static async register(
-      by,
-      tokId,
-      ctrtDescription,
-      fee = md.RegCtrtFee.DEFAULT
-    ) {
-      const data = await by.registerContractImpl(
-        new tx.RegCtrtTxReq(
-          new de.DataStack(de.TokenID.fromStr(tokId)),
-          this.CTRT_META,
-          md.VSYSTimestamp.now(),
-          new md.Str(ctrtDescription),
-          md.RegCtrtFee.fromNumber(fee)
-        )
-      );
-      return new this(data.contractId, by.chain);
-    }
+  static async register(
+    by,
+    tokId,
+    ctrtDescription,
+    fee = md.RegCtrtFee.DEFAULT
+  ) {
+    const data = await by.registerContractImpl(
+      new tx.RegCtrtTxReq(
+        new de.DataStack(de.TokenID.fromStr(tokId)),
+        this.CTRT_META,
+        md.VSYSTimestamp.now(),
+        new md.Str(ctrtDescription),
+        md.RegCtrtFee.fromNumber(fee)
+      )
+    );
+    return new this(data.contractId, by.chain);
+  }
 
+  /**
+   * createAndLoad creates the payment channel and loads an amount into it.
+     (This function's transaction id becomes the channel ID)
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} recipient - The recipient's address.
+   * @param {number} amount - The amount of the token.
+   * @param {number} expireTime - The expired timestamp of the channel.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async createAndLoad(
+    by,
+    recipient,
+    amount,
+    expireTime,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const rcptMd = md.Addr(recipient);
+    rcptMd.mustOn(by.chain);
+
+    const unit = await this.getUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.CREATE_AND_LOAD,
+        new de.DataStack(
+          de.Addr.fromStr(recipient),
+          de.Amount.forTokAmount(amount, unit),
+          de.Timestamp.fromUnixTs(expireTime)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * extendExpTime extends the expiration time of the channel to the new input timestamp.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} chanId - The channel ID.
+   * @param {number} expireTime - The expired timestamp of the lock.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async extendExpTime(
+    by,
+    chanId,
+    expireTime,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.EXTEND_EXPIRATION_TIME,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(chanId),
+          de.Timestamp.fromUnixTs(expireTime)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * load loads more tokens into the channel.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} chanId - The channel ID.
+   * @param {number} amount - The amount of tokens.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async load(
+    by,
+    chanId,
+    amount,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const unit = this.getUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.LOAD,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(chanId),
+          de.Amount.forTokAmount(amount, unit)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * abort aborts the channel, triggering a 2-day grace period where the recipient can still
+    collect payments. After 2 days, the payer can unload all the remaining funds that was locked
+    in the channel.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} chanId - The channel ID.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async abort(by, chanId, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.ABORT,
+        new de.DataStack(de.Bytes.fromBase58Str(chanId)),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * unload unloads all the funcs locked in the channel (only works if the channel has expired).
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} chanId - The channel ID.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async unload(by, chanId, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.UNLOAD,
+        new de.DataStack(de.Bytes.fromBase58Str(chanId)),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * collectPayment collects the payment from the channel.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} chanId - The channel ID.
+   * @param {number} amount - The amount of the token.
+   * @param {string} signature - The signature in base 58 format.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async collectPayment(
+    by,
+    chanId,
+    amount,
+    signature,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const unit = this.getUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.COLLECT_PAYMENT,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(chanId),
+          de.Amount.forTokAmount(amount, unit),
+          de.Bytes.fromBase58Str(signature)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * offchainPay generates the offchain payment signature.
+   * @param {md.KeyPair} keyPair - The key pair to sign.
+   * @param {string} chanId - The channel ID.
+   * @param {number} amount - The amount of the token.
+   * @returns {string} The signature in base58 string format.
+   */
+  async offchainPay(keyPair, chanId, amount) {
+    const msg = await this.getPayMsg(chanId, amount);
+    const sigBytes = curve.sign(keyPair.pri.bytes, msg);
+    const sigBuffer = Buffer.from(bs58.decode(sigBytes));
+    const data = sigBuffer.toString('latin1');
+
+    return data;
+  }
+
+  /**
+   * verifySig verifies the payment signature.
+   * @param {string} chanId - The channel ID.
+   * @param {number} amount - The amount of the token.
+   * @param {string} signature - The signature in base 58 format.
+   * @returns {boolean} If the signature is valid.
+   */
+  async verifySig(chanId, amount, signature) {
+    const msg = await this.getPayMsg(chanId, amount);
+    const pubKey = await this.getChanCreatorPubKey(chanId);
+    const sigBytes = Buffer.from(bs58.decode(signature));
+    return curve.verify(pubKey.bytes, msg, sigBytes);
+  }
+
+  /**
+   * getPayMsg generates the payment message in bytes.
+   * @param {string} chanId - The channel ID.
+   * @param {number} amount - The amount of the token.
+   * @returns {Buffer} The payment message.
+   */
+  async getPayMsg(chanId, amount) {
+    const unit = this.getUnit();
+    const rawVal = md.Token.forAmount(amount, unit).data;
+
+    const chanIdBytes = Buffer.from(bs58.decode(chanId));
+    const chanIdBytesLen = bp.packUInt16(chanIdBytes.length);
+
+    const msg = Buffer.concat(chanIdBytesLen, chanIdBytes, rawVal);
+    return msg;
+  }
 }
