@@ -270,7 +270,6 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     return this._liqTokCtrt;
   }
 
-
   /**
    * getTokAUnit queries & returns the token A's unit.
    * @returns {number} The unit of token A.
@@ -297,7 +296,6 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     const tc = await this.getLiqTokCtrt();
     return await tc.getUnit();
   }
-
 
   /**
    * getSwapStatus queries & returns the status of the swap.
@@ -340,7 +338,6 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
     const unit = await this.getTokBUnit();
     return md.Token.fromNumber(rawVal, unit);
   }
-
 
   /**
    * getTotalSupply queries & returns the total amount of liquidity tokens that can be minted.
