@@ -35,15 +35,11 @@ describe('Test class VSwapCtrt', function () {
     ]);
     await this.waitForBlock();
 
-    const tokAId = tca.getTokId(0);
-    const tokBId = tcb.getTokId(0);
-    const tokLiqId = tcLiq.getTokId(0);
-
     this.vc = await jv.VSwapCtrt.register(
       this.acnt0,
-      tokAId.data,
-      tokBId.data,
-      tokLiqId.data,
+      tca.tokId.data,
+      tcb.tokId.data,
+      tcLiq.tokId.data,
       MIN_LIQ
     );
     await this.waitForBlock();

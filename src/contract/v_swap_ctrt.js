@@ -63,42 +63,82 @@ export class DBKey extends ctrt.DBKey {
     return new this(StateVar.MAKER.serialize());
   }
 
+  /**
+   * forTokAId returns the DBKey object for querying the token A id.
+   * @returns {DBKey} The DBKey object for querying the token A id.
+   */
   static forTokAId() {
     return new this(StateVar.TOKEN_A_ID.serialize());
   }
 
+  /**
+   * forTokBId returns the DBKey object for querying the token B id.
+   * @returns {DBKey} The DBKey object for querying the token B id.
+   */
   static forTokBId() {
     return new this(StateVar.TOKEN_B_ID.serialize());
   }
 
+  /**
+   * forLiqTokId returns the DBKey object for querying the liquidity token id.
+   * @returns {DBKey} The DBKey object for querying the liquidity token id.
+   */
   static forLiqTokId() {
     return new this(StateVar.LIQUIDITY_TOKEN_ID.serialize());
   }
 
+  /**
+   * forSwapStatus returns the DBKey object for querying the swap status.
+   * @returns {DBKey} The DBKey object for querying the swap status.
+   */
   static forSwapStatus() {
     return new this(StateVar.SWAP_STATUS.serialize());
   }
 
+  /**
+   * forMinLiq returns the DBKey object for querying the minimum liquidity.
+   * @returns {DBKey} The DBKey object for querying the minimum liquidity.
+   */
   static forMinLiq() {
     return new this(StateVar.MINIMUM_LIQUIDITY.serialize());
   }
 
+  /**
+   * forTokARes returns the DBKey object for querying the amount of token A inside the pool.
+   * @returns {DBKey} The DBKey object for querying the amount of token A inside the pool.
+   */
   static forTokARes() {
     return new this(StateVar.TOKEN_A_RESERVED.serialize());
   }
 
+  /**
+   * forTokBRes returns the DBKey object for querying the amount of token B inside the pool.
+   * @returns {DBKey} The DBKey object for querying the amount of token B inside the pool.
+   */
   static forTokBRes() {
     return new this(StateVar.TOKEN_B_RESERVED.serialize());
   }
 
+  /**
+   * forTotalSupply returns the DBKey object for querying the total amount of liquidity tokens that can be minted.
+   * @returns {DBKey} The DBKey object for querying the total amount of liquidity tokens that can be minted.
+   */
   static forTotalSupply() {
     return new this(StateVar.TOTAL_SUPPLY.serialize());
   }
 
+  /**
+   * forLiqTokLeft returns the DBKey object for querying the amount of liquidity tokens left to be minted.
+   * @returns {DBKey} The DBKey object for querying the amount of liquidity tokens left to be minted.
+   */
   static forLiqTokLeft() {
     return new this(StateVar.LIQUIDITY_TOKEN_LEFT.serialize());
   }
 
+  /**
+   * forTokABal returns the DBKey object for querying the total amount of token A balance.
+   * @returns {DBKey} The DBKey object for querying the total amount of token A balance.
+   */
   static forTokABal(addr) {
     const stmp = new ctrt.StateMap(
       StateMapIdx.TOKEN_A_BALANCE,
@@ -107,6 +147,10 @@ export class DBKey extends ctrt.DBKey {
     return new this(stmp.serialize());
   }
 
+  /**
+   * forTokBBal returns the DBKey object for querying the total amount of token B balance.
+   * @returns {DBKey} The DBKey object for querying the total amount of token B balance.
+   */
   static forTokBBal(addr) {
     const stmp = new ctrt.StateMap(
       StateMapIdx.TOKEN_B_BALANCE,
@@ -115,6 +159,10 @@ export class DBKey extends ctrt.DBKey {
     return new this(stmp.serialize());
   }
 
+  /**
+   * forLiqTokBal returns the DBKey object for querying the total amount of liquidity token balance.
+   * @returns {DBKey} The DBKey object for querying the total amount of liquidity token balance.
+   */
   static forLiqTokBal(addr) {
     const stmp = new ctrt.StateMap(
       StateMapIdx.LIQUIDITY_TOKEN_BALANCE,
