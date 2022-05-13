@@ -64,6 +64,8 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     '3GQnJtxDQc3zFuUwXKbrev1TL7VGxk5XNZ7kUveKK6BsneC1zTSTRjgBTdDrksHtVMv6nwy9Wy6MHRgydAJgEegDmL4yx7tdNjdnU38b8FrCzFhA1aRNxhEC3ez7JCi3a5dgVPr93hS96XmSDnHYvyiCuL6dggahs2hKXjdz4SGgyiUUP4246xnELkjhuCF4KqRncUDcZyWQA8UrfNCNSt9MRKTj89sKsV1hbcGaTcX2qqqSU841HyokLcoQSgmaP3uBBMdgSYVtovPLEFmpXFMoHWXAxQZDaEtZcHPkrhJyG6CdTgkNLUQKWtQdYzjxCc9AsUGMJvWrxWMi6RQpcqYk3aszbEyAh4r4fcszHHAJg64ovDgMNUDnWQWJerm5CjvN76J2MVN6FqQkS9YrM3FoHFTj1weiRbtuTc3mCR4iMcu2eoxcGYRmUHxKiRoZcWnWMX2mzDw31SbvHqqRbF3t44kouJznTyJM6z1ruiyQW6LfFZuV6VxsKLX3KQ46SxNsaJoUpvaXmVj2hULoGKHpwPrTVzVpzKvYQJmz19vXeZiqQ2J3tVcSFH17ahSzwRkXYJ5HP655FHqTr6Vvt8pBt8N5vixJdYtfx7igfKX4aViHgWkreAqBK3trH4VGJ36e28RJP8Xrt6NYG2icsHsoERqHik7GdjPAmXpnffDL6P7NBfyKWtp9g9C289TDGUykS8CNiW9L4sbUabdrqsdkdPRjJHzzrb2gKTf2vB56rZmreTUbJ53KsvpZht5bixZ59VbCNZaHfZyprvzzhyTAudAmhp8Nrks7SV1wTySZdmfLyw7vsNmTEi3hmuPmYqExp4PoLPUwT4TYt2doYUX1ds3CesnRSjFqMhXnLmTgYXsAXvvT2E6PWTY5nPCycQv5pozvQuw1onFtGwY9n5s2VFjxS9W6FkCiqyyZAhCXP5o44wkmD5SVqyqoL5HmgNc8SJL7uMMMDDwecy7Sh9vvt3RXirH7F7bpUv3VsaepVGCHLfDp9GMG59ZiWK9Rmzf66e8Tw4unphu7gFNZuqeBk2YjCBj3i4eXbJvBEgCRB51FATRQY9JUzdMv9Mbkaq4DW69AgdqbES8aHeoax1UDDBi3raM8WpP2cKVEqoeeCGYM2vfN6zBAh7Tu3M4NcNFJmkNtd8Mpc2Md1kxRsusVzHiYxnsZjo'
   );
 
+  FUNC_IDX_CLS = FuncIdx;
+
   constructor(ctrtId, chain) {
     super(ctrtId, chain);
     this._tokId = undefined;
@@ -176,7 +178,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.SUPERSEDE,
+        this.FUNC_IDX_CLS.SUPERSEDE,
         new de.DataStack(new de.Addr(newIssuerMd)),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -200,7 +202,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.ISSUE,
+        this.FUNC_IDX_CLS.ISSUE,
         new de.DataStack(de.Amount.forTokAmount(amount, unit)),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -234,7 +236,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.SEND,
+        this.FUNC_IDX_CLS.SEND,
         new de.DataStack(
           new de.Addr(rcptMd),
           de.Amount.forTokAmount(amount, unit)
@@ -261,7 +263,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.DESTROY,
+        this.FUNC_IDX_CLS.DESTROY,
         new de.DataStack(de.Amount.forTokAmount(amount, unit)),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -299,7 +301,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.TRANSFER,
+        this.FUNC_IDX_CLS.TRANSFER,
         new de.DataStack(
           new de.Addr(senderMd),
           new de.Addr(rcptMd),
@@ -334,7 +336,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.DEPOSIT,
+        this.FUNC_IDX_CLS.DEPOSIT,
         new de.DataStack(
           new de.Addr(by.addr),
           de.CtrtAcnt.fromStr(ctrtId),
@@ -369,7 +371,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.WITHDRAW,
+        this.FUNC_IDX_CLS.WITHDRAW,
         new de.DataStack(
           de.CtrtAcnt.fromStr(ctrtId),
           new de.Addr(by.addr),
