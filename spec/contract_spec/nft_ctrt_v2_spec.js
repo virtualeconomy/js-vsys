@@ -34,18 +34,19 @@ describe('Test class NFTCtrtV2WhiteList', function () {
       const maker = this.acnt0;
       const oldIssuer = this.acnt0;
       const newIssuer = this.acnt1;
+      const newRegulator = this.acnt1;
 
       const oldIssuerAddr = await this.nc.getIssuer();
       expect(oldIssuerAddr.equal(oldIssuer.addr)).toBeTrue();
-
-      const resp = await this.nc.supersede(maker, newIssuer.addr.data);
+      
+      const resp = await this.nc.supersede(maker, newIssuer.addr.data,newRegulator.addr.data);
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
 
       const newIssuerAddr = await this.nc.getIssuer();
       expect(newIssuerAddr.equal(newIssuer.addr)).toBeTrue();
 
-      await this.nc.supersede(maker, oldIssuer.addr.data);
+      await this.nc.supersede(maker, oldIssuer.addr.data,oldIssuer.addr.data);
       await this.waitForBlock();
     });
   });
@@ -87,6 +88,10 @@ describe('Test class NFTCtrtV2WhiteList', function () {
       expect(senderBalBefore).toBe(1);
       expect(recipientBalBefore).toBe(0);
 
+      await this.nc.updateListUser(this.acnt0,this.acnt0.addr.data,true);
+      await this.nc.updateListUser(this.acnt0,this.acnt1.addr.data,true);
+      await this.waitForBlock();
+
       const resp = await this.nc.send(sender, recipient.addr.data, tokIdx);
       await this.waitForBlock();
       await this.assertTxSuccess(resp.id);
@@ -125,6 +130,10 @@ describe('Test class NFTCtrtV2WhiteList', function () {
       );
       expect(senderBalBefore).toBe(1);
       expect(recipientBalBefore).toBe(0);
+
+      await this.nc.updateListUser(this.acnt0,this.acnt0.addr.data,true);
+      await this.nc.updateListUser(this.acnt0,this.acnt1.addr.data,true);
+      await this.waitForBlock();
 
       const resp = await this.nc.transfer(
         sender,
@@ -167,7 +176,11 @@ describe('Test class NFTCtrtV2WhiteList', function () {
       const acntBalInit = await this.getTokBal(acnt.addr.data, this.tokId.data);
       expect(acntBalInit).toBe(1);
 
+      await this.nc.updateListUser(this.acnt0,this.acnt0.addr.data,true);
+      await this.nc.updateListCtrt(this.acnt0,this.lc.ctrtId.data,true);
+
       // deposit
+      
       const depResp = await this.nc.deposit(
         acnt,
         this.lc.ctrtId.data,
@@ -206,9 +219,6 @@ describe('Test class NFTCtrtV2WhiteList', function () {
   describe('Test method updateListUser', function () {
     it('should be able to update the presence of the user in the list', async function () {
       const acnt = this.acnt0;
-
-      const userInListInit = await this.nc.isUserInList(acnt.addr.data);
-      expect(userInListInit).toBe(false);
 
       const respAdd = await this.nc.updateListUser(acnt, acnt.addr.data, true);
       await this.waitForBlock();
