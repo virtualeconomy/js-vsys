@@ -382,11 +382,8 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getDuration() {
     const rawVal = await this.queryDbKey(DBKey.forDuration());
-<<<<<<< Updated upstream
     return new md.VSYSTimestamp(rawVal);
-=======
     return md.VSYSTimestamp.fromUnixTs(rawVal);
->>>>>>> Stashed changes
   }
 
   /**
@@ -409,11 +406,8 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getJudgeDuration() {
     const rawVal = await this.queryDbKey(DBKey.forJudgeDuration());
-<<<<<<< Updated upstream
     return new md.VSYSTimestamp(rawVal);
-=======
     return md.VSYSTimestamp.fromUnixTs(rawVal);
->>>>>>> Stashed changes
   }
 
   /**
