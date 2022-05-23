@@ -165,10 +165,10 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   /**
    * register registers a Atomic Swap Contract.
    * @param {acnt.Account} by - The action taker.
-   * @param {string} tokId - The ID of the token to lock.
+   * @param {string} tokId - The ID of the token.
    * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
-   * @returns {AtomicSwapCtrt} The LockCtrt object of the registered Lock Contract.
+   * @returns {AtomicSwapCtrt} - The AtomicSwapCtrt object of the registered Atomic Swap Contract.
    */
   static async register(
     by,
