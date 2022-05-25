@@ -58,6 +58,8 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     'VJodouhmnHVDwtkBZ2NdgahT7NAgNE9EpWoZApzobhpua2nDL9D3sbHSoRRk8bEFeme2BHrXPdcq5VNJcPdGMUD54Smwatyx74cPJyet6bCWmLciHE2jGw9u5TmatjdpFSjGKegh76GvJstK3VaLagvsJJMaaKM9MNXYtgJyDr1Zw7U9PXV7N9TQnSsqz6EHMgDvd8aTDqEG7bxxAotkAgeh4KHqnk6Ga117q5AJctJcbUtD99iUgPmJrC8vzX85TEXgHRY1psW7D6daeExfVVrEPHFHrU6XfhegKv9vRbJBGL861U4Qg6HWbWxbuitgtKoBazSp7VofDtrZebq2NSpZoXCAZC8DRiaysanAqyCJZf7jJ8NfXtWej8L9vg8PVs65MrEmK8toadcyCA2UGzg6pQKrMKQEUahruBiS7zuo62eWwJBxUD1fQ1RGPk9BbMDk9FQQxXu3thSJPnKktq3aJhD9GNFpvyEAaWigp5nfjgH5doVTQk1PgoxeXRAWQNPztjNvZWv6iD85CoZqfCWdJbAXPrWvYW5FsRLW1xJ4ELRUfReMAjCGYuFWdA3CZyefpiDEWqVTe5SA6J6XeUppRyXKpKQTc6upesoAGZZ2NtFDryq22izC6D5p1i98YpC6Dk1qcKevaANKHH8TfFoQT717nrQEY2aLoWrA1ip2t5etdZjNVFmghxXEeCAGy3NcLDFHmAfcBZhHKeJHp8H8HbiMRtWe3wmwKX6mPx16ahnd3dMGCsxAZfjQcy4J1HpuCm7rHMULkixUFYRYqx85c7UpLcijLRybE1MLRjEZ5SEYtazNuiZBwq1KUcNipzrxta9Rpvt2j4WyMadxPf5r9YeAaJJp42PiC6SGfyjHjRQN4K3pohdQRbbG4HQ95NaWCy7CAwbpXRCh9NDMMQ2cmTfB3KFW2M'
   );
 
+  FUNC_IDX_CLS = FuncIdx;
+
   /**
    * getIssuer queries & returns the issuer of the contract.
    * @returns {md.Addr} The issuer of the contract.
@@ -126,7 +128,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.SUPERSEDE,
+        this.FUNC_IDX_CLS.SUPERSEDE,
         new de.DataStack(new de.Addr(newIssuerMd)),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -153,7 +155,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.ISSUE,
+        this.FUNC_IDX_CLS.ISSUE,
         new de.DataStack(de.Str.fromStr(tokDescription)),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -185,7 +187,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.SEND,
+        this.FUNC_IDX_CLS.SEND,
         new de.DataStack(
           new de.Addr(rcptMd),
           new de.Int32(new md.TokenIdx(tokIdx))
@@ -225,7 +227,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.TRANSFER,
+        this.FUNC_IDX_CLS.TRANSFER,
         new de.DataStack(
           new de.Addr(senderMd),
           new de.Addr(rcptMd),
@@ -258,7 +260,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.DEPOSIT,
+        this.FUNC_IDX_CLS.DEPOSIT,
         new de.DataStack(
           new de.Addr(by.addr),
           de.CtrtAcnt.fromStr(ctrtId),
@@ -291,7 +293,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.WITHDRAW,
+        this.FUNC_IDX_CLS.WITHDRAW,
         new de.DataStack(
           de.CtrtAcnt.fromStr(ctrtId),
           new de.Addr(by.addr),
