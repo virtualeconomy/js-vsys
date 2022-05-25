@@ -370,7 +370,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   async getTokId() {
     if (!this._tokId) {
       const rawVal = await this.queryDbKey(DBKey.forTokId());
-      this._tokId = new md.Token(rawVal);
+      this._tokId = new md.TokenID(rawVal);
       return this._tokId;
     }
     return this._tokId;
@@ -382,7 +382,6 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getDuration() {
     const rawVal = await this.queryDbKey(DBKey.forDuration());
-    return new md.VSYSTimestamp(rawVal);
     return md.VSYSTimestamp.fromUnixTs(rawVal);
   }
 
@@ -406,7 +405,6 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getJudgeDuration() {
     const rawVal = await this.queryDbKey(DBKey.forJudgeDuration());
-    return new md.VSYSTimestamp(rawVal);
     return md.VSYSTimestamp.fromUnixTs(rawVal);
   }
 
@@ -428,7 +426,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getOrderPayer(orderId) {
     const rawVal = await this.queryDbKey(DBKey.forOrderPayer(orderId));
-    return md.Addr(rawVal);
+    return new md.Addr(rawVal);
   }
 
   /**
@@ -438,7 +436,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getOrderRcpt(orderId) {
     const rawVal = await this.queryDbKey(DBKey.forOrderRcpt(orderId));
-    return md.Addr(rawVal);
+    return new md.Addr(rawVal);
   }
 
   /**
@@ -525,7 +523,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getOrderExpTime(orderId) {
     const rawVal = await this.queryDbKey(DBKey.forOrderExpTime(orderId));
-    return md.VSYSTimestamp(rawVal);
+    return md.VSYSTimestamp.fromUnixTs(rawVal);
   }
 
   /**
@@ -535,7 +533,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getOrderStatus(orderId) {
     const rawVal = await this.queryDbKey(DBKey.forOrderStatus(orderId));
-    return rawVal === true;
+    return rawVal === 'true';
   }
 
   /**
@@ -547,7 +545,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
     const rawVal = await this.queryDbKey(
       DBKey.forOrderRcptDepositStatus(orderId)
     );
-    return rawVal === true;
+    return rawVal === 'true';
   }
 
   /**
@@ -559,7 +557,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
     const rawVal = await this.queryDbKey(
       DBKey.forOrderJudgeDepositStatus(orderId)
     );
-    return rawVal === true;
+    return rawVal === 'true';
   }
 
   /**
@@ -569,7 +567,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getOrderSubmitStatus(orderId) {
     const rawVal = await this.queryDbKey(DBKey.forOrderSubmitStatus(orderId));
-    return rawVal === true;
+    return rawVal === 'true';
   }
 
   /**
@@ -579,7 +577,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    */
   async getOrderJudgeStatus(orderId) {
     const rawVal = await this.queryDbKey(DBKey.forOrderJudgeStatus(orderId));
-    return rawVal === true;
+    return rawVal === 'true';
   }
 
   /**
@@ -668,8 +666,8 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   }
 
   /**
- * create creates an escrow order.
-   NOTE that the transaction id of this action is the order ID.
+  * create creates an escrow order.
+    NOTE that the transaction id of this action is the order ID.
   * @param {acnt.Account} by - The action taker.
   * @param {string} recipient - The recipient account.
   * @param {number} amount - The amount of tokens.
@@ -694,7 +692,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    const rcptMd = md.Addr(recipient);
+    const rcptMd = new md.Addr(recipient);
     rcptMd.mustOn(by.chain);
 
     const unit = await this.getUnit();
@@ -704,13 +702,13 @@ export class VEscrowCtrt extends ctrt.Ctrt {
         this.ctrtId,
         FuncIdx.CREATE,
         new de.DataStack(
-          de.Addr(rcptMd),
+          new de.Addr(rcptMd),
           de.Amount.forTokAmount(amount, unit),
           de.Amount.forTokAmount(rcptDepositAmount, unit),
           de.Amount.forTokAmount(judgeDepositAmount, unit),
           de.Amount.forTokAmount(orderFee, unit),
           de.Amount.forTokAmount(refundAmount, unit),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(expireAt))
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(expireTime))
         ),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
@@ -932,8 +930,8 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   }
 
   /**
- * doJudge judges the work and decides on how much the payer & recipient
-   will receive.
+  * doJudge judges the work and decides on how much the payer & recipient
+    will receive.
   * @param {acnt.Account} by - The action taker.
   * @param {string} orderId - The order id.
   * @param {number} payerAmount - The amount the payer will get.
@@ -955,7 +953,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
-        FuncIdx.DO_JUDGE,
+        FuncIdx.JUDGE,
         new de.DataStack(
           de.Bytes.fromBase58Str(orderId),
           de.Amount.forTokAmount(payerAmount, unit),
@@ -970,8 +968,8 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   }
 
   /**
- * submitPenalty submits penalty by the payer for the case where the recipient does not submit
-   work before the expiration time. The payer will obtain the recipient deposit amount and the payer amount(fee deducted).
+  * submitPenalty submits penalty by the payer for the case where the recipient does not submit
+    work before the expiration time. The payer will obtain the recipient deposit amount and the payer amount(fee deducted).
     The judge will still get the fee.
   * @param {acnt.Account} by - The action taker.
   * @param {string} orderId - The order id.
@@ -999,8 +997,8 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   }
 
   /**
- * payerRefund makes the refund action by the payer when the judge does not judge the work in time
-   after the apply_to_judge function is invoked.
+  * payerRefund makes the refund action by the payer when the judge does not judge the work in time
+    after the apply_to_judge function is invoked.
     The judge loses his deposit amount and the payer receives the refund amount.
     The recipient receives the rest.
   * @param {acnt.Account} by - The action taker.
@@ -1054,8 +1052,8 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   }
 
   /**
- * collect collects the order amount & recipient deposited amount by the recipient when the work is submitted
-   while the payer doesn't either approve or apply to judge in his action duration.
+  * collect collects the order amount & recipient deposited amount by the recipient when the work is submitted
+    while the payer doesn't either approve or apply to judge in his action duration.
     The judge will get judge deposited amount & fee.
   * @param {acnt.Account} by - The action taker.
   * @param {string} orderId - The order id.
