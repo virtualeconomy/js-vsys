@@ -32,8 +32,8 @@ describe('Test class AtomicSwapCtrt', function () {
     this.takerNcTokId = this.takerNc.getTokId(0);
 
     [this.makerAc, this.takerAc] = await Promise.all([
-      jv.AtomicSwapHelper.register(this.maker, this.makerNcTokId.data),
-      jv.AtomicSwapHelper.register(this.taker, this.takerNcTokId.data),
+      jv.AtomicSwapCtrt.register(this.maker, this.makerNcTokId.data),
+      jv.AtomicSwapCtrt.register(this.taker, this.takerNcTokId.data),
     ]);
     await this.waitForBlock();
 

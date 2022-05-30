@@ -286,12 +286,12 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * Lock locks the token.
+   * lock locks the token and creates a swap.
    * @param {acnt.Account} by - The action taker.
    * @param {number} amount - The amount of the token to be locked.
    * @param {string} recipient - The recipient's address.
-   * @param {string} hashSecret - The hash secret.
-   * @param {number} expireTime - The expired timestamp to lock.
+   * @param {Buffer} hashSecret - The hash of secret.
+   * @param {number} expireTime - The expiration timestamp of the lock.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
    * @returns {object} The response returned by the Node API.
@@ -305,7 +305,6 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    //  const puzzleBytes = hs.sha256Hash(Buffer.from(secret, 'latin1'));
     const unit = await this.getUnit();
 
     const data = await by.executeContractImpl(
@@ -327,9 +326,9 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * solve solves the puzzle by taker and reveals the secret by maker.
+   * solve solves the puzzle in the swap so that the action taker can get the tokens in the swap.
    * @param {acnt.Account} by - The action taker.
-   * @param {string} txId - The lock transaction ID of another account.
+   * @param {string} lockTxId - The lock transaction ID that created the swap.
    * @param {string} secret - The secret.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -338,7 +337,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   async solve(
     by,
     atomicCtrtId,
-    txId,
+    lockTxId,
     secret,
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
@@ -348,7 +347,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
         new md.CtrtID(atomicCtrtId),
         FuncIdx.SOLVE_PUZZLE,
         new de.DataStack(
-          de.Bytes.fromBase58Str(txId),
+          de.Bytes.fromBase58Str(lockTxId),
           de.Bytes.fromStr(secret)
         ),
         md.VSYSTimestamp.now(),
@@ -362,17 +361,17 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   /**
    * expWithdraw withdraws the tokens when the lock is expired.
    * @param {acnt.Account} by - The action taker.
-   * @param {string} txId - The transaction lock ID.
+   * @param {string} lockTxId - The transaction lock ID.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
    * @returns {object} The response returned by the Node API.
    */
-  async expWithdraw(by, txId, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
+  async expWithdraw(by, lockTxId, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
         FuncIdx.EXPIRE_WITHDRAW,
-        new de.DataStack(de.Bytes.fromBase58Str(txId)),
+        new de.DataStack(de.Bytes.fromBase58Str(lockTxId)),
         md.VSYSTimestamp.now(),
         new md.Str(attachment),
         md.ExecCtrtFee.fromNumber(fee)
