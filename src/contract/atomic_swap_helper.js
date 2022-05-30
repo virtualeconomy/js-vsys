@@ -79,7 +79,7 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    // Deal with the case where maker & taker are on different chains.
+    // TODO: Deal with the case where maker & taker are on different chains.
     // The following code assumes that maker's contract & taker's contract
     // are on the same chain.
     const puzzleDbKey = DBKey.forSwapPuzzle(makerLockTxId);
@@ -114,7 +114,7 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
    * makerSolve solves the puzzle and reveals the secret to get taker's locked tokens for maker.
    * @param {acnt.Account} by - The action taker.
    * @param {string} takerCtrtId - The swap contract ID of the taker's.
-   * @param {string} txId - The lock transaction ID of taker's.
+   * @param {string} takerLockTxId - The lock transaction ID of taker's.
    * @param {string} secret - The secret.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -123,7 +123,7 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
   async makerSolve(
     by,
     atomicCtrtId,
-    txId,
+    takerLockTxId,
     secret,
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
@@ -133,7 +133,7 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
         new md.CtrtID(atomicCtrtId),
         atomicCtrt.FuncIdx.SOLVE_PUZZLE,
         new de.DataStack(
-          de.Bytes.fromBase58Str(txId),
+          de.Bytes.fromBase58Str(takerLockTxId),
           de.Bytes.fromStr(secret)
         ),
         md.VSYSTimestamp.now(),
