@@ -11,7 +11,6 @@ import * as jv from '../../src/index.js';
 import * as hs from '../../src/utils/hashes.js';
 import * as atomic from '../../src/contract/atomic_swap_ctrt.js';
 
-
 describe('Test class AtomicSwapCtrt', function () {
   beforeEach(async function () {
     this.maker = this.acnt0;
@@ -61,7 +60,9 @@ describe('Test class AtomicSwapCtrt', function () {
       const makerLockAmount = 0;
       const makerLockTimestamp = Date.now() + 1800 * 1000;
       const makerPuzzlePlain = 'abc';
-      const puzzleBytes1 = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
+      const puzzleBytes1 = hs.sha256Hash(
+        Buffer.from(makerPuzzlePlain, 'latin1')
+      );
 
       const makerLockTxInfo = await this.makerAc.lock(
         this.maker,
@@ -104,14 +105,14 @@ describe('Test class AtomicSwapCtrt', function () {
 
       // taker lock
       const takerLockAmount = 1;
-      const puzzleDbKey = await atomic.DBKey.forSwapPuzzle(makerLockTxId);// use DBKey from atomicSwapCtrt module
+      const puzzleDbKey = await atomic.DBKey.forSwapPuzzle(makerLockTxId); // use DBKey from atomicSwapCtrt module
       const resp = await this.acnt1.chain.api.ctrt.getCtrtData(
         this.makerAc.ctrtId.data,
         puzzleDbKey.b58Str
       );
       const hashedPuzzle = resp.value;
       const puzzleBytes2 = Buffer.from(bs58.decode(hashedPuzzle));
-      
+
       const takerLockTimestamp = Date.now() + 1500 * 1000;
 
       const takerLockTxInfo = await this.takerAc.lock(
@@ -139,7 +140,9 @@ describe('Test class AtomicSwapCtrt', function () {
       const makerLockAmount = 1;
       const makerLockTimestamp = Date.now() + 1800 * 1000;
       const makerPuzzlePlain = 'abc';
-      const puzzleBytes1 = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
+      const puzzleBytes1 = hs.sha256Hash(
+        Buffer.from(makerPuzzlePlain, 'latin1')
+      );
 
       const makerLockTxInfo = await this.makerAc.lock(
         this.maker,
@@ -161,7 +164,7 @@ describe('Test class AtomicSwapCtrt', function () {
       );
       const hashedPuzzle = resp.value;
       const puzzleBytes2 = Buffer.from(bs58.decode(hashedPuzzle));
-      
+
       const takerLockTimestamp = Date.now() + 1500 * 1000;
 
       const takerLockTxInfo = await this.takerAc.lock(
@@ -215,7 +218,9 @@ describe('Test class AtomicSwapCtrt', function () {
       const makerLockAmount = 1;
       const makerLockTimestamp = Date.now() + 8 * 1000;
       const makerPuzzlePlain = 'abc';
-      const puzzleBytes1 = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
+      const puzzleBytes1 = hs.sha256Hash(
+        Buffer.from(makerPuzzlePlain, 'latin1')
+      );
 
       const makerLockTxInfo = await this.makerAc.lock(
         this.maker,
@@ -244,5 +249,4 @@ describe('Test class AtomicSwapCtrt', function () {
       expect(bal.amount.isEqualTo(balOld.amount.plus(1))).toBeTrue();
     });
   });
-
 });

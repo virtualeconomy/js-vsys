@@ -102,26 +102,26 @@ describe('Test class AtomicSwapHelper', function () {
       ).toBeTrue();
 
       //taker lock
-          const takerLockAmount = 1;
-          const takerLockTimestamp = Date.now() + 1500 * 1000;
+      const takerLockAmount = 1;
+      const takerLockTimestamp = Date.now() + 1500 * 1000;
 
-          const takerLockTxInfo = await this.takerAc.takerLock(
-            this.taker,
-            takerLockAmount,
-            this.makerAc.ctrtId.data,
-            this.maker.addr.data,
-            makerLockTxId,
-            takerLockTimestamp
-          );
-          await this.waitForBlock();
-          await this.assertTxSuccess(takerLockTxInfo.id);
+      const takerLockTxInfo = await this.takerAc.takerLock(
+        this.taker,
+        takerLockAmount,
+        this.makerAc.ctrtId.data,
+        this.maker.addr.data,
+        makerLockTxId,
+        takerLockTimestamp
+      );
+      await this.waitForBlock();
+      await this.assertTxSuccess(takerLockTxInfo.id);
 
-          const takerBalAfterLockActual = (
-            await this.takerAc.getCtrtBal(this.taker.addr.data)
-          ).data;
-          const takerBalAfterLockExpected =
-            takerBalInit.amount.minus(takerLockAmount);
-          expect(takerBalAfterLockActual.isEqualTo(takerBalAfterLockExpected));
+      const takerBalAfterLockActual = (
+        await this.takerAc.getCtrtBal(this.taker.addr.data)
+      ).data;
+      const takerBalAfterLockExpected =
+        takerBalInit.amount.minus(takerLockAmount);
+      expect(takerBalAfterLockActual.isEqualTo(takerBalAfterLockExpected));
     });
   });
 
@@ -227,5 +227,4 @@ describe('Test class AtomicSwapHelper', function () {
       expect(bal.amount.isEqualTo(balOld.amount.plus(1))).toBeTrue();
     });
   });
-
 });
