@@ -1,6 +1,6 @@
 /**
- * module atomicSwapCtrtSpec tests module contract/atomicSwapCtrt
- * @module atomicSwapCtrtSpec
+ * module atomicSwapHelperSpec tests module contract/atomicSwapHelper
+ * @module atomicSwapHelperSpec
  */
 
 'use strict';
@@ -9,10 +9,8 @@ import bs58 from 'bs58';
 import * as ut from '../helpers/utils.js';
 import * as jv from '../../src/index.js';
 import * as hs from '../../src/utils/hashes.js';
-import * as atomic from '../../src/contract/atomic_swap_ctrt.js';
 
-
-describe('Test class AtomicSwapCtrt', function () {
+describe('Test class AtomicSwapHelper', function () {
   beforeEach(async function () {
     this.maker = this.acnt0;
     this.taker = this.acnt1;
@@ -53,7 +51,7 @@ describe('Test class AtomicSwapCtrt', function () {
     });
   });
 
-  describe('Test method lock', function () {
+  describe('Test method makerLock & takerLock', function () {
     it('should be able to lock for maker & taker', async function () {
       const makerBalInit = await this.makerAc.getCtrtBal(this.maker.addr.data);
       const takerBalInit = await this.takerAc.getCtrtBal(this.taker.addr.data);
@@ -61,13 +59,12 @@ describe('Test class AtomicSwapCtrt', function () {
       const makerLockAmount = 0;
       const makerLockTimestamp = Date.now() + 1800 * 1000;
       const makerPuzzlePlain = 'abc';
-      const puzzleBytes1 = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
 
-      const makerLockTxInfo = await this.makerAc.lock(
+      const makerLockTxInfo = await this.makerAc.makerLock(
         this.maker,
         makerLockAmount,
         this.taker.addr.data,
-        puzzleBytes1,
+        makerPuzzlePlain,
         makerLockTimestamp
       );
       await this.waitForBlock();
@@ -90,7 +87,9 @@ describe('Test class AtomicSwapCtrt', function () {
       expect(makerSwapStatus).toBeTrue();
 
       const makerPuzzleActual = await this.makerAc.getSwapPuzzle(makerLockTxId);
-      const makerPuzzleExpected = bs58.encode(puzzleBytes1);
+      const makerPuzzleExpected = bs58.encode(
+        hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'))
+      );
       expect(makerPuzzleActual).toBe(makerPuzzleExpected);
 
       const makerBalAfterLockActual = (
@@ -102,50 +101,42 @@ describe('Test class AtomicSwapCtrt', function () {
         makerBalAfterLockActual.isEqualTo(makerBalAfterLockExpected)
       ).toBeTrue();
 
-      // taker lock
-      const takerLockAmount = 1;
-      const puzzleDbKey = await atomic.DBKey.forSwapPuzzle(makerLockTxId);// use DBKey from atomicSwapCtrt module
-      const resp = await this.acnt1.chain.api.ctrt.getCtrtData(
-        this.makerAc.ctrtId.data,
-        puzzleDbKey.b58Str
-      );
-      const hashedPuzzle = resp.value;
-      const puzzleBytes2 = Buffer.from(bs58.decode(hashedPuzzle));
-      
-      const takerLockTimestamp = Date.now() + 1500 * 1000;
+      //taker lock
+          const takerLockAmount = 1;
+          const takerLockTimestamp = Date.now() + 1500 * 1000;
 
-      const takerLockTxInfo = await this.takerAc.lock(
-        this.taker,
-        takerLockAmount,
-        this.maker.addr.data,
-        puzzleBytes2,
-        takerLockTimestamp
-      );
-      await this.waitForBlock();
-      await this.assertTxSuccess(takerLockTxInfo.id);
+          const takerLockTxInfo = await this.takerAc.takerLock(
+            this.taker,
+            takerLockAmount,
+            this.makerAc.ctrtId.data,
+            this.maker.addr.data,
+            makerLockTxId,
+            takerLockTimestamp
+          );
+          await this.waitForBlock();
+          await this.assertTxSuccess(takerLockTxInfo.id);
 
-      const takerBalAfterLockActual = (
-        await this.takerAc.getCtrtBal(this.taker.addr.data)
-      ).data;
-      const takerBalAfterLockExpected =
-        takerBalInit.amount.minus(takerLockAmount);
-      expect(takerBalAfterLockActual.isEqualTo(takerBalAfterLockExpected));
+          const takerBalAfterLockActual = (
+            await this.takerAc.getCtrtBal(this.taker.addr.data)
+          ).data;
+          const takerBalAfterLockExpected =
+            takerBalInit.amount.minus(takerLockAmount);
+          expect(takerBalAfterLockActual.isEqualTo(takerBalAfterLockExpected));
     });
   });
 
-  describe('Test method solve', function () {
-    it('should be able to solve for maker & taker', async function () {
+  describe('Test method makerSolve & takerSolve', function () {
+    it('should be able to lock for maker & taker', async function () {
       // maker lock
       const makerLockAmount = 1;
       const makerLockTimestamp = Date.now() + 1800 * 1000;
       const makerPuzzlePlain = 'abc';
-      const puzzleBytes1 = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
 
-      const makerLockTxInfo = await this.makerAc.lock(
+      const makerLockTxInfo = await this.makerAc.makerLock(
         this.maker,
         makerLockAmount,
         this.taker.addr.data,
-        puzzleBytes1,
+        makerPuzzlePlain,
         makerLockTimestamp
       );
       await this.waitForBlock();
@@ -154,21 +145,14 @@ describe('Test class AtomicSwapCtrt', function () {
 
       // taker lock
       const takerLockAmount = 1;
-      const puzzleDbKey = atomic.DBKey.forSwapPuzzle(makerLockTxId);
-      const resp = await this.acnt1.chain.api.ctrt.getCtrtData(
-        this.makerAc.ctrtId.data,
-        puzzleDbKey.b58Str
-      );
-      const hashedPuzzle = resp.value;
-      const puzzleBytes2 = Buffer.from(bs58.decode(hashedPuzzle));
-      
       const takerLockTimestamp = Date.now() + 1500 * 1000;
 
-      const takerLockTxInfo = await this.takerAc.lock(
+      const takerLockTxInfo = await this.takerAc.takerLock(
         this.taker,
         takerLockAmount,
+        this.makerAc.ctrtId.data,
         this.maker.addr.data,
-        puzzleBytes2,
+        makerLockTxId,
         takerLockTimestamp
       );
       await this.waitForBlock();
@@ -176,7 +160,7 @@ describe('Test class AtomicSwapCtrt', function () {
       await this.assertTxSuccess(takerLockTxId);
 
       // maker solve
-      const makerSolveTxInfo = await this.makerAc.solve(
+      const makerSolveTxInfo = await this.makerAc.makerSolve(
         this.maker,
         this.takerAc.ctrtId.data,
         takerLockTxId,
@@ -197,11 +181,11 @@ describe('Test class AtomicSwapCtrt', function () {
       expect(revealedSecret).toBe(makerPuzzlePlain);
 
       // taker solve
-      const takerSolveTxInfo = await this.takerAc.solve(
+      const takerSolveTxInfo = await this.takerAc.takerSolve(
         this.taker,
         this.makerAc.ctrtId.data,
         makerLockTxId,
-        revealedSecret
+        makerSolveTxId
       );
       await this.waitForBlock();
       const takerSolveTxId = takerSolveTxInfo.id;
@@ -215,13 +199,12 @@ describe('Test class AtomicSwapCtrt', function () {
       const makerLockAmount = 1;
       const makerLockTimestamp = Date.now() + 8 * 1000;
       const makerPuzzlePlain = 'abc';
-      const puzzleBytes1 = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
 
-      const makerLockTxInfo = await this.makerAc.lock(
+      const makerLockTxInfo = await this.makerAc.makerLock(
         this.maker,
         makerLockAmount,
         this.taker.addr.data,
-        puzzleBytes1,
+        makerPuzzlePlain,
         makerLockTimestamp
       );
       await this.waitForBlock();
