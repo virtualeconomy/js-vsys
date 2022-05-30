@@ -1,5 +1,5 @@
 /**
- * atomic swap helper module provides functionalities for V Atomic Swap contract on vsys chain.
+ * module contract/atomicSwapHelper provides higher level encapsulation of functionalities for V Atomic Swap contract on vsys chain.
  * @module contract/atomicSwapHelper
  */
 

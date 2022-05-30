@@ -1,5 +1,5 @@
 /**
- * atomic swap contract module provides functionalities for V Atomic Swap contract.
+ * module contract/atomicSwapCtrt provides functionalities for V Atomic Swap contract.
  * @module contract/atomicSwapCtrt
  */
 
