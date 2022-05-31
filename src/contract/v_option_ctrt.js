@@ -10,6 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as tcf from './tok_ctrt_factory.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -576,8 +577,8 @@ export class VOptionCtrt extends ctrt.Ctrt {
           de.TokenID.fromStr(targetTokId),
           de.TokenID.fromStr(optionTokId),
           de.TokenID.fromStr(proofTokId),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(executeTime)),
-          de.Timestamp(md.VSYSTimestamp.fromUnixTs(executeDeadline))
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(executeTime)),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(executeDeadline))
         ),
         this.CTRT_META,
         md.VSYSTimestamp.now(),
