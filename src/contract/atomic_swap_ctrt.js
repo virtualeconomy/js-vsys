@@ -366,7 +366,12 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
    * @returns {object} The response returned by the Node API.
    */
-  async expWithdraw(by, lockTxId, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
+  async expWithdraw(
+    by,
+    lockTxId,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
         this.ctrtId,
