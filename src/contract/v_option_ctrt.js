@@ -1,5 +1,5 @@
 /**
- * v option contract module provides functionalities for V Option contract.
+ * module VOptionCtrt provides functionalities for V Option contract.
  * @module contract/VOptionCtrt
  */
 
