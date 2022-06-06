@@ -119,8 +119,6 @@ describe('Test class VEscrowCtrt', function () {
         new bn.BigNumber(ORDER_AMOUNT - ORDER_FEE)
       );
       expect(orderRefund.amount).toEqual(new bn.BigNumber(REFUND_AMOUNT));
-
-      //   expect(await this.vc.getOrderExpTime(this.orderId).unixTs).toEqual(this.expTime);
     });
   });
 
@@ -314,9 +312,6 @@ describe('Test class VEscrowCtrt', function () {
       const txId4 = resp4.id;
       await this.assertTxSuccess(txId4);
 
-      //   The judge is dividing the amount that
-      //   == payer_deposit + recipient_deposit - fee
-      //   In this case, the amount is 8
       const toPayer = 3;
       const toRcpt = 5;
 
