@@ -15,6 +15,6 @@ export * from './contract/tok_ctrt_no_split.js';
 export * from './contract/tok_ctrt_split.js';
 export * from './contract/tok_ctrt_v2.js';
 export * from './contract/v_swap_ctrt.js';
+export * from './contract/v_escrow_ctrt.js';
 export * from './contract/v_option_ctrt.js';
 export * from './contract/v_stable_swap_ctrt.js';
-
