@@ -7,8 +7,8 @@
 
 import * as jv from '../../src/index.js';
 
-describe('Test class TokCtrtWithoutSplit', function () {
-  beforeAll(async function () {
+describe('Test class TokCtrtWithSplit', function () {
+  beforeEach(async function () {
     this.tc = await jv.TokCtrtWithSplit.register(this.acnt0, 100, 1);
     await this.waitForBlock();
   });
