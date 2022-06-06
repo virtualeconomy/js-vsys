@@ -77,7 +77,7 @@ export class DBKey extends ctrt.DBKey {
    * @returns {DBKey} The DBKey object.
    */
   static forBaseTokenId() {
-    return new this(StateVar.BASE_TOKEN_ID.serialize());
+    return new this(StateVar.BASETOKEN_ID.serialize());
   }
 
   /**
@@ -85,7 +85,7 @@ export class DBKey extends ctrt.DBKey {
    * @returns {DBKey} The DBKey object.
    */
   static forTargetTokenID() {
-    return new this(StateVar.TARGET_TOKEN_ID.serialize());
+    return new this(StateVar.TARGETTOKEN_ID.serialize());
   }
 
   /**
@@ -93,7 +93,7 @@ export class DBKey extends ctrt.DBKey {
    * @returns {DBKey} The DBKey object.
    */
   static forMaxOrderPerUser() {
-    return new this(StateVar.MAX_ORDER_PER_USER.serialize());
+    return new this(StateVar.MAX_ORDER_PERUSER.serialize());
   }
 
   /**
@@ -101,7 +101,7 @@ export class DBKey extends ctrt.DBKey {
    * @returns {DBKey} The DBKey object.
    */
   static forBasePriceUnit() {
-    return new this(StateVar.UNIT_PRICE_BASE.serialize());
+    return new this(StateVar.UNIT_PRICEBASE.serialize());
   }
 
   /**
@@ -109,7 +109,7 @@ export class DBKey extends ctrt.DBKey {
    * @returns {DBKey} The DBKey object.
    */
   static forTargetPriceUnit() {
-    return new this(StateVar.UNIT_PRICE_TARGET.serialize());
+    return new this(StateVar.UNIT_PRICETARGET.serialize());
   }
 
   /**
@@ -119,7 +119,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forBaseTokenBalance(addr) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.BASE_TOKEN_BALANCE,
+      StateMapIdx.BASETOKENBALANCE,
       de.Addr.fromStr(addr)
     );
     return new this(stmp.serialize());
@@ -132,7 +132,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forTargetTokenBalance(addr) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.TARGET_TOKEN_BALANCE,
+      StateMapIdx.TARGETTOKENBALANCE,
       de.Addr.fromStr(addr)
     );
     return new this(stmp.serialize());
@@ -171,7 +171,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forFeeBase(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.FEE_BASE,
+      StateMapIdx.FEEBASE,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -184,7 +184,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forFeeTarget(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.FEE_TARGET,
+      StateMapIdx.FEETARGET,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -197,7 +197,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forMinBase(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.MIN_BASE,
+      StateMapIdx.MINBASE,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -210,7 +210,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forMaxBase(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.MAX_BASE,
+      StateMapIdx.MAXBASE,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -223,7 +223,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forMinTarget(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.MIN_TARGET,
+      StateMapIdx.MINTARGET,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -236,7 +236,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forMaxTarget(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.MAX_TARGET,
+      StateMapIdx.MAXTARGET,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -249,7 +249,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forPriceBase(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.PRICE_BASE,
+      StateMapIdx.PRICEBASE,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -262,7 +262,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forPriceTarget(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.PRICE_TARGET,
+      StateMapIdx.PRICETARGET,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -275,7 +275,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forBaseTokenLocked(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.BASE_TOKEN_LOCKED,
+      StateMapIdx.BASETOKEN_LOCKED,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -288,7 +288,7 @@ export class DBKey extends ctrt.DBKey {
    */
   static forTargetTokenLocked(orderId) {
     const stmp = new ctrt.StateMap(
-      StateMapIdx.TARGET_TOKEN_LOCKED,
+      StateMapIdx.TARGETTOKEN_LOCKED,
       de.Bytes.fromBase58Str(orderId)
     );
     return new this(stmp.serialize());
@@ -546,6 +546,107 @@ export class StableSwapCtrt extends ctrt.Ctrt {
   }
 
   /**
+   * getMinTarget queries & returns the minimum amount of target token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The minimum amount of target token.
+   */
+  async getMinTarget(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forTargetBase(orderId));
+    const unit = await this.getTargetTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getMaxTarget queries & returns the maximum amount of target token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The maximum amount of target token.
+   */
+  async getMaxTarget(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forMaxTarget(orderId));
+    const unit = await this.getTargetTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getPriceBase queries & returns the price of base token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The price of base token.
+   */
+  async getPriceBase(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forPriceBase(orderId));
+    const unit = await this.getBaseTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getPriceTarget queries & returns the price of target token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The price of target token.
+   */
+  async getPriceTarget(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forPriceTarget(orderId));
+    const unit = await this.getTargetTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getBaseTokLocked queries & returns the locked balance of base token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The locked balance of base token.
+   */
+  async getBaseTokLocked(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forBaseTokenLocked(orderId));
+    const unit = await this.getBaseTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getTargetTokLocked queries & returns the locked balance of target token.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The locked balance of target token.
+   */
+  async getTargetTokLocked(orderId) {
+    const rawVal = await this.queryDbKey(DBKey.forTargetTokenLocked(orderId));
+    const unit = await this.getTargetTokUnit();
+    return md.Token.fromNumber(rawVal, unit);
+  }
+
+  /**
+   * getOrderStatus queries & returns the order status.
+   * @param {string} orderId - The order ID.
+   * @returns {md.Token} The order status.
+   */
+  async getOrderStatus(orderId) {
+    const status = await this.queryDbKey(DBKey.forOrderStatus(orderId));
+    return status === 'true';
+  }
+
+  /**
+   * supersede transfers the ownership of the contract to another account.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} newOwner - The account address of the new owner.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  async supersede(by, newOwner, attachment = '', fee = md.ExecCtrtFee.DEFAULT) {
+    const newOwnerMd = new md.Addr(newOwner);
+    newOwnerMd.mustOn(by.chain);
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.SUPERSEDE,
+        new de.DataStack(new de.Addr(newOwnerMd)),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
    * setOrder creates the order.
    * @param {acnt.Account} by - The action taker.
    * @param {number} feeBase - The fee of base token.
@@ -560,7 +661,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
    * @param {any} targetDeposit - The deposit balance of target token.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
-   * @returns {any}
+   * @returns {object} The response returned by the Node API.
    */
   static async setOrder(
     by,
@@ -577,6 +678,281 @@ export class StableSwapCtrt extends ctrt.Ctrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    //  baseUnit = await this.
+    const baseUnit = await this.getBaseTokUnit();
+    const targetUnit = await this.getTargetUnit();
+    const basePriceUnit = await this.getBasePriceUnit();
+    const targetPriceUnit = await this.getTargetPriceUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.SET_ORDER,
+        new de.DataStack(
+          de.Amount.forTokAmount(feeBase, baseUnit),
+          de.Amount.forTokAmount(feeTarget, targetUnit),
+          de.Amount.forTokAmount(minBase, baseUnit),
+          de.Amount.forTokAmount(maxBase, baseUnit),
+          de.Amount.forTokAmount(minTarget, targetUnit),
+          de.Amount.forTokAmount(maxTarget, targetUnit),
+          de.Amount.forTokAmount(priceBase, basePriceUnit),
+          de.Amount.forTokAmount(priceTarget, targetPriceUnit),
+          de.Amount.forTokAmount(baseDeposit, baseUnit),
+          de.Amount.forTokAmount(targetDeposit, targetUnit)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * updateOrder updates the order.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} orderId - The order id.
+   * @param {number} feeBase - The fee of base token.
+   * @param {number} feeTarget - The fee of target token.
+   * @param {number} minBase - The minimum amount of base token.
+   * @param {number} maxBase - The maximum amount of base token.
+   * @param {number} minTarget - The minimum amount of target token.
+   * @param {number} maxTarget - The maximum amount of target token.
+   * @param {number} priceBase - The price of base token.
+   * @param {number} priceTarget - The price of target token.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  static async updateOrder(
+    by,
+    orderId,
+    feeBase,
+    feeTarget,
+    minBase,
+    maxBase,
+    minTarget,
+    maxTarget,
+    priceBase,
+    priceTarget,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const baseUnit = await this.getBaseTokUnit();
+    const targetUnit = await this.getTargetUnit();
+    const basePriceUnit = await this.getBasePriceUnit();
+    const targetPriceUnit = await this.getTargetPriceUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.UPDATE_ORDER,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(orderId),
+          de.Amount.forTokAmount(feeBase, baseUnit),
+          de.Amount.forTokAmount(feeTarget, targetUnit),
+          de.Amount.forTokAmount(minBase, baseUnit),
+          de.Amount.forTokAmount(maxBase, baseUnit),
+          de.Amount.forTokAmount(minTarget, targetUnit),
+          de.Amount.forTokAmount(maxTarget, targetUnit),
+          de.Amount.forTokAmount(priceBase, basePriceUnit),
+          de.Amount.forTokAmount(priceTarget, targetPriceUnit)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * orderDeposit locks the tokens.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} orderId - The order id.
+   * @param {number} baseDeposit - The deposit balance of base token.
+   * @param {number} targetDeposit - The deposit balance of target token.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  static async orderDeposit(
+    by,
+    orderId,
+    baseDeposit,
+    targetDeposit,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const baseUnit = await this.getBaseTokUnit();
+    const targetUnit = await this.getTargetUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.ORDER_DEPOSIT,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(orderId),
+          de.Amount.forTokAmount(baseDeposit, baseUnit),
+          de.Amount.forTokAmount(targetDeposit, targetUnit)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * orderWithdraw unlocks the tokens.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} orderId - The order id.
+   * @param {number} baseWithdraw - The withdraw balance of base token.
+   * @param {number} targetWithdraw - The withdraw balance of target token.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  static async orderWithdraw(
+    by,
+    orderId,
+    baseWithdraw,
+    targetWithdraw,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const baseUnit = await this.getBaseTokUnit();
+    const targetUnit = await this.getTargetUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.ORDER_DEPOSIT,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(orderId),
+          de.Amount.forTokAmount(baseWithdraw, baseUnit),
+          de.Amount.forTokAmount(targetWithdraw, targetUnit)
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * closeOrder closes the order.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} orderId - The order id.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  static async closeOrder(
+    by,
+    orderId,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.CLOSE_ORDER,
+        new de.DataStack(de.Bytes.fromBase58Str(orderId)),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * swapBaseToTarget swaps base token to target token.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} orderId - The order id.
+   * @param {number} amount - The swap amount.
+   * @param {number} swapFee - The swap fee.
+   * @param {number} price - The price.
+   * @param {number} deadline - The deadline timestamp of the swap.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  static async swapBaseToTarget(
+    by,
+    orderId,
+    amount,
+    swapFee,
+    price,
+    deadline,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const baseUnit = await this.getBaseTokUnit();
+    const basePriceUnit = await this.getBasePriceUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.SWAP_BASE_TO_TARGET,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(orderId),
+          de.Amount.forTokAmount(amount, baseUnit),
+          de.Amount.forTokAmount(swapFee, baseUnit),
+          de.Amount.forTokAmount(price, basePriceUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * swapTargetToBase swaps target token to base token.
+   * @param {acnt.Account} by - The action taker.
+   * @param {string} orderId - The order id.
+   * @param {number} amount - The swap amount.
+   * @param {number} swapFee - The swap fee.
+   * @param {number} price - The price.
+   * @param {number} deadline - The deadline timestamp of the swap.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
+   * @returns {object} The response returned by the Node API.
+   */
+  static async swapBaseToTarget(
+    by,
+    orderId,
+    amount,
+    swapFee,
+    price,
+    deadline,
+    attachment = '',
+    fee = md.ExecCtrtFee.DEFAULT
+  ) {
+    const targetUnit = await this.getTargetTokUnit();
+    const targetPriceUnit = await this.getTargetPriceUnit();
+
+    const data = await by.executeContractImpl(
+      new tx.ExecCtrtFuncTxReq(
+        this.ctrtId,
+        FuncIdx.SWAP_TARGET_TO_BASE,
+        new de.DataStack(
+          de.Bytes.fromBase58Str(orderId),
+          de.Amount.forTokAmount(amount, targetUnit),
+          de.Amount.forTokAmount(swapFee, targetUnit),
+          de.Amount.forTokAmount(price, targetPriceUnit),
+          new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
+        ),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.ExecCtrtFee.fromNumber(fee)
+      )
+    );
+    return data;
   }
 }
