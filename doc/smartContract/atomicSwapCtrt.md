@@ -1,5 +1,26 @@
 # Atomic Swap Contract
 
+- [Atomic Swap Contract](#atomic-swap-contract)
+  - [Introduction](#introduction)
+  - [Usage with Python SDK](#usage-with-python-sdk)
+    - [Registration](#registration)
+    - [From Existing Contract](#from-existing-contract)
+    - [Querying](#querying)
+      - [Maker](#maker)
+      - [Token ID](#token-id)
+      - [Unit](#unit)
+      - [Contract Balance](#contract-balance)
+      - [Swap Owner](#swap-owner)
+      - [Swap Recipient](#swap-recipient)
+      - [Swap Puzzle](#swap-puzzle)
+      - [Swap Amount](#swap-amount)
+      - [Swap Expiration Time](#swap-expiration-time)
+      - [Swap Status](#swap-status)
+    - [Actions](#actions)
+      - [lock](#lock)
+      - [solve](#solve)
+      - [Withdraw after expiration](#withdraw-after-expiration)
+
 ## Introduction
 
 [Atomic Swap](https://en.bitcoin.it/wiki/Atomic_swap) is a general algorithm to achieve the exchange between two parties without having to trust a third party.
