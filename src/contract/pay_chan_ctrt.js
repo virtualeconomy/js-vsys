@@ -138,12 +138,12 @@ export class DBKey extends ctrt.DBKey {
   }
 
   /**
-   * forChannelAccPayment returns the DBKey object for querying the
+   * forChannelAccumPayment returns the DBKey object for querying the
     accumulated amount already collected by the recipient.
    * @param {string} chanId - The channel ID.
    * @returns {DBKey} The DBKey object for querying the accumulated amount.
    */
-  static forChannelAccPayment(chanId) {
+  static forChannelAccumPayment(chanId) {
     const stmp = new ctrt.StateMap(
       StateMapIdx.CHANNEL_ACCUMULATED_PAYMENT,
       de.Bytes.fromBase58Str(chanId)
@@ -279,12 +279,12 @@ export class PaymentChannelCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * getChanAccPay queries & returns the accumulated payment of the channel.
+   * getChanAccumPay queries & returns the accumulated payment of the channel.
    * @param {string} chanId - The channel ID.
    * @returns {md.Token} The accumulated payment of the channel.
    */
-  async getChanAccPay(chanId) {
-    const rawVal = await this.queryDbKey(DBKey.forChannelAccPayment(chanId));
+  async getChanAccumPay(chanId) {
+    const rawVal = await this.queryDbKey(DBKey.forChannelAccumPayment(chanId));
     const unit = await this.getUnit();
     return md.Token.fromNumber(rawVal, unit);
   }

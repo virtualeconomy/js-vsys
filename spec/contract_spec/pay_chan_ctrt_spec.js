@@ -131,7 +131,7 @@ describe('Test class PaymentChannelCtrt', function () {
         acnt1Bal.amount.isEqualTo(new bn.BigNumber(this.INIT_LOAD))
       ).toBeTrue();
 
-      const accPay = await this.pc.getChanAccPay(this.chanId);
+      const accPay = await this.pc.getChanAccumPay(this.chanId);
       expect(
         accPay.amount.isEqualTo(new bn.BigNumber(this.INIT_LOAD))
       ).toBeTrue();
