@@ -296,7 +296,7 @@ export class PaymentChannelCtrt extends ctrt.Ctrt {
    */
   async getChanExpTime(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelExpTime(chanId));
-    return new md.VSYSTimestamp(rawVal);
+    return md.VSYSTimestamp.fromNumber(rawVal);
   }
 
   /**
