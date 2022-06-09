@@ -124,12 +124,12 @@ export class DBKey extends ctrt.DBKey {
   }
 
   /**
-   * forChannelAccLoad returns the DBKey object for querying the
+   * forChannelAccumLoad returns the DBKey object for querying the
     accumulated amount loaded into the channel.
    * @param {string} chanId - The channel ID.
    * @returns {DBKey} The DBKey object for querying the accumulated amount.
    */
-  static forChannelAccLoad(chanId) {
+  static forChannelAccumLoad(chanId) {
     const stmp = new ctrt.StateMap(
       StateMapIdx.CHANNEL_ACCUMULATED_LOAD,
       de.Bytes.fromBase58Str(chanId)
@@ -268,12 +268,12 @@ export class PaymentChannelCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * getChanAccLoad queries & returns the accumulated load of the channel.
+   * getChanAccumLoad queries & returns the accumulated load of the channel.
    * @param {string} chanId - The channel ID.
    * @returns {md.Token} The accumulated load of the channel.
    */
-  async getChanAccLoad(chanId) {
-    const rawVal = await this.queryDbKey(DBKey.forChannelAccLoad(chanId));
+  async getChanAccumLoad(chanId) {
+    const rawVal = await this.queryDbKey(DBKey.forChannelAccumLoad(chanId));
     const unit = await this.getUnit();
     return md.Token.fromNumber(rawVal, unit);
   }

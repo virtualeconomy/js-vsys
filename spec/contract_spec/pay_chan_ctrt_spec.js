@@ -87,7 +87,7 @@ describe('Test class PaymentChannelCtrt', function () {
       const txId = resp.id;
       await this.assertTxSuccess(txId);
 
-      const chanLoad = await this.pc.getChanAccLoad(this.chanId);
+      const chanLoad = await this.pc.getChanAccumLoad(this.chanId);
       const loadNow = 75;
       expect(chanLoad.data).toEqual(bn.BigNumber(loadNow));
     });
