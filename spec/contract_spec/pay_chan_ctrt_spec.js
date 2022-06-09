@@ -1,6 +1,6 @@
 /**
- * module payChanSpec tests module contract/paymentChannelCtrt
- * @module payChanSpec
+ * module payChanCtrtSpec tests module contract/paymentChannelCtrt
+ * @module payChanCtrtSpec
  */
 
 'use strict';
@@ -10,18 +10,18 @@ import * as bn from '../../src/utils/big_number.js';
 
 describe('Test class paymentChannelCtrt', function () {
   beforeEach(async function () {
-    const TOK_MAX = 100;
-    const INIT_LOAD = TOK_MAX / 2;
-    const TOK_UNIT = 1;
+    this.TOK_MAX = 100;
+    this.INIT_LOAD = this.TOK_MAX / 2;
+    this.TOK_UNIT = 1;
 
     const tcCtrt = await jv.TokCtrtWithoutSplit.register(
       this.acnt0,
-      TOK_MAX,
-      TOK_UNIT
+      this.TOK_MAX,
+      this.TOK_UNIT
     );
     await this.waitForBlock();
 
-    await tcCtrt.issue(this.acnt0, TOK_MAX);
+    await tcCtrt.issue(this.acnt0, this.TOK_MAX);
     await this.waitForBlock();
 
     this.pc = await jv.paymentChannelCtrt.register(
@@ -30,14 +30,14 @@ describe('Test class paymentChannelCtrt', function () {
     );
     await this.waitForBlock();
 
-    await tcCtrt.deposit(this.acnt0, this.pc.ctrtId.data, TOK_MAX);
+    await tcCtrt.deposit(this.acnt0, this.pc.ctrtId.data, this.TOK_MAX);
     await this.waitForBlock();
 
     this.later = Date.now() + 600 * 1000;
     const resp = await this.pc.createAndLoad(
       this.acnt0,
       this.acnt1.addr.data,
-      INIT_LOAD,
+      this.INIT_LOAD,
       this.later
     );
     await this.waitForBlock();
@@ -59,7 +59,6 @@ describe('Test class paymentChannelCtrt', function () {
 
       const chanCreator = await this.pc.getChanCreator(this.chanId);
       expect(chanCreator).toEqual(this.acnt0.addr);
-      
     });
   });
 
@@ -109,20 +108,29 @@ describe('Test class paymentChannelCtrt', function () {
     });
   });
 
-    describe('Test method offchain pay and collect payments', function () {
-      it('should pay offchain and collect payments', async function () {
-        const sig = await this.pc.offChainPay(this.acnt0.keyPair,this.chanId,this.INIT_LOAD);
+  describe('Test method offchain pay and collect payments', function () {
+    it('should pay offchain and collect payments', async function () {
+      const sig = await this.pc.offchainPay(
+        this.acnt0.keyPair,
+        this.chanId,
+        this.INIT_LOAD
+      );
 
-        const resp = await this.pc.collectPayment(this.acnt1,this.chanId,this.INIT_LOAD,sig);
-        await this.waitForBlock();
-        const txId = resp.id;
-        await this.assertTxSuccess(txId);
+      const resp = await this.pc.collectPayment(
+        this.acnt1,
+        this.chanId,
+        this.INIT_LOAD,
+        sig
+      );
+      await this.waitForBlock();
+      const txId = resp.id;
+      await this.assertTxSuccess(txId);
 
-        const acnt1Bal = await pc.getCtrtBal(this.acnt1);
-        expect(acnt1Bal.amount.equal(this.INIT_LOAD)).toBeTrue();
+      const acnt1Bal = await pc.getCtrtBal(this.acnt1);
+      expect(acnt1Bal.amount.equal(this.INIT_LOAD)).toBeTrue();
 
-        const accPay = await pc.getChanAccPay(this.chanId);
-        expect(accPay.amount.equal(this.INIT_LOAD)).toBeTrue();
-      });
+      const accPay = await pc.getChanAccPay(this.chanId);
+      expect(accPay.amount.equal(this.INIT_LOAD)).toBeTrue();
     });
+  });
 });
