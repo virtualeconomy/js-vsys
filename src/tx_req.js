@@ -251,3 +251,107 @@ export class ExecCtrtFuncTxReq extends TxReq {
     };
   }
 }
+
+/** LeaseTxReq is the class for leasing transaction request */
+export class LeaseTxReq extends TxReq {
+  static TX_TYPE = TxType.LEASE;
+
+  /**
+   * Creates a new LeaseTxReq instance.
+   * @param {md.Addr} supernodeAddr - The supernode address.
+   * @param {md.VSYS} amount - The function index.
+   * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
+   * @param {md.ExecCtrtFee} fee - The fee for this request. Defaults to md.ExecCtrtFee.default().
+   */
+  constructor(supernodeAddr, amount, timestamp, fee) {
+    super();
+    this.supernodeAddr = supernodeAddr;
+    this.amount = amount;
+    this.timestamp = timestamp;
+    this.fee = fee;
+  }
+
+  /**
+   * dataToSign returns the data to sign.
+   * @returns {Buffer} The data to sign.
+   */
+  get dataToSign() {
+    const cls = this.constructor;
+
+    return Buffer.concat([
+      cls.TX_TYPE.serialize(),
+      this.supernodeAddr.bytes,
+      bp.packUInt64(this.amount.bigInt),
+      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt16(cls.FEE_SCALE),
+      bp.packUInt64(this.timestamp.bigInt),
+    ]);
+  }
+
+  /**
+   * toBroadcastLeasingPayload returns the payload for node api /leasing/lease
+   * @param {md.KeyPair} keyPair - The key pair used for signing.
+   * @returns {object} The payload.
+   */
+  toBroadcastLeasingPayload(keyPair) {
+    return {
+      senderPublicKey: keyPair.pub.data,
+      recipient: this.supernodeAddr.data,
+      amount: this.amount.data,
+      fee: this.fee.data.toNumber(),
+      feeScale: this.constructor.FEE_SCALE,
+      timestamp: this.timestamp.data.toNumber(),
+      signature: new md.Bytes(this.sign(keyPair)).b58Str,
+    };
+  }
+}
+
+/** LeaseTxReq is the class for leasing transaction request */
+export class LeaseCancelReq extends TxReq {
+  static TX_TYPE = TxType.LEASE_CANCEL;
+
+  /**
+   * Creates a new LeaseTxReq instance.
+   * @param {md.TxID} leasingTxId - The supernode address.
+   * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
+   * @param {md.ExecCtrtFee} fee - The fee for this request. Defaults to md.ExecCtrtFee.default().
+   */
+  constructor(leasingTxId, timestamp, fee) {
+    super();
+    this.leasingTxId = leasingTxId;
+    this.timestamp = timestamp;
+    this.fee = fee;
+  }
+
+  /**
+   * dataToSign returns the data to sign.
+   * @returns {Buffer} The data to sign.
+   */
+  get dataToSign() {
+    const cls = this.constructor;
+
+    return Buffer.concat([
+      cls.TX_TYPE.serialize(),
+      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt16(cls.FEE_SCALE),
+      bp.packUInt64(this.timestamp.bigInt),
+      this.leasingTxId.bytes,
+    ]);
+  }
+
+  /**
+   * toBroadcastLeasingPayload returns the payload for node api /leasing/lease
+   * @param {md.KeyPair} keyPair - The key pair used for signing.
+   * @returns {object} The payload.
+   */
+  toBroadcastLeasingCancelPayload(keyPair) {
+    return {
+      senderPublicKey: keyPair.pub.data,
+      txId: this.leasingTxId.data,
+      fee: this.fee.data.toNumber(),
+      feeScale: this.constructor.FEE_SCALE,
+      timestamp: this.timestamp.data.toNumber(),
+      signature: new md.Bytes(this.sign(keyPair)).b58Str,
+    };
+  }
+}

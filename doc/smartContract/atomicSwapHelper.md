@@ -1,5 +1,28 @@
 # Atomic Swap Helper
 
+- [Atomic Swap Helper](#atomic-swap-helper)
+  - [Introduction](#introduction)
+  - [Usage with Python SDK](#usage-with-python-sdk)
+    - [Registration](#registration)
+    - [From Existing Contract](#from-existing-contract)
+    - [Querying](#querying)
+      - [Maker](#maker)
+      - [Token ID](#token-id)
+      - [Unit](#unit)
+      - [Contract Balance](#contract-balance)
+      - [Swap Owner](#swap-owner)
+      - [Swap Recipient](#swap-recipient)
+      - [Swap Puzzle](#swap-puzzle)
+      - [Swap Amount](#swap-amount)
+      - [Swap Expiration Time](#swap-expiration-time)
+      - [Swap Status](#swap-status)
+    - [Actions](#actions)
+      - [makerLock](#makerlock)
+      - [takerLock](#takerlock)
+      - [makerSolve](#makersolve)
+      - [takerSolve](#takersolve)
+      - [expWithdraw](#expwithdraw)
+
 ## Introduction
 
 This is the helper that provides better user experience if you are just swap two tokens which are both on VSYS chain. We divide the lock and solve function into makerLock, takerLock, makerSolve and takerSolve.
@@ -237,7 +260,7 @@ Example output
 {'type': 9, 'id': 'FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646811541818733056, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '6gmM7UxzUyRJXidy2DpXXMvrPqEF9hR1eAqsmh33J6eL', 'address': 'AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD', 'signature': '26gn57S3xmf1XVcrhcnmSEp82j6v7sMsskBj1pc8NZt5Gd5jKijkmUwgb52LLsnPepWfj7VH1TurTCcp3GrJSsMf'}], 'contractId': 'CFAAxTu44NsfwMUfpmVd6y4vuN9xQNVFtGa', 'functionIndex': 0, 'functionData': '1CC6B9Tu94MJrtVckkunxuvwR4ixhCVVLeT4ZX9NUBN6KUifUdbuevxsezvw45po5HFnmyFYAchxWVfwG3zAdK5H729k8VxbmehT2pTXJ1T2xKh', 'attachment': ''}
 ```
 
-#### Taker Lock
+#### takerLock
 
 The taker locks tokens into the contract after the maker has locked the tokens.
 
@@ -319,9 +342,7 @@ Example output
 {'type': 9, 'id': 'DJvrQBbFArmqWA9pLpiaM3WkKn4Xr8i9Gaw31T1EooSh', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646819256795354880, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '4Z7yUcUqa1TcHMPtp7G6XMjxTKuZWXA2hQWNz7X8XsFZ', 'address': 'AU5NsHE8eC2guo3JobD8jrGvnEDQhBP8GtW', 'signature': 'V8wH4Co3WSvS3UjQhe3H6PDXTFGXvgg5kcLzfB5fYcZBLzrZFypUYDDgzo4hM8T1mRmbQfjQVBTWVD9znADhKMM'}], 'contractId': 'CFAAxTu44NsfwMUfpmVd6y4vuN9xQNVFtGa', 'functionIndex': 1, 'functionData': '12yhZiUwRpJMDzLKRqEkacsJ5ZcDSHrj9DpHSZ6P4AkTUHYuooPWv1e63L', 'attachment': ''}
 ```
 
-
-
-#### Withdraw after expiration
+#### expWithdraw
 
 Either the maker or taker withdraws the tokens from the contract after the expiration time.
 
