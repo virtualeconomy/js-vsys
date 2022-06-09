@@ -355,7 +355,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
       const proofTokId = await this.getProofTokId();
       this._proofTokCtrt = await tcf.fromTokId(proofTokId, this.chain);
     }
-    return this._TokCtrt;
+    return this._proofTokCtrt;
   }
 
   /**
@@ -467,7 +467,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
   async getPrice() {
     if (!this._price) {
       const rawVal = await this.queryDbKey(DBKey.forPrice());
-      this._price = md.Token(rawVal, 1);
+      this._price = md.Token.fromNumber(rawVal, 1);
     }
     return this._price;
   }
@@ -479,7 +479,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
   async getPriceUnit() {
     if (!this._priceUnit) {
       const rawVal = await this.queryDbKey(DBKey.forPriceUnit());
-      this._priceUnit = md.Token(rawVal, 1);
+      this._priceUnit = md.Token.fromNumber(rawVal, 1);
     }
     return this._priceUnit;
   }
