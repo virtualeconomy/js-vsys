@@ -534,10 +534,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
   async offchainPay(keyPair, chanId, amount) {
     const msg = await this.getPayMsg(chanId, amount);
     const sigBytes = curve.sign(keyPair.pri.bytes, msg);
-    const sigBuffer = Buffer.from(bs58.decode(sigBytes));
-    const data = sigBuffer.toString('latin1');
-
-    return data;
+    return Buffer.from(bs58.encode(sigBytes)).toString('latin-1');
   }
 
   /**
