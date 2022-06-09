@@ -2,7 +2,7 @@
 
 - [Token Contract V2 Without Split](#token-contract-v2-without-split)
   - [Introduction](#introduction)
-  - [Usage with Python SDK](#usage-with-python-sdk)
+  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -33,7 +33,7 @@ For the whitelist flavor, only users & contracts included in the list can intera
 
 For the blacklist flavor, only users & contracts excluded from the list can interact with the contract instance.
 
-## Usage with Python SDK
+## Usage with Javascript SDK
 
 ### Registration
 
@@ -74,7 +74,7 @@ import * as tok from './src/contract/tok_ctrt_v2.js';
 // ch: Chain from './src/chain.js'
 
 tc_id = 'CEu9aFoVwdApYBAPFy4hTYc2NUJRzoL5VYc';
-tc = tok.TokCtrtV2Whitelist((ctrt_id = tc_id), (chain = ch));
+tc = tok.TokCtrtV2Whitelist(tc_id, ch); // ctrtId, chain
 ```
 
 ### Querying
@@ -174,7 +174,7 @@ Note that theoretically a token contract instance can have multiple kinds of tok
 ```javascript
 // tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
 
-console.log(tokB.getTokId(0));
+console.log(tc.getTokId(0));
 ```
 
 Example output
@@ -466,7 +466,7 @@ Transfer a certain amount of the token to another account(e.g. user or contract)
 // acnt1: Accout from './src/account.js'
 // tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
 
-let resp = await tokB.transfer(
+let resp = await tc.transfer(
   acnt0, // by
   acnt0.addr.data, // sender
   acnt1.addr.data, // recipient
