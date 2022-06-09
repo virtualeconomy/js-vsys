@@ -14,20 +14,20 @@ describe('Test class PayChanCtrt', function () {
     this.INIT_LOAD = this.TOK_MAX / 2;
     this.TOK_UNIT = 1;
 
-    const tcCtrt = await jv.TokCtrtWithoutSplit.register(
+    const tc = await jv.TokCtrtWithoutSplit.register(
       this.acnt0,
       this.TOK_MAX,
       this.TOK_UNIT
     );
     await this.waitForBlock();
 
-    await tcCtrt.issue(this.acnt0, this.TOK_MAX);
+    await tc.issue(this.acnt0, this.TOK_MAX);
     await this.waitForBlock();
 
-    this.pc = await jv.PayChanCtrt.register(this.acnt0, tcCtrt.tokId.data);
+    this.pc = await jv.PayChanCtrt.register(this.acnt0, tc.tokId.data);
     await this.waitForBlock();
 
-    await tcCtrt.deposit(this.acnt0, this.pc.ctrtId.data, this.TOK_MAX);
+    await tc.deposit(this.acnt0, this.pc.ctrtId.data, this.TOK_MAX);
     await this.waitForBlock();
 
     this.later = Date.now() + 600 * 1000;
@@ -78,15 +78,16 @@ describe('Test class PayChanCtrt', function () {
 
   describe('Test method load', function () {
     it('should loads more tokens into the channel', async function () {
-      const moreLoad = 25;
+      const moreLoad = this.INIT_LOAD / 2;
       const resp = await this.pc.load(this.acnt0, this.chanId, moreLoad);
       await this.waitForBlock();
       const txId = resp.id;
       await this.assertTxSuccess(txId);
 
       const chanLoad = await this.pc.getChanAccumLoad(this.chanId);
-      const loadNow = 75;
-      expect(chanLoad.data).toEqual(bn.BigNumber(loadNow));
+      expect(chanLoad.data).toEqual(
+        new bn.BigNumber(this.INIT_LOAD + moreLoad)
+      );
     });
   });
 
@@ -101,7 +102,7 @@ describe('Test class PayChanCtrt', function () {
       await this.assertTxSuccess(txId);
 
       const chanStatusNew = await this.pc.getChanStatus(this.chanId);
-      expect(!chanStatusNew).toBeTrue();
+      expect(chanStatusNew).toBeFalse();
     });
   });
 
