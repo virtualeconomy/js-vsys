@@ -13,6 +13,7 @@ import * as de from '../data_entry.js';
 import * as tcf from './tok_ctrt_factory.js';
 import * as curve from '../utils/curve_25519.js';
 import * as bp from '../utils/bytes_packer.js';
+import * as bn from '../utils/big_number.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -562,11 +563,11 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
     const rawAmount = md.Token.forAmount(amount, unit).data;
 
     const chanIdBytes = Buffer.from(bs58.decode(chanId));
-    const msg = Buffer.concat(
+    const msg = Buffer.concat([
       bp.packUInt16(chanIdBytes.length),
       chanIdBytes,
-      bp.packUInt64(rawAmount)
-    );
+      bp.packUInt64(bn.toBigInt(rawAmount)),
+    ]);
 
     return msg;
   }
