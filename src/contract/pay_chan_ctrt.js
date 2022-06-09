@@ -1,6 +1,6 @@
 /**
- * module contract/paymentChannelCtrt  provides functionalities for payment channel contract.
- * @module contract/paymentChannelCtrt
+ * module contract/payChanCtrt  provides functionalities for payment channel contract.
+ * @module contract/payChanCtrt
  */
 
 'use strict';

@@ -1,5 +1,5 @@
 /**
- * module payChanCtrtSpec tests module contract/paymentChannelCtrt
+ * module payChanCtrtSpec tests module contract/payChanCtrt
  * @module payChanCtrtSpec
  */
 
