@@ -423,7 +423,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    const unit = this.getUnit();
+    const unit = await this.getUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
@@ -505,7 +505,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    const unit = this.getUnit();
+    const unit = await this.getUnit();
 
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
