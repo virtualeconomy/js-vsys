@@ -315,7 +315,7 @@ export class PaymentChannelCtrt extends ctrt.Ctrt {
    * @param {string} tokId - The ID of the token deposited into the contract.
    * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
-   * @returns {AtomicSwapCtrt} The AtomicSwapCtrt object of the registered Atomic Swap Contract.
+   * @returns {PaymentChannelCtrt} The PaymentChannelCtrt object of the registered contract.
    */
   static async register(
     by,
@@ -444,8 +444,8 @@ export class PaymentChannelCtrt extends ctrt.Ctrt {
 
   /**
    * abort aborts the channel, triggering a 2-day grace period where the recipient can still
-    collect payments. After 2 days, the payer can unload all the remaining funds that was locked
-    in the channel.
+     collect payments. After 2 days, the payer can unload all the remaining funds that was locked
+     in the channel.
    * @param {acnt.Account} by - The action taker.
    * @param {string} chanId - The channel ID.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
