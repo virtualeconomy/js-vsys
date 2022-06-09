@@ -27,7 +27,7 @@ The seed of the wallet.
 ```javascript
 // wal: Wallet
 
-console.log(wal.seed)
+console.log(wal.seed);
 ```
 
 Example output
@@ -45,8 +45,8 @@ Seed {
 Register a new wallet(i.e. generate a new seed)
 
 ```javascript
-wal = Wallet.register()
-console.log(wal)
+wal = Wallet.register();
+console.log(wal);
 ```
 
 Example output
@@ -86,10 +86,9 @@ Get the `Account` object for a certain nonce.
 ```javascript
 // ch: Chain
 
-const wal = Wallet.register()
-const acnt0 = wal.getAcnt(ch, 0)
-console.log(acnt0.addr)
-
+const wal = Wallet.register();
+const acnt0 = wal.getAcnt(ch, 0);
+console.log(acnt0.addr);
 ```
 
 Example output

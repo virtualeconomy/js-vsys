@@ -31,7 +31,7 @@ There are 2 kinds of accounts:
 - user account: the most common account.
 - contract account: the account for a smart contract instance.
 
-The key difference between them lies in whether they have a private key. 
+The key difference between them lies in whether they have a private key.
 
 ## Usage with javascript SDK
 

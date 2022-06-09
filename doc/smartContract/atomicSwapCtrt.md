@@ -40,7 +40,7 @@ import * as atomic from './src/contract/atomic_swap_ctrt.js';
 
 // acnt: Account
 // tokId: string
-const ac = await atomic.AtomicSwapCtrt.register(acnt,tokId);
+const ac = await atomic.AtomicSwapCtrt.register(acnt, tokId);
 console.log(ac.ctrtId);
 ```
 
@@ -103,7 +103,7 @@ The unit of the token deposited into this contract.
 ```javascript
 // ac: AtomicSwapCtrt
 
-console.log(await ac.getUnit())
+console.log(await ac.getUnit());
 ```
 
 Example output
@@ -120,7 +120,7 @@ The balance of the token deposited into this contract for the given user.
 // ac: AtomicSwapCtrt
 // acnt: Account
 
-console.log(await ac.getCtrtBal(acnt.addr.data))
+console.log(await ac.getCtrtBal(acnt.addr.data));
 ```
 
 Example output
@@ -137,7 +137,7 @@ Get the owner of the swap based on the given token-locking transaction ID(e.g. t
 // ac: AtomicSwapCtrt
 // makerLockTxId: string E.g. "FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ"
 
-console.log(await ac.getSwapOwner(makerLockTxId))
+console.log(await ac.getSwapOwner(makerLockTxId));
 ```
 
 Example output
@@ -154,7 +154,7 @@ Get the recipient of the swap based on the given token-locking transaction ID(e.
 // ac: AtomicSwapCtrt
 // makerLockTxId: str E.g. "FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ"
 
-console.log(await ac.getSwapRecipient(makerLockTxId))
+console.log(await ac.getSwapRecipient(makerLockTxId));
 ```
 
 Example output
@@ -171,7 +171,7 @@ Get the hashed puzzle(i.e. secret) of the swap based on the given token-locking 
 // ac: AtomicSwapCtrt
 // makerLockTxId: string E.g. "FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ"
 
-console.log(await ac.getSwapPuzzle(makerLockTxId))
+console.log(await ac.getSwapPuzzle(makerLockTxId));
 ```
 
 Example output
@@ -188,7 +188,7 @@ Get the token amount locked into the swap based on the given token-locking trans
 // ac: AtomicSwapCtrt
 // makerLockTxId: string E.g. "FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ"
 
-console.log(await ac.getSwapAmount(makerLockTxId))
+console.log(await ac.getSwapAmount(makerLockTxId));
 ```
 
 Example output
@@ -205,7 +205,7 @@ Get the expiration time of the swap based on the given token-locking transaction
 // ac: AtomicSwapCtrt
 // makerLockTxId: string E.g. "FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ"
 
-console.log(await ac.getSwapExpiredTime(makerLockTxId))
+console.log(await ac.getSwapExpiredTime(makerLockTxId));
 ```
 
 Example output
@@ -222,7 +222,7 @@ Get the status of the swap(if the swap is active) based on the given token-locki
 // ac: AtomicSwapCtrt
 // makerLockTxId: string E.g. "FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ"
 
-console.log(await ac.getSwapStatus(makerLockTxId))
+console.log(await ac.getSwapStatus(makerLockTxId));
 ```
 
 Example output
@@ -235,7 +235,7 @@ True
 
 #### lock
 
-For this lock function sample code, we consider it as the maker lock of the atomic swap. 
+For this lock function sample code, we consider it as the maker lock of the atomic swap.
 
 Maker is the one who first creates the swap contract, and creates the secret.
 
@@ -249,18 +249,18 @@ If the lock is executed by the taker, we need the hashed secret bytes from the m
 import * as hs from './src/utils/hashes.js';
 
 // maker lock sample code
-secret = "abc";
+secret = 'abc';
 const puzzleBytes = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
 const makerLockTimestamp = Date.now() + 1800 * 1000;
 
 resp = await ac.lock(
-    acnt0,// by
-    lockAmount,// amount
-    acnt1.addr.data,// recipient
-    puzzleBytes,// hashedSecret
-    makerLockTimestamp// expireTime
-)        
-console.log(resp)
+  acnt0, // by
+  lockAmount, // amount
+  acnt1.addr.data, // recipient
+  puzzleBytes, // hashedSecret
+  makerLockTimestamp // expireTime
+);
+console.log(resp);
 ```
 
 Example output
@@ -286,12 +286,12 @@ The following sample code shows how maker solve runs.
 // secret: string E.g. "abc"
 
 resp = await ac.solve(
-    taker,// by
-    takerAc.ctrtId.data,// atomicCtrtId
-    takerLockTxId,// lockTxId
-    secret,// secret
-)
-console.log(resp)
+  taker, // by
+  takerAc.ctrtId.data, // atomicCtrtId
+  takerLockTxId, // lockTxId
+  secret // secret
+);
+console.log(resp);
 ```
 
 Example output
@@ -311,10 +311,10 @@ The example below shows the withdraw after expiration by the maker. It is the sa
 // makerLockTxId: string E.g. "FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ"
 
 resp = await ac.expWithdraw(
-    acnt0,// by
-    makerLockTxId,// lockTxId
-)
-console.log(resp)
+  acnt0, // by
+  makerLockTxId // lockTxId
+);
+console.log(resp);
 ```
 
 Example output

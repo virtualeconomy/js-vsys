@@ -27,8 +27,8 @@ Nodes in VSYS net can expose RESTful APIs for users to interact with the chain(e
 
 In Python SDK we have
 
--  `NodeAPI` class that serves as an API wrapper for calling node APIs.
--  `APIGrp` class that represents a group of APIs that share the same prefix.
+- `NodeAPI` class that serves as an API wrapper for calling node APIs.
+- `APIGrp` class that represents a group of APIs that share the same prefix.
 
 ### Instantiation
 
@@ -83,7 +83,7 @@ The `Session` object that records the HTTP session(e.g. host).
 
 ```javascript
 // api: NodeAPI
-console.log(api.sess)
+console.log(api.sess);
 ```
 
 Example output
@@ -98,7 +98,7 @@ The group of APIs that share the prefix `/blocks`
 
 ```javascript
 // api: NodeAPI
-console.log(api.blocks)
+console.log(api.blocks);
 
 // /blocks/height
 console.log(await api.blocks.getHeight());
@@ -119,11 +119,11 @@ The group of APIs that share the prefix `/utils`
 
 ```javascript
 // api: NodeAPI
-console.log(api.utils)
+console.log(api.utils);
 
 // /utils/hash/fast
-const resp = await api.utils.hashFast("foo")
-console.log(resp)
+const resp = await api.utils.hashFast('foo');
+console.log(resp);
 ```
 
 Example output
@@ -144,11 +144,11 @@ The group of APIs that share the prefix `/node`
 
 ```javascript
 // api: NodeAPI
-console.log(api.node)
+console.log(api.node);
 
 // /node/status
-const resp = await api.node.getStatus()
-console.log(resp)
+const resp = await api.node.getStatus();
+console.log(resp);
 ```
 
 Example output
@@ -173,7 +173,7 @@ The group of APIs that share the prefix `/transactions`
 // api: NodeAPI
 console.log(api.tx);
 
-txId = "Eui1yaRcE4jCnf4yBawroxSvqGa54WyQV9LjHkRHVvPd";
+txId = 'Eui1yaRcE4jCnf4yBawroxSvqGa54WyQV9LjHkRHVvPd';
 // /transactions/info/{tx_id}
 const resp = await api.tx.getinfo(txId);
 console.log(resp);
@@ -223,12 +223,12 @@ The group of APIs that share the prefix `/contract`
 
 ```javascript
 // api: NodeAPI
-console.log(api.ctrt)
+console.log(api.ctrt);
 
-tokId = "TWu2qeuPdfjFQ7HdZGqjSYCSTh3m9k7kCttv7NmSx"
+tokId = 'TWu2qeuPdfjFQ7HdZGqjSYCSTh3m9k7kCttv7NmSx';
 // /contract/tokenInfo/{tok_id}
-const resp = await api.ctrt.getTokInfo(tokId)
-console.log(resp)
+const resp = await api.ctrt.getTokInfo(tokId);
+console.log(resp);
 ```
 
 Example output
@@ -253,12 +253,12 @@ The group of APIs that share the prefix `/addresses`
 
 ```javascript
 // api: NodeAPI
-console.log(api.addr)
+console.log(api.addr);
 
-const addr = "AUA1pbbCFyFSte38uENPXSAhZa7TH74V2Tc"
+const addr = 'AUA1pbbCFyFSte38uENPXSAhZa7TH74V2Tc';
 // /addresses/balance/{addr}
-const resp = await api.addr.get_balance(addr)
-console.log(resp)
+const resp = await api.addr.get_balance(addr);
+console.log(resp);
 ```
 
 Example output
@@ -280,13 +280,13 @@ The group of APIs that share the prefix `/database`
 
 ```javascript
 // api: NodeAPI
-console.log(api.database)
+console.log(api.database);
 
-const addr = "AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD"
-const dbKey = "foo"
+const addr = 'AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD';
+const dbKey = 'foo';
 // /database/get/{addr}/{db_key}
-const resp = await api.database.getDB(addr, dbKey)
-console.log(resp)
+const resp = await api.database.getDB(addr, dbKey);
+console.log(resp);
 ```
 
 Example output
@@ -304,8 +304,7 @@ The group of APIs that share the prefix `/leasing`
 
 ```javascript
 // api: NodeAPI
-console.log(api.leasing)
-
+console.log(api.leasing);
 ```
 
 Example output
@@ -322,7 +321,7 @@ The group of APIs that share the prefix `/vsys`
 
 ```javascript
 // api: NodeAPI
-console.log(api.vsys)
+console.log(api.vsys);
 ```
 
 Example output
@@ -342,8 +341,8 @@ Make an HTTP GET request to given endpoint.
 ```javascript
 // api: NodeAPI
 
-const resp = await api.get("/node/version")
-console.log(resp)
+const resp = await api.get('/node/version');
+console.log(resp);
 ```
 
 Example output
@@ -359,8 +358,8 @@ Make an HTTP POST request to given endpoint.
 ```javascript
 // api: NodeAPI
 
-const resp = await api.post("/utils/hash/fast", "foo")
-console.log(resp)
+const resp = await api.post('/utils/hash/fast', 'foo');
+console.log(resp);
 ```
 
 Example output

@@ -20,7 +20,7 @@ In VSYS, there are 2 types of chains:
 - mainnet
 - testnet
 
-They have different chain IDs, namely `M` for mainnet & `T` for testnet, which will be used in cases like the address of an account. 
+They have different chain IDs, namely `M` for mainnet & `T` for testnet, which will be used in cases like the address of an account.
 
 In other words, the same pair of seed and nonce will lead to different account addresses on mainnet & testnet.
 
@@ -36,7 +36,7 @@ The `NodeAPI` object that serves as the API wrapper for calling RESTful APIs tha
 
 ```javascript
 // ch: Chain
-console.log(ch.api)
+console.log(ch.api);
 ```
 
 Example output
@@ -80,7 +80,7 @@ The chain ID.
 
 ```javascript
 // ch: Chain
-console.log(ch.chainId)
+console.log(ch.chainId);
 ```
 
 Example output
@@ -97,7 +97,7 @@ Note that it is queried by calling RESTful APIs of a node. Technically speaking,
 
 ```javascript
 // ch: Chain
-console.log(await ch.getHeight())
+console.log(await ch.getHeight());
 ```
 
 Example output
@@ -114,7 +114,7 @@ Note that it is queried by calling RESTful APIs of a node. Technically speaking,
 
 ```javascript
 // ch: Chain
-console.log(await ch.getLastBlock())
+console.log(await ch.getLastBlock());
 ```
 
 Example output
@@ -162,7 +162,7 @@ Get the block at a certain height.
 
 ```javascript
 // ch: Chain
-console.log(await ch.get_block_at(12345))
+console.log(await ch.get_block_at(12345));
 ```
 
 Example output
