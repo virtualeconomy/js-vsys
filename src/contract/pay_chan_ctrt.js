@@ -311,7 +311,7 @@ export class PaymentChannelCtrt extends ctrt.Ctrt {
 
   /**
    * register registers a Payment Channel Contract.
-   * @param {acnt.Account} by - The action maker.
+   * @param {acnt.Account} by - The action taker.
    * @param {string} tokId - The ID of the token deposited into the contract.
    * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
