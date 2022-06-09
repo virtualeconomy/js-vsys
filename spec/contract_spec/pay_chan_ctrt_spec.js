@@ -126,11 +126,15 @@ describe('Test class paymentChannelCtrt', function () {
       const txId = resp.id;
       await this.assertTxSuccess(txId);
 
-      const acnt1Bal = await pc.getCtrtBal(this.acnt1);
-      expect(acnt1Bal.amount.equal(this.INIT_LOAD)).toBeTrue();
+      const acnt1Bal = await this.pc.getCtrtBal(this.acnt1.addr.data);
+      expect(
+        acnt1Bal.amount.isEqualTo(new bn.BigNumber(this.INIT_LOAD))
+      ).toBeTrue();
 
-      const accPay = await pc.getChanAccPay(this.chanId);
-      expect(accPay.amount.equal(this.INIT_LOAD)).toBeTrue();
+      const accPay = await this.pc.getChanAccPay(this.chanId);
+      expect(
+        accPay.amount.isEqualTo(new bn.BigNumber(this.INIT_LOAD))
+      ).toBeTrue();
     });
   });
 });
