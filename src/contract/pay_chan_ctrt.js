@@ -274,7 +274,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
   async getChanAccLoad(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelAccLoad(chanId));
     const unit = await this.getUnit();
-    return new md.Token.fromNumber(rawVal, unit);
+    return md.Token.fromNumber(rawVal, unit);
   }
 
   /**
@@ -285,7 +285,7 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
   async getChanAccPay(chanId) {
     const rawVal = await this.queryDbKey(DBKey.forChannelAccPayment(chanId));
     const unit = await this.getUnit();
-    return new md.Token.fromNumber(rawVal, unit);
+    return md.Token.fromNumber(rawVal, unit);
   }
 
   /**
