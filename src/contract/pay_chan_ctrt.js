@@ -305,7 +305,7 @@ export class PaymentChannelCtrt extends ctrt.Ctrt {
    * @returns {boolean} The status of the channel.
    */
   async getChanStatus(chanId) {
-    const rawVal = await this.queryDbKey(DBKey.forcsStatus(chanId));
+    const rawVal = await this.queryDbKey(DBKey.forChannelStatus(chanId));
     return rawVal === 'true';
   }
 
