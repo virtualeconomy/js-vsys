@@ -401,7 +401,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
   async getExeTime() {
     if (!this._exeTime) {
       const time = await this.queryDbKey(DBKey.forExecuteTime());
-      this._exeTime = new md.VSYSTimestamp(time);
+      this._exeTime = md.VSYSTimestamp.fromNumber(time);
     }
     return this._exeTime;
   }
@@ -413,7 +413,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
   async getExeDeadline() {
     if (!this._executeDeadline) {
       const time = await this.queryDbKey(DBKey.forExecuteDeadline());
-      this._executeDeadline = new md.VSYSTimestamp(time);
+      this._executeDeadline = md.VSYSTimestamp.fromNumber(time);
     }
     return this._executeDeadline;
   }
