@@ -561,13 +561,16 @@ export class paymentChannelCtrt extends ctrt.Ctrt {
    * @returns {Buffer} The payment message.
    */
   async getPayMsg(chanId, amount) {
-    const unit = this.getUnit();
-    const rawVal = md.Token.forAmount(amount, unit).data;
+    const unit = await this.getUnit();
+    const rawAmount = md.Token.forAmount(amount, unit).data;
 
     const chanIdBytes = Buffer.from(bs58.decode(chanId));
-    const chanIdBytesLen = bp.packUInt16(chanIdBytes.length);
+    const msg = Buffer.concat(
+      bp.packUInt16(chanIdBytes.length),
+      chanIdBytes,
+      bp.packUInt64(rawAmount)
+    );
 
-    const msg = Buffer.concat(chanIdBytesLen, chanIdBytes, rawVal);
     return msg;
   }
 }
