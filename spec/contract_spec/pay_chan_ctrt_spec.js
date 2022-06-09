@@ -8,7 +8,7 @@
 import * as jv from '../../src/index.js';
 import * as bn from '../../src/utils/big_number.js';
 
-describe('Test class PaymentChannelCtrt', function () {
+describe('Test class PayChanCtrt', function () {
   beforeEach(async function () {
     this.TOK_MAX = 100;
     this.INIT_LOAD = this.TOK_MAX / 2;
@@ -24,10 +24,7 @@ describe('Test class PaymentChannelCtrt', function () {
     await tcCtrt.issue(this.acnt0, this.TOK_MAX);
     await this.waitForBlock();
 
-    this.pc = await jv.PaymentChannelCtrt.register(
-      this.acnt0,
-      tcCtrt.tokId.data
-    );
+    this.pc = await jv.PayChanCtrt.register(this.acnt0, tcCtrt.tokId.data);
     await this.waitForBlock();
 
     await tcCtrt.deposit(this.acnt0, this.pc.ctrtId.data, this.TOK_MAX);
