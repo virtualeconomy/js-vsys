@@ -498,7 +498,6 @@ export class StableSwapCtrt extends ctrt.Ctrt {
    */
   async getOrderOwner(orderId) {
     const rawVal = await this.queryDbKey(DBKey.forOrderOwner(orderId));
-    console.log(rawVal);
     return new md.Addr(rawVal);
   }
 

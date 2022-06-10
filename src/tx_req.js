@@ -306,12 +306,12 @@ export class LeaseTxReq extends TxReq {
   }
 }
 
-/** LeaseTxReq is the class for leasing transaction request */
+/** LeaseCancelReq is the class for leasing transaction request */
 export class LeaseCancelReq extends TxReq {
   static TX_TYPE = TxType.LEASE_CANCEL;
 
   /**
-   * Creates a new LeaseTxReq instance.
+   * Creates a new LeaseCancelReq instance.
    * @param {md.TxID} leasingTxId - The supernode address.
    * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
    * @param {md.ExecCtrtFee} fee - The fee for this request. Defaults to md.ExecCtrtFee.default().
