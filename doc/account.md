@@ -45,7 +45,7 @@ The `Chain` object that represents the VSYS blockchain this account is on.
 
 ```javascript
 // acnt: Account
-console.log(acnt.chain)
+console.log(acnt.chain);
 ```
 
 Example output
@@ -71,7 +71,7 @@ The `NodeAPI` object that serves as the API wrapper for calling RESTful APIs tha
 
 ```javascript
 // acnt: Account
-console.log(acnt.api)
+console.log(acnt.api);
 ```
 
 Example output
@@ -106,7 +106,7 @@ The `Wallet` object that represents the wallet that contains this account.
 
 ```javascript
 // acnt: Account
-console.log(acnt.wallet)
+console.log(acnt.wallet);
 ```
 
 Example output
@@ -125,7 +125,7 @@ The nonce of this account in the wallet.
 
 ```javascript
 // acnt: Account
-console.log(acnt.nonce)
+console.log(acnt.nonce);
 ```
 
 Example output
@@ -145,7 +145,7 @@ Account Seed Hash can be used to generate the private/public key pair of the acc
 
 ```javascript
 // acnt: Account
-console.log(acnt.acntSeedHash)
+console.log(acnt.acntSeedHash);
 ```
 
 Example output
@@ -160,7 +160,7 @@ The private/public key pair of the account.
 
 ```javascript
 // acnt: Account
-console.log(acnt.keyPair)
+console.log(acnt.keyPair);
 ```
 
 Example output
@@ -178,7 +178,7 @@ The address of the account.
 
 ```javascript
 // acnt: Account
-console.log(acnt.addr)
+console.log(acnt.addr);
 ```
 
 Example output
@@ -193,7 +193,7 @@ The VSYS ledger(regular) balance of the account.
 
 ```javascript
 // acnt: Account
-console.log(await acnt.getBal())
+console.log(await acnt.getBal());
 // can use console.log((await acnt.getBal()).data.toNumber()) to get the number type value.
 ```
 
@@ -245,7 +245,7 @@ The example below shows querying the token balance of a certain kind of token.
 
 ```javascript
 // acnt: Account
-const tokId = "TWu66r3ebS3twXNWh7aiAEWcNAaRPs1JxkAw2A3Hi"
+const tokId = 'TWu66r3ebS3twXNWh7aiAEWcNAaRPs1JxkAw2A3Hi';
 
 console.log(await acnt.getTokBal(tokId));
 ```
@@ -267,16 +267,33 @@ The example below shows paying 100 VSYS coins to another account.
 // acnt1: Account
 
 const resp = await acnt0.pay(
-    acnt1.addr.data,// recipient
-    100,// amount
-)
-console.log(resp)
+  acnt1.addr.data, // recipient
+  100 // amount
+);
+console.log(resp);
 ```
 
 Example output
 
 ```
-{'type': 2, 'id': '6jaDmqgJi5sHzKngcFWudRNMonvYqoTG7nrZq8emCP8c', 'fee': 10000000, 'feeScale': 100, 'timestamp': 1646971877892101120, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '6gmM7UxzUyRJXidy2DpXXMvrPqEF9hR1eAqsmh33J6eL', 'address': 'AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD', 'signature': '4PxFL3JjQDGeibWwVfvtpqqqQxdnVyjfzVzYYh4hiAyecfQmMg9fVqJLR5L578b2Y4o2W4rxfWVM8GefGZxfJRWo'}], 'recipient': 'AU5NsHE8eC2guo3JobD8jrGvnEDQhBP8GtW', 'amount': 10000000000, 'attachment': ''}
+{
+  type: 2,
+  id: '6DJGGwdrjcVnAV1pRY2f5VEuR3MCehFduxcZVtL6Z3XE',
+  fee: 10000000,
+  feeScale: 100,
+  timestamp: 1654827041025000000,
+  proofs: [
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '3GAHpXkV6kGczZtTp5PDKKKLcg8KCyoiby8RZzSPRb76JoF2sHamx64yubfoEdTXKg37EMa1Hs1y2FABCzD7vJdU'
+    }
+  ],
+  recipient: 'AU1KWrn3sFwddbZjfeKnauh4zAYiDTmo9gM',
+  amount: 10000000000,
+  attachment: ''
+}
 ```
 
 #### Lease
@@ -290,12 +307,12 @@ The example below shows leasing 100 VSYS coins to a supernode.
 ```javascript
 // acnt: Account
 
-const supernodeAddr = "AUA1pbbCFyFSte38uENPXSAhZa7TH74V2Tc"
+const supernodeAddr = 'AUA1pbbCFyFSte38uENPXSAhZa7TH74V2Tc';
 const resp = await acnt.lease(
-    supernodeAddr,// supernodeAddr
-    100,// amount
-)
-console.log(resp)
+  supernodeAddr, // supernodeAddr
+  100 // amount
+);
+console.log(resp);
 ```
 
 Example output
@@ -313,9 +330,9 @@ Cancel the leasing based on the leasing transaction ID.
 
 // leasingTxId: string E.g. "3gjreLTVhHZfqLYVNwFEmUgKYJr3T6iSifi3BoMTqwyw"
 const resp = await acnt.leaseCancel(
-    leasingTxId,// leasingTxId
-)
-console.log(resp)
+  leasingTxId // leasingTxId
+);
+console.log(resp);
 ```
 
 Example output

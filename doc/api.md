@@ -2,7 +2,7 @@
 
 - [Api](#api)
   - [Introduction](#introduction)
-  - [Usage with Python SDK](#usage-with-python-sdk)
+  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
     - [Instantiation](#instantiation)
     - [Properties](#properties)
       - [Session](#session)
@@ -23,9 +23,9 @@
 
 Nodes in VSYS net can expose RESTful APIs for users to interact with the chain(e.g. query states, broadcast transactions).
 
-## Usage with Python SDK
+## Usage with Javascript SDK
 
-In Python SDK we have
+In Javascript SDK we have
 
 - `NodeAPI` class that serves as an API wrapper for calling node APIs.
 - `APIGrp` class that represents a group of APIs that share the same prefix.
