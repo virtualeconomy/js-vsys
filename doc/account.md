@@ -2,7 +2,7 @@
 
 - [Account](#account)
   - [Introduction](#introduction)
-  - [Usage with javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
     - [Properties](#properties)
       - [Chain](#chain)
       - [Api](#api)
@@ -33,7 +33,7 @@ There are 2 kinds of accounts:
 
 The key difference between them lies in whether they have a private key.
 
-## Usage with javascript SDK
+## Usage with Javascript SDK
 
 In JS SDK we have an `Account` module that represents a user account on the VSYS blockchain.
 
@@ -43,8 +43,8 @@ In JS SDK we have an `Account` module that represents a user account on the VSYS
 
 The `Chain` object that represents the VSYS blockchain this account is on.
 
-```javaScript
-# acnt: Account
+```javascript
+// acnt: Account
 console.log(acnt.chain)
 ```
 
@@ -69,8 +69,8 @@ Chain {
 
 The `NodeAPI` object that serves as the API wrapper for calling RESTful APIs that exposed by a node in the VSYS blockchain.
 
-```javaScript
-# acnt: Account
+```javascript
+// acnt: Account
 console.log(acnt.api)
 ```
 
@@ -104,8 +104,8 @@ NodeAPI {
 
 The `Wallet` object that represents the wallet that contains this account.
 
-```javaScript
-# acnt: Account
+```javascript
+// acnt: Account
 console.log(acnt.wallet)
 ```
 
@@ -123,8 +123,8 @@ Wallet {
 
 The nonce of this account in the wallet.
 
-```javaScript
-# acnt: Account
+```javascript
+// acnt: Account
 console.log(acnt.nonce)
 ```
 
@@ -143,8 +143,8 @@ Account Seed Hash is the hashing result of
 
 Account Seed Hash can be used to generate the private/public key pair of the account.
 
-```javaScript
-# acnt: Account
+```javascript
+// acnt: Account
 console.log(acnt.acntSeedHash)
 ```
 
@@ -158,8 +158,8 @@ Example output
 
 The private/public key pair of the account.
 
-```javaScript
-# acnt: Account
+```javascript
+// acnt: Account
 console.log(acnt.keyPair)
 ```
 
@@ -176,8 +176,8 @@ KeyPair {
 
 The address of the account.
 
-```javaScript
-# acnt: Account
+```javascript
+// acnt: Account
 console.log(acnt.addr)
 ```
 
@@ -191,7 +191,7 @@ Addr { data: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu' }
 
 The VSYS ledger(regular) balance of the account.
 
-```javaScript
+```javascript
 // acnt: Account
 console.log(await acnt.getBal())
 // can use console.log((await acnt.getBal()).data.toNumber()) to get the number type value.
@@ -208,7 +208,7 @@ VSYS { data: BigNumber { s: 1, e: 13, c: [ 80873650000000 ] } }
 The VSYS available balance(i.e. the balance that can be spent) of the account.
 The amount leased out will be reflected in this balance.
 
-```javaScript
+```javascript
 // acnt: Account
 console.log(await acnt.getAvailBal());
 ```
@@ -224,7 +224,7 @@ VSYS { data: BigNumber { s: 1, e: 14, c: [ 7, 85795740000000 ] } }
 The VSYS effective balance(i.e. the balance that counts when contending a slot) of the account.
 The amount leased in & out will be reflected in this balance.
 
-```javaScript
+```javascript
 // acnt: Account
 console.log(await acnt.getEffBal());
 ```
@@ -243,7 +243,7 @@ Get the account balance of the token of the given token ID.
 
 The example below shows querying the token balance of a certain kind of token.
 
-```javaScript
+```javascript
 // acnt: Account
 const tokId = "TWu66r3ebS3twXNWh7aiAEWcNAaRPs1JxkAw2A3Hi"
 
@@ -262,7 +262,7 @@ Pay the VSYS coins from the action taker to the recipient.
 
 The example below shows paying 100 VSYS coins to another account.
 
-```javaScript
+```javascript
 // acnt0: Account
 // acnt1: Account
 
@@ -287,7 +287,7 @@ Note that the transaction ID in the response can be used to cancel leasing later
 
 The example below shows leasing 100 VSYS coins to a supernode.
 
-```javaScript
+```javascript
 // acnt: Account
 
 const supernodeAddr = "AUA1pbbCFyFSte38uENPXSAhZa7TH74V2Tc"
@@ -308,7 +308,7 @@ Example output
 
 Cancel the leasing based on the leasing transaction ID.
 
-```javaScript
+```javascript
 // acnt: Account
 
 // leasingTxId: string E.g. "3gjreLTVhHZfqLYVNwFEmUgKYJr3T6iSifi3BoMTqwyw"
@@ -328,10 +328,10 @@ Example output
 
 The `Account` module does not provide a public interface for this action. Users should always use a contract instance object and pass in the `Account` object as the action taker instead.
 
-See [the example of registering an NFT contract instance](./smartContract/nftCtrt.md//registration).
+See [the example of registering an NFT contract instance](./smart_contract/nft_ctrt.md#Registration).
 
 #### Execute Contract
 
 The `Account` module does not provide a public interface for this action. Users should always use a contract instance object and pass in the `Account` object as the action taker instead.
 
-See [the example of executing a function of an NFT instance](
+See [the example of executing a function of an NFT instance](./smart_contract/nft_ctrt.md#Send)
