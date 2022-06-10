@@ -200,7 +200,6 @@ export class Account {
   async getTokBal(tokId) {
     const tc = await tcf.fromTokId(new md.TokenID(tokId), this.chain);
     const resp = await this.api.ctrt.getTokBal(this.addr.data, tokId);
-    console.log(resp.balance);
     return new md.Token(resp.balance, await tc.getUnit());
   }
 
