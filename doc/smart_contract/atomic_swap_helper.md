@@ -434,5 +434,23 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'FKSpw247kNSNSWyBo3q8c4UwB4w4N8wKyC5wE9wN4rKQ', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646822309320972032, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '6gmM7UxzUyRJXidy2DpXXMvrPqEF9hR1eAqsmh33J6eL', 'address': 'AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD', 'signature': '28nBpoKFHjdpZzoYzsXaCdMnkBeGXyoaQtjAJqKEpYBMV8iAhQC3Fx58xvsK1vhPPtKnbH9231HHF9gBT5BnFhcu'}], 'contractId': 'CEwifKGjBsE4MXj7FrhVF7ruvYcAuJ3bj3K', 'functionIndex': 2, 'functionData': '1TeCHZdsT9rN5FbvR5Bc5BFuMaGckQ2ags2NPTQq51cw6N4Yt', 'attachment': ''}
+{
+  type: 9,
+  id: '5Wwi3zAZFhdRx3ngrjt4fDX1hAtsi4ZQLGt9u9U1uBR2',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1654830809754000000,
+  proofs: [
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '278Ydo6hju5XvRgDFhqyHgK56ndxobPzYS71eKKinS5oVEQaVsR7ZZn88pNNuAzvEvAqZTRFnixoEPZ7aqMtwgiV'
+    }
+  ],
+  contractId: 'CF4YKpuuevHY7CVPK9r9sUKKNuZVJWAkgM3',
+  functionIndex: 2,
+  functionData: '1TeCHms39cxgn3ifBZdtv8FQUUMgPhjGtupGUVPgEC1bqdfKZ',
+  attachment: ''
+}
 ```
