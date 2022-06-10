@@ -133,18 +133,18 @@ export class DBKey extends ctrt.DBKey {
   }
 
   /**
-   * forReversedOption returns the DBKey object for querying the reserved option tokens remaining in the pool.
+   * forReservedOption returns the DBKey object for querying the reserved option tokens remaining in the pool.
    * @returns {DBKey} The DBKey object for querying the reserved option tokens remaining in the pool.
    */
-  static forReversedOption() {
+  static forReservedOption() {
     return new this(StateVar.RESERVED_OPTION.serialize());
   }
 
   /**
-   * forReversedProof returns the DBKey object for querying the reserved proof tokens remaining in the pool.
+   * forReservedProof returns the DBKey object for querying the reserved proof tokens remaining in the pool.
    * @returns {DBKey} The DBKey object for querying the reserved proof tokens remaining in the pool.
    */
-  static forReversedProof() {
+  static forReservedProof() {
     return new this(StateVar.RESERVED_PROOF.serialize());
   }
 
@@ -443,20 +443,20 @@ export class VOptionCtrt extends ctrt.Ctrt {
   }
 
   /**
-   * getReversedOption queries & returns the reserved option tokens remaining in the pool.
+   * getReservedOption queries & returns the reserved option tokens remaining in the pool.
    * @returns {md.Token} The reserved option tokens remaining in the pool.
    */
-  async getReversedOption() {
-    const rawVal = await this.queryDbKey(DBKey.forReversedOption());
+  async getReservedOption() {
+    const rawVal = await this.queryDbKey(DBKey.forReservedOption());
     return md.Token.forAmount(rawVal, await this.getOptionTokUnit());
   }
 
   /**
-   * getReversedProof queries & returns the reserved proof tokens remaining in the pool.
+   * getReservedProof queries & returns the reserved proof tokens remaining in the pool.
    * @returns {md.Token} The reserved proof tokens remaining in the pool.
    */
-  async getReversedProof() {
-    const rawVal = await this.queryDbKey(DBKey.forReversedProof());
+  async getReservedProof() {
+    const rawVal = await this.queryDbKey(DBKey.forReservedProof());
     return md.Token.forAmount(rawVal, await this.getProofTokUnit());
   }
 
