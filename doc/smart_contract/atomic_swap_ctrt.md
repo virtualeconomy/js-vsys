@@ -77,7 +77,7 @@ console.log(await ac.getMaker());
 Example output
 
 ```
-Addr(AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD)
+Addr { data: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu' }
 ```
 
 #### Token ID
@@ -93,7 +93,7 @@ console.log(await ac.getTokId());
 Example output
 
 ```
-TokenID(TWsSkEv5w3Bkb7fhBhUcZr7X69We5ST2GuwmbuMrR)
+TokenID { data: 'TWt6EyaxKRPeG92Hq3HpHzc4vnYY7JxmfCGMhgYh2' }
 ```
 
 #### Unit
@@ -109,7 +109,7 @@ console.log(await ac.getUnit());
 Example output
 
 ```
-100
+1
 ```
 
 #### Contract Balance
@@ -126,7 +126,7 @@ console.log(await ac.getCtrtBal(acnt.addr.data));
 Example output
 
 ```
-Token(10000)
+Token { data: BigNumber { s: 1, e: 2, c: [ 100 ] }, unit: 1 }
 ```
 
 #### Swap Owner
@@ -143,7 +143,7 @@ console.log(await ac.getSwapOwner(makerLockTxId));
 Example output
 
 ```
-Addr(AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD)
+Addr { data: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu' }
 ```
 
 #### Swap Recipient
@@ -160,7 +160,7 @@ console.log(await ac.getSwapRecipient(makerLockTxId));
 Example output
 
 ```
-Addr(AU5NsHE8eC2guo3JobD8jrGvnEDQhBP8GtW)
+Addr { data: 'AU1KWrn3sFwddbZjfeKnauh4zAYiDTmo9gM' }
 ```
 
 #### Swap Puzzle
@@ -194,7 +194,7 @@ console.log(await ac.getSwapAmount(makerLockTxId));
 Example output
 
 ```
-Token(10000)
+Token { data: BigNumber { s: 1, e: 2, c: [ 100 ] }, unit: 1 }
 ```
 
 #### Swap Expiration Time
@@ -211,7 +211,7 @@ console.log(await ac.getSwapExpiredTime(makerLockTxId));
 Example output
 
 ```
-VSYSTimestamp(1646984339000000000)
+VSYSTimestamp { data: BigNumber { s: 1, e: 21, c: [ 16552542 ] } }
 ```
 
 #### Swap Status
@@ -228,7 +228,7 @@ console.log(await ac.getSwapStatus(makerLockTxId));
 Example output
 
 ```
-True
+true
 ```
 
 ### Actions
@@ -266,7 +266,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'FHZdvf3yyWuDnNTYeR6MZKTEqLJ1QxKfrDBqFrHDVBeJ', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646811541818733056, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '6gmM7UxzUyRJXidy2DpXXMvrPqEF9hR1eAqsmh33J6eL', 'address': 'AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD', 'signature': '26gn57S3xmf1XVcrhcnmSEp82j6v7sMsskBj1pc8NZt5Gd5jKijkmUwgb52LLsnPepWfj7VH1TurTCcp3GrJSsMf'}], 'contractId': 'CFAAxTu44NsfwMUfpmVd6y4vuN9xQNVFtGa', 'functionIndex': 0, 'functionData': '1CC6B9Tu94MJrtVckkunxuvwR4ixhCVVLeT4ZX9NUBN6KUifUdbuevxsezvw45po5HFnmyFYAchxWVfwG3zAdK5H729k8VxbmehT2pTXJ1T2xKh', 'attachment': ''}
+{
+  type: 9,
+  id: 'CH9jjspCxK21vdbyRBj2TVzUkk9KMsVubpxaHfLxdE8r',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1654829045256000000,
+  proofs: [
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '5q9uAGEiNaGw4pDwK7Eu25nzCyPvUhXEro6rouDwjz2NKsm9ZGDzE3qqj6huKH2tdPAb9LFtZ34fa88nini91QQs'
+    }
+  ],
+  contractId: 'CF4YKpuuevHY7CVPK9r9sUKKNuZVJWAkgM3',
+  functionIndex: 0,
+  functionData: '1CC6B9Tu94MGLm9e7vM4r9GXknWei3sxHSq9u8oQ5USoxMPKC3ibdKttMtsYbtshrTTsbw8fcUyjskyt1BYMEsixZ5meVf3dpvdDEPnkPKdKWdu',
+  attachment: ''
+}
 ```
 
 #### solve
@@ -297,7 +315,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'JsMcYQGcTEFw3LUG3PGUjSRJVvXkb3xcwabHrPzaZXk', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646818867232348928, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '6gmM7UxzUyRJXidy2DpXXMvrPqEF9hR1eAqsmh33J6eL', 'address': 'AU6BNRK34SLuc27evpzJbAswB6ntHV2hmjD', 'signature': 'B9hWAijnuCZnvEy9wZpvLkUcX9Rerptxma32tgai628Hax9Xyx5TAhJMt7CNP39DYYFrmR4b7RLeukvNrKyXiTq'}], 'contractId': 'CF8rnUdzqVczGideBebaLPAa73HEQnxBu8E', 'functionIndex': 1, 'functionData': '12yhZiQ65kxBjM5KFWFGfsfpKQ9AmFtdWZKYUvT6KZ1kb3XaeW4RZ7XJZp', 'attachment': ''}
+{
+  type: 9,
+  id: 'AJYjfwsxWeLaMKgRYuixqVus3njjHedM6XkbVP8XEpXv',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1654829867740000000,
+  proofs: [
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '2Ra9bj4wNppbJbN4aaFwQiCXNbAUwB9pS5R8kmCvxeasZCdzkpoeC2NTft4iS2yxhqB9yxj84yUiRiu2t2uAVY5D'
+    }
+  ],
+  contractId: 'CFDec4GueRAqaGoukCN4ire6QQv4vnfogMZ',
+  functionIndex: 1,
+  functionData: '12yhZiG93rnjqP4EWEUhxYRt7BWTcHHQVQm4nBikhmQxGgbFFtKVzoUudt',
+  attachment: ''
+}
 ```
 
 #### Withdraw after expiration
