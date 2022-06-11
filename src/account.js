@@ -194,7 +194,7 @@ export class Account {
    * getTokBal returns the raw balance of the token of the given token ID for this account.
         NOTE that the token ID from the system contract is not supported due to the pre-defined & built-in nature
         of system contract.
-   * @param {}
+   * @param {string} tokId - The token ID.
    * @returns {md.VSYS} The account's effective balance.
    */
   async getTokBal(tokId) {

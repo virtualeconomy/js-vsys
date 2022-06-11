@@ -23,7 +23,7 @@
 
 Nodes in VSYS net can expose RESTful APIs for users to interact with the chain(e.g. query states, broadcast transactions).
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 In Javascript SDK we have
 
