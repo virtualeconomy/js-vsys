@@ -2,7 +2,7 @@
 
 - [Token Contract V2 Without Split](#token-contract-v2-without-split)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -33,7 +33,7 @@ For the whitelist flavor, only users & contracts included in the list can intera
 
 For the blacklist flavor, only users & contracts excluded from the list can interact with the contract instance.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
@@ -73,8 +73,8 @@ import * as tok from './src/contract/tok_ctrt_v2.js';
 
 // ch: Chain from './src/chain.js'
 
-tc_id = 'CEu9aFoVwdApYBAPFy4hTYc2NUJRzoL5VYc';
-tc = tok.TokCtrtV2Whitelist(tc_id, ch); // ctrtId, chain
+tcId = 'CEu9aFoVwdApYBAPFy4hTYc2NUJRzoL5VYc';
+tc = tok.TokCtrtV2Whitelist(tcId, ch); // ctrtId, chain
 ```
 
 ### Querying
@@ -231,8 +231,7 @@ The maker of the contract has the privilege to take this action.
 
 let resp = await tc.supersede(
   acnt0, // by
-  acnt1.addr.data, // newIssuer
-  'giving rights to issue to acnt1' // attachment
+  acnt1.addr.data // newIssuer
 );
 console.log(resp);
 ```
@@ -271,9 +270,8 @@ Note that only the address with the issuer role can take this action.
 // acnt: Account from './src/account.js'
 // tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
 
-let data1 = await tc.issue(acnt1, 2500); // by, amount
-
-console.log(data1);
+let resp = await tc.issue(acnt, 2500); // by, amount
+console.log(resp);
 ```
 
 Example output
@@ -311,14 +309,14 @@ Note the regulator has the privilege to take this action.
 // acnt1: Accout from './src/account.js'
 // tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
 
-let addr1 = acnt0.addr.data;
+const addr1 = acnt0.addr.data;
 
 let resp = await tc.updateListUser(
-  acnt1, // by
+  acnt0, // by
   addr1, // addr
-  true, // val, false to remove user from white/black list
-  'add user to list' // attachment
+  true // val, false to remove user from white/black list
 );
+console.log(resp);
 ```
 
 Example output
@@ -356,14 +354,14 @@ Note the regulator has the privilege to take this action.
 // tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
 
 // arbitrary CtrtId
-let ctrtId = 'CF5Zkj2Ycx72WrBnjrcNHvJRVwsbNX1tjgT';
+const ctrtId = 'CF5Zkj2Ycx72WrBnjrcNHvJRVwsbNX1tjgT';
 
 let resp = await tc.updateListCtrt(
   acnt0, // by
   ctrtId, // addr
-  true, // val, false to remove user from white/black list
-  'add user to list' // attachment
+  true // val, false to remove contract from white/black list
 );
+console.log(resp);
 ```
 
 Example output
@@ -384,8 +382,7 @@ Send a certain amount of the token to another user.
 let resp = await tc.send(
   acnt0, // by
   acnt1.addr.data, // recipient
-  100, // amount
-  'sending token to acnt1' // attachment
+  100 // amount
 );
 console.log(resp);
 ```
@@ -426,8 +423,7 @@ Note that only the address with the issuer role can take this action.
 
 let resp = await tc.destroy(
   acnt, // by
-  50, // amount
-  'destroying some amount of token' // attachment
+  50 // amount
 );
 console.log(resp);
 ```
@@ -470,8 +466,7 @@ let resp = await tc.transfer(
   acnt0, // by
   acnt0.addr.data, // sender
   acnt1.addr.data, // recipient
-  10, // amount
-  'transfer to acnt1' // attachment
+  10 // amount
 );
 console.log(resp);
 ```
@@ -511,13 +506,12 @@ Note that only the token defined in the token-holding contract instance can be d
 // tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
 // lc: LockCtrt from './src/contract/lock_ctrt.js'
 
-lc_id = lc.ctrtId.data;
+const lcId = lc.ctrtId.data;
 
 let resp = await tc.deposit(
   acnt, // by
-  lc_id, // ctrtId
-  100, // amount
-  'deposit tokens in contract' // attachment
+  lcId, // ctrtId
+  100 // amount
 );
 console.log(resp);
 ```
@@ -557,13 +551,12 @@ Note that only the token defined in the token-holding contract instance can be w
 // tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
 // lc: LockCtrt from './src/contract/lock_ctrt.js'
 
-lc_id = lc.ctrtId.data;
+lcId = lc.ctrtId.data;
 
 let resp = await tc.withdraw(
   acnt, // by
-  lc_id, // ctrtId
-  100, // amount
-  'withdraw token from contract' // attachment
+  lcId, // ctrtId
+  100 // amount
 );
 console.log(resp);
 ```

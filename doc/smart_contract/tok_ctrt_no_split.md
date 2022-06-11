@@ -2,7 +2,7 @@
 
 - [Token Contract V1 Without Split](#token-contract-v1-without-split)
   - [Introduction](#introduction)
-  - [Usage with Python SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -34,7 +34,7 @@ _Token Contract V1 Without Split_ is the classic version of token contracts supp
 >
 > With “Unit”, float numbers can be represented in integers so as to avoid the uncertainty comes from float computation. If we set unit == 100, 1.5 tokens are actually stored as 150 on the blockchain.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
@@ -54,14 +54,12 @@ const tc = await tok.TokCtrtWithoutSplit.register(
 );
 
 console.log('ctrtID:', tc.ctrtId.data);
-console.log('tokID: ', tc.getTokId(await tc.getLastTokIdx()).data);
 ```
 
 Example output
 
 ```
 ctrtID: CEuFhD7N4sRfGnx6HZnCLnnd517Zgy19p4Q
-tokID:  TWsipaf2H3TPkDXwp2usNX9fdStSJ7SPPJzAc7nZo
 ```
 
 ### From Existing Contract
@@ -176,8 +174,7 @@ The maker of the contract has the privilege to take this action.
 
 const resp = await tc.supersede(
   acnt0, // by
-  acnt1.addr.data, // newIssuer
-  'giving rights to issue token to acnt1' // attachment
+  acnt1.addr.data // newIssuer
 );
 console.log(resp);
 ```
@@ -257,8 +254,7 @@ Send a certain amount of the token to another user.
 let resp = await tc.send(
   acnt0, // by
   acnt1.addr.data, // recipient
-  100, // amount
-  'sending token to acnt1' // attachment
+  100 // amount
 );
 console.log(resp);
 ```
@@ -299,8 +295,7 @@ Note that only the address with the issuer role can take this action.
 
 let resp = await tc.destroy(
   acnt, // by
-  50, // amount
-  'destroying some amount of token' // attachment
+  50 // amount
 );
 console.log(resp);
 ```
@@ -343,8 +338,7 @@ let resp = await tokB.transfer(
   acnt0, // by
   acnt0.addr.data, // sender
   acnt1.addr.data, // recipient
-  10, // amount
-  'transfer to acnt1' // attachment
+  10 // amount
 );
 console.log(resp);
 ```
@@ -384,13 +378,12 @@ Note that only the token defined in the token-holding contract instance can be d
 // tc: TokCtrtWithoutSplit from './src/contract/tok_ctrt_no_split.js'
 // lc: LockCtrt from './src/contract/lock_ctrt.js'
 
-lc_id = lc.ctrtId.data;
+const lcId = lc.ctrtId.data;
 
 let resp = await tc.deposit(
   acnt, // by
-  lc_id, // ctrtId
-  100, // amount
-  'deposit tokens in contract' // attachment
+  lcId, // ctrtId
+  100 // amount
 );
 console.log(resp);
 ```
@@ -430,13 +423,12 @@ Note that only the token defined in the token-holding contract instance can be w
 // tc: TokCtrtWithoutSplit from './src/contract/tok_ctrt_no_split.js'
 // lc: LockCtrt from './src/contract/lock_ctrt.js'
 
-lc_id = lc.ctrtId.data;
+const lcId = lc.ctrtId.data;
 
 let resp = await tc.withdraw(
   acnt, // by
-  lc_id, // ctrtId
-  100, // amount
-  'withdraw token from contract' // attachment
+  lcId, // ctrtId
+  100 // amount
 );
 console.log(resp);
 ```
