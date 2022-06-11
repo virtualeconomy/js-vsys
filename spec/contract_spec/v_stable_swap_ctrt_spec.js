@@ -55,13 +55,13 @@ describe('Test class VStableSwapCtrt', function () {
     this.orderId = orderResp.id;
   });
 
-    describe('Test method register', function () {
-      it('should register an instance of V Stable Swap Contract', async function () {
-        const ctrtMakerActual = await this.vc.getMaker();
-        const ctrtMakerExpected = await this.acnt0.addr;
-        expect(ctrtMakerActual.equal(ctrtMakerExpected)).toBeTrue();
-      });
+  describe('Test method register', function () {
+    it('should register an instance of V Stable Swap Contract', async function () {
+      const ctrtMakerActual = await this.vc.getMaker();
+      const ctrtMakerExpected = await this.acnt0.addr;
+      expect(ctrtMakerActual.equal(ctrtMakerExpected)).toBeTrue();
     });
+  });
 
   describe('Test method setOrder&updateOrder', function () {
     it('should create an order', async function () {
