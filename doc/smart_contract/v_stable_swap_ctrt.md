@@ -852,23 +852,23 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"BrdXjGfg51bQRpfS8q5ZdFfPVh6z1wnYxp1YEpetr12X",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646901807605651968,
-   "proofs":[
+   type:9,
+   id:'BrdXjGfg51bQRpfS8q5ZdFfPVh6z1wnYxp1YEpetr12X',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646901807605651968,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"4Z7yUcUqa1TcHMPtp7G6XMjxTKuZWXA2hQWNz7X8XsFZ",
-         "address":"AU5NsHE8eC2guo3JobD8jrGvnEDQhBP8GtW",
-         "signature":"5mT4xrUNtky5eqCow89ZNCQcYjAbLjBCNmh3cGmHLvGZGSSE1smtXSpRWchXxB19TgqBP7fZjEEav1gsG2rhan6J"
+         proofType:'Curve25519',
+         publicKey:'4Z7yUcUqa1TcHMPtp7G6XMjxTKuZWXA2hQWNz7X8XsFZ',
+         address:AU5NsHE8eC2guo3JobD8jrGvnEDQhBP8GtW',
+         signature:'5mT4xrUNtky5eqCow89ZNCQcYjAbLjBCNmh3cGmHLvGZGSSE1smtXSpRWchXxB19TgqBP7fZjEEav1gsG2rhan6J'
       }
    ],
-   "contractId":"CF4T3EVdaDcu5Y2xMbYKZ1xs1jBsfxGDf29",
-   "functionIndex":6,
-   "functionData":"15KQH1wa5mfq3fSkjif5XryFTH1kfby8qFRjUXNXzoiAEvppk5eGYVUYKCX2FCSKEybH7jHgfw4GDsUcecRLAe29aHdm9CqdqMy",
-   "attachment":""
+   contractId:'CF4T3EVdaDcu5Y2xMbYKZ1xs1jBsfxGDf29',
+   functionIndex:6,
+   functionData:'15KQH1wa5mfq3fSkjif5XryFTH1kfby8qFRjUXNXzoiAEvppk5eGYVUYKCX2FCSKEybH7jHgfw4GDsUcecRLAe29aHdm9CqdqMy',
+   attachment:''
 }
 ```
 
@@ -895,22 +895,22 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"CaSgv7n6HEVUoHNHBAxMK2CgbU4q9H1ytZB1r697p8Ek",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646901983609026048,
-   "proofs":[
+   type:9,
+   id:'CaSgv7n6HEVUoHNHBAxMK2CgbU4q9H1ytZB1r697p8Ek',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646901983609026048,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"4Z7yUcUqa1TcHMPtp7G6XMjxTKuZWXA2hQWNz7X8XsFZ",
-         "address":"AU5NsHE8eC2guo3JobD8jrGvnEDQhBP8GtW",
-         "signature":"4sggSuW3tep11NhBj1HwJckqVB2ZF1oYMjgVVjzTyTkNTY4LhAYLQZ3XZ4kpwchMh7YUJUA5bxP4CtZBsxybpVwd"
+         proofType:'Curve25519',
+         publicKey:'4Z7yUcUqa1TcHMPtp7G6XMjxTKuZWXA2hQWNz7X8XsFZ',
+         address:'AU5NsHE8eC2guo3JobD8jrGvnEDQhBP8GtW',
+         signature:'4sggSuW3tep11NhBj1HwJckqVB2ZF1oYMjgVVjzTyTkNTY4LhAYLQZ3XZ4kpwchMh7YUJUA5bxP4CtZBsxybpVwd'
       }
    ],
-   "contractId":"CF4T3EVdaDcu5Y2xMbYKZ1xs1jBsfxGDf29",
-   "functionIndex":7,
-   "functionData":"15KQH1wa5mfq3fSkjif5XryFTH1kfby8qFRjUXNXzoiAEvppk5eGYVUYKCX2FCSKEybH7jHgfw4GDsUcecRLAe29aHdmDpz9qcb",
-   "attachment":""
+   contractId:'CF4T3EVdaDcu5Y2xMbYKZ1xs1jBsfxGDf29',
+   functionIndex:7,
+   functionData:'15KQH1wa5mfq3fSkjif5XryFTH1kfby8qFRjUXNXzoiAEvppk5eGYVUYKCX2FCSKEybH7jHgfw4GDsUcecRLAe29aHdmDpz9qcb',
+   attachment:''
 }
 ```

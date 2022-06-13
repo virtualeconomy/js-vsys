@@ -385,23 +385,23 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"HkkPF9aZgZPW9zcZuUQMKuaNbCD8XcbdWpkjdnyCC2bj",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646750242564954880,
-   "proofs":[
+   type:9,
+   id:'HkkPF9aZgZPW9zcZuUQMKuaNbCD8XcbdWpkjdnyCC2bj',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646750242564954880,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot",
-         "address":"AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu",
-         "signature":"4kLMY15QJBfoiSvnCKzA6BRrco2NBA6vPVk5FJ9UmwCJimQ7dfV76PjxpaPMavz8CeRsTYFT25ap92YasJtzaCKD"
+         proofType:'Curve25519',
+         publicKey:'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address:'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature:'4kLMY15QJBfoiSvnCKzA6BRrco2NBA6vPVk5FJ9UmwCJimQ7dfV76PjxpaPMavz8CeRsTYFT25ap92YasJtzaCKD'
       }
    ],
-   "contractId":"CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb",
-   "functionIndex":1,
-   "functionData":"1NMvHJqnrtUFrg5Y9jz2PsmaMV",
-   "attachment":""
+   contractId:'CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb',
+   functionIndex:1,
+   functionData:'1NMvHJqnrtUFrg5Y9jz2PsmaMV',
+   attachment:''
 }
 ```
 
@@ -434,23 +434,23 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"9qPbSARZNbRPejXturjFD8oqSMG4Fi5Y99fqHadDX9cw",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646750678165733888,
-   "proofs":[
+   type:9,
+   id:'9qPbSARZNbRPejXturjFD8oqSMG4Fi5Y99fqHadDX9cw',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646750678165733888,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot",
-         "address":"AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu",
-         "signature":"3iX53Tom7zBkmC3D5Jv7vbVGZDoxbGLbK6CXLnwLioUV9tEL8Hp95HPP5YZ89ZbTwoFQNarYZfdYEUhuN2EihZ2R"
+         proofType:'Curve25519',
+         publicKey:'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address:'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature:'3iX53Tom7zBkmC3D5Jv7vbVGZDoxbGLbK6CXLnwLioUV9tEL8Hp95HPP5YZ89ZbTwoFQNarYZfdYEUhuN2EihZ2R'
       }
    ],
-   "contractId":"CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb",
-   "functionIndex":2,
-   "functionData":"1YkDihBAK4EBxo5ZQLxHEYePHibL6E3zZwTp3niNCCgSf5uXiFVUxBCcYyAdJUF",
-   "attachment":""
+   contractId:'CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb',
+   functionIndex:2,
+   functionData:'1YkDihBAK4EBxo5ZQLxHEYePHibL6E3zZwTp3niNCCgSf5uXiFVUxBCcYyAdJUF',
+   attachment:''
 }
 ```
 
@@ -481,23 +481,23 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"4N3KrtBjcfjhWw17jaQChge28j8K5sBYJ3bBcGa6m1GZ",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646751831698266112,
-   "proofs":[
+   type:9,
+   id:'4N3KrtBjcfjhWw17jaQChge28j8K5sBYJ3bBcGa6m1GZ',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646751831698266112,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot",
-         "address":"AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu",
-         "signature":"3LVKU382LmBNdtNuvBLch6NVDN49w4V4oQuvj2d5VzmEP61HcQVU8JCVuC9Yq91gV8xr52ksUBvYsmYrXYVhC9Dy"
+         proofType:'Curve25519',
+         publicKey:'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address:'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature:'3LVKU382LmBNdtNuvBLch6NVDN49w4V4oQuvj2d5VzmEP61HcQVU8JCVuC9Yq91gV8xr52ksUBvYsmYrXYVhC9Dy'
       }
    ],
-   "contractId":"CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb",
-   "functionIndex":3,
-   "functionData":"18oJLXPeLXM58Dy52J6Vf6vXv2ThDMNHffq2iLUxWtkAGL1YKeX",
-   "attachment":""
+   contractId:'CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb',
+   functionIndex:3,
+   functionData:'18oJLXPeLXM58Dy52J6Vf6vXv2ThDMNHffq2iLUxWtkAGL1YKeX',
+   attachment:''
 }
 ```
 
@@ -526,23 +526,23 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"GyFxdveSBubqSC1ecFqggKMajd5YxJhRgWCVZYmLpdgt",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646751159738810112,
-   "proofs":[
+   type:9,
+   id:'GyFxdveSBubqSC1ecFqggKMajd5YxJhRgWCVZYmLpdgt',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646751159738810112,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot",
-         "address":"AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu",
-         "signature":"4yusBVpfWFvJeJDaUp5K61c2rfsVfaQ75kzJyz3GA4a8BrUiFP7Vhh8QMSqFkwM8cN1n16EiKwxHzA4XBpdUuUtY"
+         proofType:'Curve25519',
+         publicKey:'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address:'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature:'4yusBVpfWFvJeJDaUp5K61c2rfsVfaQ75kzJyz3GA4a8BrUiFP7Vhh8QMSqFkwM8cN1n16EiKwxHzA4XBpdUuUtY'
       }
    ],
-   "contractId":"CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb",
-   "functionIndex":4,
-   "functionData":"12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzfVbqTrX",
-   "attachment":""
+   contractId:'CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb',
+   functionIndex:4,
+   functionData:'12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzfVbqTrX',
+   attachment:''
 }
 ```
 
@@ -571,23 +571,23 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"BwgqHZ16GKotSJLHUDUyRghk7yX8CjTNiXYif3T1pc1t",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646751699139240960,
-   "proofs":[
+   type:9,
+   id:'BwgqHZ16GKotSJLHUDUyRghk7yX8CjTNiXYif3T1pc1t',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646751699139240960,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot",
-         "address":"AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu",
-         "signature":"242YDuBKjo2x48JMxjMCNKAw2xg6PttQckjTFXZNv97wX5BmvnjHvrBwoFyk5ckopVwLaEGMWXS4h8wxRQbCe2gR"
+         proofType:'Curve25519',
+         publicKey:'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address:'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature:'242YDuBKjo2x48JMxjMCNKAw2xg6PttQckjTFXZNv97wX5BmvnjHvrBwoFyk5ckopVwLaEGMWXS4h8wxRQbCe2gR'
       }
    ],
-   "contractId":"CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb",
-   "functionIndex":5,
-   "functionData":"12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzuhr9shR",
-   "attachment":""
+   contractId:'CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb',
+   functionIndex:5,
+   functionData:'12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzuhr9shR',
+   attachment:''
 }
 ```
 
@@ -616,23 +616,23 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"GP7ve9jRGBbvdVqNE1GFRdmKvSJyXA6LcgUkeBTy22xe",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646751738105092096,
-   "proofs":[
+   type:9,
+   id:'GP7ve9jRGBbvdVqNE1GFRdmKvSJyXA6LcgUkeBTy22xe',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646751738105092096,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot",
-         "address":"AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu",
-         "signature":"4uVAaJnCjm1zRpuvtJ5CaiECMSGb8die2EBE5Q47FUPMKyniNoWFjWd1RpzvuRegpWe1v9vTuA8z48mGwxWDf6FV"
+         proofType:'Curve25519',
+         publicKey:'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address:'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature:'4uVAaJnCjm1zRpuvtJ5CaiECMSGb8die2EBE5Q47FUPMKyniNoWFjWd1RpzvuRegpWe1v9vTuA8z48mGwxWDf6FV'
       }
    ],
-   "contractId":"CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb",
-   "functionIndex":6,
-   "functionData":"12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzvgDiYdu",
-   "attachment":""
+   contractId:'CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb',
+   functionIndex:6,
+   functionData:'12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzvgDiYdu',
+   attachment:''
 }
 ```
 
@@ -661,22 +661,22 @@ Example output
 
 ```
 {
-   "type":9,
-   "id":"3hUtP18hEDrrhgJC11e6hjrZ37iffKiGi86JG5B2kxFH",
-   "fee":30000000,
-   "feeScale":100,
-   "timestamp":1646751751630425088,
-   "proofs":[
+   type:9,
+   id:'3hUtP18hEDrrhgJC11e6hjrZ37iffKiGi86JG5B2kxFH',
+   fee:30000000,
+   feeScale:100,
+   timestamp:1646751751630425088,
+   proofs:[
       {
-         "proofType":"Curve25519",
-         "publicKey":"AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot",
-         "address":"AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu",
-         "signature":"2mQ4hTAc692dLxYB631mN3rbKDGEn1QmWD1dZRaDTt9Vorumo51PLmPX889ngYTmVXeKyGbeGZGsmcGPxfyVn2xb"
+         proofType:'Curve25519',
+         publicKey:'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address:'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature:'2mQ4hTAc692dLxYB631mN3rbKDGEn1QmWD1dZRaDTt9Vorumo51PLmPX889ngYTmVXeKyGbeGZGsmcGPxfyVn2xb'
       }
    ],
-   "contractId":"CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb",
-   "functionIndex":7,
-   "functionData":"12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzw3YrCtF",
-   "attachment":""
+   contractId:'CF5XanD64XpzMZPoaMZ1svYrAriaqsUDeSb',
+   functionIndex:7,
+   functionData:'12oCrKY2h2JDrHSpggsjRgLgWhBWn6hzw3YrCtF',
+   attachment:''
 }
 ```
