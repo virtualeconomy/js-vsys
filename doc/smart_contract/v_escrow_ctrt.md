@@ -554,7 +554,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': '3rcBvZgjmWwuyGxj8bYKszq9gAh2EaYhsdtuVytzdefX', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882999824276992, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '3AeCypzYrGUKN9SvCsqEzBZHfwE22sskbwW9YnZHAJWr7SZDx126Fox6X4taxUUUvkSQXzcvUQ8TfFZdxSBU2E4i'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 0, 'functionData': '1bscuAaJJG9yGDp4E7ddsqTNV2eZhCAZ5c8gJV', 'attachment': ''}
+{
+   type: 9,
+   id: '3rcBvZgjmWwuyGxj8bYKszq9gAh2EaYhsdtuVytzdefX',
+   fee: 30000000,
+   feeScale: 100,
+   timestamp: 1646882999824276992,
+   proofs:[
+      {
+         proofType: 'Curve25519',
+         publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+         address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+         signature: '3AeCypzYrGUKN9SvCsqEzBZHfwE22sskbwW9YnZHAJWr7SZDx126Fox6X4taxUUUvkSQXzcvUQ8TfFZdxSBU2E4i'
+      }
+   ],
+   contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+   functionIndex: 0,
+   functionData: '1bscuAaJJG9yGDp4E7ddsqTNV2eZhCAZ5c8gJV',
+   attachment: ''
+}
 ```
 
 #### Create
@@ -589,7 +607,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'BzSm8WcjDeK1UQLiddXN4ot4A5eXJwqry9D5QjLD12KJ', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646881388346998016, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '2FqDCHPU4ZgbozmrzvV4msi3ZvMwiemA6F9N9hGaciHBRTPTZXtTXYPKUi4ejdrKf2ZM1ZG6X4pXc2DKXnoaKCct'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 1, 'functionData': '12VHeVqTaDWskAAiGYkBQL6oihG5kovw4gj29jE7JoVYfUnEmpw8VL8qWjamUyrjfdG6HQFx9NUpw3YRYs2wtRZ1r61T1HbJmmmTTY7R7v8Nvmur7', 'attachment': ''}
+{
+  type: 9,
+  id: 'BzSm8WcjDeK1UQLiddXN4ot4A5eXJwqry9D5QjLD12KJ',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646881388346998016,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '2FqDCHPU4ZgbozmrzvV4msi3ZvMwiemA6F9N9hGaciHBRTPTZXtTXYPKUi4ejdrKf2ZM1ZG6X4pXc2DKXnoaKCct'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 1,
+  functionData: '12VHeVqTaDWskAAiGYkBQL6oihG5kovw4gj29jE7JoVYfUnEmpw8VL8qWjamUyrjfdG6HQFx9NUpw3YRYs2wtRZ1r61T1HbJmmmTTY7R7v8Nvmur7',
+  attachment: ''
+}
 ```
 
 #### Recipient_deposit
@@ -612,7 +648,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'GwXxuKBBPPXTzYyDnMCZNjyPDR3EiUNLbkfFSH9dFPv5', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882048437253120, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY', 'address': 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H', 'signature': '61ViUq32Yj6S4vJFCXQVcaodk3W4HphfGdxomwqi3o8XCetSxF3Zko6QXds6giZKTY1amYtBqn1GM7Km6VX4MGZU'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 2, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'GwXxuKBBPPXTzYyDnMCZNjyPDR3EiUNLbkfFSH9dFPv5',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882048437253120,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY',
+      address: 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H',
+      signature: '61ViUq32Yj6S4vJFCXQVcaodk3W4HphfGdxomwqi3o8XCetSxF3Zko6QXds6giZKTY1amYtBqn1GM7Km6VX4MGZU'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 2,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Judge deposit
@@ -632,7 +686,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': '3bLWQKSwWF2kJqzakiysL1QfkbQXGWr7EVtEskDnt4Vs', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882146032102912, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '51QzEjGeZ6ssM2kUrJd41aNn1zGLehyVBNA5hcxHaKCknXLwfcnJaUgViUZxvQeYRJFFJaAbyYfBgfRkHb686DTQ'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 3, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: '3bLWQKSwWF2kJqzakiysL1QfkbQXGWr7EVtEskDnt4Vs',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882146032102912,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '51QzEjGeZ6ssM2kUrJd41aNn1zGLehyVBNA5hcxHaKCknXLwfcnJaUgViUZxvQeYRJFFJaAbyYfBgfRkHb686DTQ'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 3,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Payer cancel
@@ -652,7 +724,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': '6pAcJvw9GFAyaCoyKfBHcxrrSxAcuEfD7z31NQeJN3uy', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882889741327104, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '3itBEv8Z7XZXhrxyUHcxgh8RvdCq9g7we95aWw2whCrCJQqj56yPvXYJMuWW5xV3UjYByXeg2vCooYzAbEmAeArH'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 4, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: '6pAcJvw9GFAyaCoyKfBHcxrrSxAcuEfD7z31NQeJN3uy',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882889741327104,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '3itBEv8Z7XZXhrxyUHcxgh8RvdCq9g7we95aWw2whCrCJQqj56yPvXYJMuWW5xV3UjYByXeg2vCooYzAbEmAeArH'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 4,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Recipient cancel
@@ -672,7 +762,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'F1S2w6sJCoK7mgivpY6hpEZ1rThc8uuzNMXfid2XA5Ab', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882915023735040, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY', 'address': 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H', 'signature': '3g2Ycs9581XRTb2xKfnH431vCYknVE5mK3EgR1yKAq7Du3jLqdEg64k6qxTL639f8Fg4toYv5i2SaDXmKXEZqb5s'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 5, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'F1S2w6sJCoK7mgivpY6hpEZ1rThc8uuzNMXfid2XA5Ab',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882915023735040,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY',
+      address: 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H',
+      signature: '3g2Ycs9581XRTb2xKfnH431vCYknVE5mK3EgR1yKAq7Du3jLqdEg64k6qxTL639f8Fg4toYv5i2SaDXmKXEZqb5s'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 5,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Judge cancel
@@ -692,7 +800,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'Ja1XDa5A9vJpWehU1RbJaJB27v4f9azzQBbxPZiS6UC', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882932349136896, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY', 'address': 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H', 'signature': '4k3MdqqDJuAa3VJwt7o61Q9Vak9JCV8wGJ8Rc5s4cgushtapLyLZZaQQQAqX7TYDtq3u2PskUkiN5WubUWRQWd6R'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 6, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'Ja1XDa5A9vJpWehU1RbJaJB27v4f9azzQBbxPZiS6UC',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882932349136896,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY',
+      address: 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H',
+      signature: '4k3MdqqDJuAa3VJwt7o61Q9Vak9JCV8wGJ8Rc5s4cgushtapLyLZZaQQQAqX7TYDtq3u2PskUkiN5WubUWRQWd6R'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 6,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Submit work
@@ -712,7 +838,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'EMzhichuGTqePvzfiGhjeef9vpPaTu9AK4XfJExZTWUi', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882211703728896, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY', 'address': 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H', 'signature': 'dhEw5KTUav7MjSX3ScETjyXsvbfdeYL1Hy7Yh6STe2p4PEgjW9MQteo2rdN3qpFNokBYwUTndXPySYtRJzi2LHd'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 7, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'EMzhichuGTqePvzfiGhjeef9vpPaTu9AK4XfJExZTWUi',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882211703728896,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY',
+      address: 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H',
+      signature: 'dhEw5KTUav7MjSX3ScETjyXsvbfdeYL1Hy7Yh6STe2p4PEgjW9MQteo2rdN3qpFNokBYwUTndXPySYtRJzi2LHd'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 7,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Approve work
@@ -732,7 +876,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'D16ZTeCaZf4w4NwVRNnYGqfDC2EUXqxR2FaZffLqGCz1', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882254024552960, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '5iTtmpm3rBZPj3QYwVyT9KVAVxgCo3mxRz38HpV38dWAYe7d2D34o2UFrBXwXH2bo17dcB1L9AKgEdAne2aLvVk2'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 8, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'D16ZTeCaZf4w4NwVRNnYGqfDC2EUXqxR2FaZffLqGCz1',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882254024552960,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '5iTtmpm3rBZPj3QYwVyT9KVAVxgCo3mxRz38HpV38dWAYe7d2D34o2UFrBXwXH2bo17dcB1L9AKgEdAne2aLvVk2'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 8,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Apply to judge
@@ -755,7 +917,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'GQfoMmJMaANuitsZ44MmDTBByLppCm4dK4h65cWA5ewv', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882524284631040, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '3yksVGHttsYgQKCh3E6956TraEed2i2gTxsPKMHoQXazx5cVQCfS3yjZSnvVpGV6midGTQLioHLLv1mVXzCv6tU9'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 9, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'GQfoMmJMaANuitsZ44MmDTBByLppCm4dK4h65cWA5ewv',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882524284631040,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '3yksVGHttsYgQKCh3E6956TraEed2i2gTxsPKMHoQXazx5cVQCfS3yjZSnvVpGV6midGTQLioHLLv1mVXzCv6tU9'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 9,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Do judge
@@ -780,7 +960,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': '2ufCFAuGYvFDrswnhBmy8fds255iygZvKfJE7UyPNEZQ', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882653100937984, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '3saCcJ5LkrwpqH7Lx9ZrExyjbC6etzGjTZrikZ3ivutakjHKcMmAVAYTQX9JPUMeo6gCPuh5E418koTA4XZZmSAZ'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 10, 'functionData': '1FELDwy6qwRvq3v9gcwpMQGspRNRNFweWzzPq5X2iu5vepdwvsKsrMotgQUmexGpkrdt2M4JuZ', 'attachment': ''}
+{
+  type: 9,
+  id: '2ufCFAuGYvFDrswnhBmy8fds255iygZvKfJE7UyPNEZQ',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882653100937984,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '3saCcJ5LkrwpqH7Lx9ZrExyjbC6etzGjTZrikZ3ivutakjHKcMmAVAYTQX9JPUMeo6gCPuh5E418koTA4XZZmSAZ'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 10,
+  functionData: '1FELDwy6qwRvq3v9gcwpMQGspRNRNFweWzzPq5X2iu5vepdwvsKsrMotgQUmexGpkrdt2M4JuZ',
+  attachment: ''
+}
 ```
 
 #### Submit penalty
@@ -805,7 +1003,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': '4FqBmqcAGANwiyViWyk4h4mo2yF2gDmtYLEgGi68d5os', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882694781840896, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '9DsgCCeCPwNZUswZx4Rj8o3vCEajE2NS5REjfVbamYWKjKM1kpvrf88ZUcTCrppPvE2w3enm936PMhrpjxPnigZ'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 11, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: '4FqBmqcAGANwiyViWyk4h4mo2yF2gDmtYLEgGi68d5os',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882694781840896,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '9DsgCCeCPwNZUswZx4Rj8o3vCEajE2NS5REjfVbamYWKjKM1kpvrf88ZUcTCrppPvE2w3enm936PMhrpjxPnigZ'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 11,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Payer refund
@@ -832,7 +1048,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'HDe4BqtyMd2Fk6gU4piZ8MuSe613cdG7JsxgJeML68nh', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882724888898048, 'proofs': [{'proofType': 'Curve25519', 'publicKey': 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot', 'address': 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu', 'signature': '3tQS3AiEtUigvUx26KAqpiHwfJ2kjB7fxUUsAG4NyQbQ8eLp5qqiTkVxUTCZA9Di5s5vWVchCKkFN8wzqguwjijQ'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 12, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'HDe4BqtyMd2Fk6gU4piZ8MuSe613cdG7JsxgJeML68nh',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882724888898048,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
+      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
+      signature: '3tQS3AiEtUigvUx26KAqpiHwfJ2kjB7fxUUsAG4NyQbQ8eLp5qqiTkVxUTCZA9Di5s5vWVchCKkFN8wzqguwjijQ'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 12,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Recipient refund
@@ -859,7 +1093,25 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': '65zmh3W5SPaaAGx41w3n773P2hxYhWsts28dB136oVKS', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882745370246912, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY', 'address': 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H', 'signature': '66fb4EJVxYrq42485i2hcf5LcgkD6nmQ2cRLRtLNQNoozzhTsV7zMonpvgCLtDeJnCsrjcYxmtg2uUTXxWWVtQAi'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 13, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: '65zmh3W5SPaaAGx41w3n773P2hxYhWsts28dB136oVKS',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882745370246912,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY',
+      address: 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H',
+      signature: '66fb4EJVxYrq42485i2hcf5LcgkD6nmQ2cRLRtLNQNoozzhTsV7zMonpvgCLtDeJnCsrjcYxmtg2uUTXxWWVtQAi'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 13,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
 
 #### Collect
@@ -884,5 +1136,23 @@ console.log(resp);
 Example output
 
 ```
-{'type': 9, 'id': 'FwGaUzMokx9LeK11JQMhWqifZTGnY9FxcHTHqukK9WLg', 'fee': 30000000, 'feeScale': 100, 'timestamp': 1646882826686446080, 'proofs': [{'proofType': 'Curve25519', 'publicKey': '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY', 'address': 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H', 'signature': '4nHAtc7xRrrdTvGsRri8eWkGv7ncMZapiQqBimR6so7ELAMwMGh7VTdu5cxQcZiiCr3xkw6tn7VQHurKLytB5CgB'}], 'contractId': 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1', 'functionIndex': 14, 'functionData': '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN', 'attachment': ''}
+{
+  type: 9,
+  id: 'FwGaUzMokx9LeK11JQMhWqifZTGnY9FxcHTHqukK9WLg',
+  fee: 30000000,
+  feeScale: 100,
+  timestamp: 1646882826686446080,
+  proofs:[
+    {
+      proofType: 'Curve25519',
+      publicKey: '3b3bu31esBWgeQyFfUeYmPwPUhQpPtVJehuRpreM5pMY',
+      address: 'AUCzwTg7EjGoa68nRy27873LY5LtvKmQy2H',
+      signature: '4nHAtc7xRrrdTvGsRri8eWkGv7ncMZapiQqBimR6so7ELAMwMGh7VTdu5cxQcZiiCr3xkw6tn7VQHurKLytB5CgB'
+    }
+  ],
+  contractId: 'CFELoT1MwMpnvyUkjLe1QHPfah1qNJKFNo1',
+  functionIndex: 14,
+  functionData: '1TeCHebgxCv7DkqMwg9L3SixXNuZGCu9pX4pjQ7rkK1gfotqN',
+  attachment: ''
+}
 ```
