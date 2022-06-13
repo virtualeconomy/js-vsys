@@ -238,6 +238,11 @@ export class FixedSizedB58Str extends B58Str {
   }
 }
 
+/** TxID is the data model class for tx id */
+export class TxID extends FixedSizedB58Str {
+  static BYTES_LEN = 32;
+}
+
 /** PubKey is the data model class for public keys */
 export class PubKey extends FixedSizedB58Str {
   static BYTES_LEN = 32;
@@ -635,6 +640,12 @@ export class Fee extends VSYS {
 
 /** PaymentFee is the data model class for payment fee */
 export class PaymentFee extends Fee {}
+
+/** LeasingFee is the data model class for leasing fee */
+export class LeasingFee extends Fee {}
+
+/** LeasingCancelFee is the data model class for leasing cancel fee */
+export class LeasingCancelFee extends Fee {}
 
 /** RegCtrtFee is the data model class for register contract fee */
 export class RegCtrtFee extends Fee {
