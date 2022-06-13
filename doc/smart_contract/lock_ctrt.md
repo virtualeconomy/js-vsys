@@ -13,7 +13,6 @@
     - [Actions](#actions)
       - [Lock](#lock)
 
-
 ## Introduction
 
 Lock contract allows users to lock a specific token in the contract for some period of time. This allows users to guarantee they have a certain amount of funds upon lock expiration. This may be helpful in implementing some kinds of staking interactions with users of a VSYS token for instance.
@@ -50,7 +49,7 @@ import * as lc from './src/contract/lock_ctrt.js';
 
 // ch: Chain
 
-const ncId = "CFFGTjUwuM41Dk7iVaJg88BrEsPmwQKTmM6";
+const ncId = 'CFFGTjUwuM41Dk7iVaJg88BrEsPmwQKTmM6';
 const nc = lc.LockCtrt(ncId, ch);
 ```
 
@@ -90,7 +89,7 @@ TokenID { data: 'TWum8FrkHp3qooZShMtm3q4GKneV66evJibiwL3EM' }
 
 #### Contract balance
 
-The token balance within this contract. 
+The token balance within this contract.
 
 Note that the balance is the same no matter the token is locked or not.
 
@@ -144,10 +143,9 @@ import * as lc from './src/contract/lock_ctrt.js';
 // acnt: Account
 // expireTime: number
 
-const expireTime = parseInt(new Date().getTime())+600;
+const expireTime = parseInt(new Date().getTime()) + 600;
 const resp = await nc.lock(acnt0, expireTime);
 console.log(resp);
-
 ```
 
 Example output

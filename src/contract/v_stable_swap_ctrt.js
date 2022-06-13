@@ -93,7 +93,7 @@ export class DBKey extends ctrt.DBKey {
    * @returns {DBKey} The DBKey object.
    */
   static forMaxOrderPerUser() {
-    return new this(StateVar.MAX_ORDER_PERUSER.serialize());
+    return new this(StateVar.MAX_ORDER_PER_USER.serialize());
   }
 
   /**
