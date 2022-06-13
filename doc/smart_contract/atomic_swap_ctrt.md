@@ -296,16 +296,13 @@ If the solve function is executed by the taker, then the taker will get the reve
 The following sample code shows how maker solve runs.
 
 ```javascript
-// ac: AtomicSwapCtrt
+// ac: AtomicSwapCtrt instance of TAKER's
 // maker: Account
-// taker: Account
-// takerAc: AtomicSwapCtrt
 // takerLockTxId: string E.g. "D5ZPPhw7y4eWcL6zBNWNHdWf9jGxPAi5XCP5KxuZzirP"
 // secret: string E.g. "abc"
 
 resp = await ac.solve(
-  taker, // by
-  takerAc.ctrtId.data, // atomicCtrtId
+  maker, // by
   takerLockTxId, // lockTxId
   secret // secret
 );

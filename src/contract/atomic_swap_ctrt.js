@@ -336,7 +336,6 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
    */
   async solve(
     by,
-    atomicCtrtId,
     lockTxId,
     secret,
     attachment = '',
@@ -344,7 +343,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
   ) {
     const data = await by.executeContractImpl(
       new tx.ExecCtrtFuncTxReq(
-        new md.CtrtID(atomicCtrtId),
+        this.ctrtId,
         FuncIdx.SOLVE_PUZZLE,
         new de.DataStack(
           de.Bytes.fromBase58Str(lockTxId),
