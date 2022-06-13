@@ -79,6 +79,9 @@ export class NodeAPI {
     this.addr = new Addresses(sess);
     this.ctrt = new Contract(sess);
     this.vsys = new VSYS(sess);
+    this.leasing = new Leasing(sess);
+    this.node = new Node(sess);
+    this.database = new Database(sess);
   }
 
   /**
@@ -90,6 +93,27 @@ export class NodeAPI {
   static new(host, apiKey = '') {
     const sess = new Session(host, apiKey);
     return new NodeAPI(sess);
+  }
+
+  /**
+   * get calls the given endpoint with HTTP GET.
+   * @param {string} edpt - The endpoint name.
+   * @returns {object} The response.
+   */
+  async get(edpt) {
+    const resp = this.sess.get(edpt);
+    return resp;
+  }
+
+  /**
+   * post calls the given endpoint with HTTP POST.
+   * @param {string} edpt - The endpoint name.
+   * @param {string} data - The payload. Either a JSON string or a plain text string.
+   * @returns {object} The response.
+   */
+  async post(edpt, data) {
+    const resp = this.sess.post(edpt, data);
+    return resp;
   }
 }
 
@@ -147,6 +171,23 @@ class Blocks extends APIGrp {
   async getHeight() {
     return await this.get('/height');
   }
+
+  /**
+   * getLastBlock gets the last block of the chain.
+   * @returns {object} The response.
+   */
+  async getLastBlock() {
+    return await this.get('/last');
+  }
+
+  /**
+   * getLastBlock gets the last block of the chain.
+   * @param height - The height of the block.
+   * @returns {object} The response.
+   */
+  async getBlockAt(height) {
+    return await this.get(`/at/${height}`);
+  }
 }
 
 /** Transactions is the class for API group 'transactions' */
@@ -160,6 +201,27 @@ class Transactions extends APIGrp {
    */
   async getInfo(txId) {
     return await this.get(`/info/${txId}`);
+  }
+}
+
+/** Node is the class for API group 'node' */
+class Node extends APIGrp {
+  static PREFIX = '/node';
+
+  /**
+   * getStatus gets the status of the node.
+   * @returns {object} The response.
+   */
+  async getStatus() {
+    return await this.get('/status');
+  }
+
+  /**
+   * getVersion gets the version of the node.
+   * @returns {object} The response.
+   */
+  async getVersion() {
+    return await this.get('/version');
   }
 }
 
@@ -276,6 +338,53 @@ class Contract extends APIGrp {
    */
   async getTokInfo(tokId) {
     return await this.get(`/tokenInfo/${tokId}`);
+  }
+}
+
+/** Database is the class for API group 'database' */
+class Database extends APIGrp {
+  static PREFIX = '/database';
+
+  /**
+   * broadcastPut broadcasts the DB Put request.
+   * @param {object} data - The payload for the API call.
+   * @returns {object} The response.
+   */
+  async broadcastPut(data) {
+    return await this.post('/broadcast/put', JSON.stringify(data));
+  }
+
+  /**
+   * get broadcasts the DB Put request.
+   * @param {string} addr - The address that owns the data.
+   * @param {string} dbKey - The db key of the data.
+   * @returns {object} The response.
+   */
+  async getDB(addr, dbKey) {
+    return await this.get(`/get/${addr}/${dbKey}`);
+  }
+}
+
+/** Leasing is the class for API group 'leasing' */
+class Leasing extends APIGrp {
+  static PREFIX = '/leasing';
+
+  /**
+   * broadcastLease broadcasts the lease request.
+   * @param {object} data - The payload for the API call.
+   * @returns {object} The response.
+   */
+  async broadcastLease(data) {
+    return await this.post('/broadcast/lease', JSON.stringify(data));
+  }
+
+  /**
+   * broadcastCancel broadcasts the lease cancel request.
+   * @param {object} data - The payload for the API call.
+   * @returns {object} The response.
+   */
+  async broadcastCancel(data) {
+    return await this.post('/broadcast/cancel', JSON.stringify(data));
   }
 }
 
