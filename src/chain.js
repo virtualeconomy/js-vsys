@@ -36,4 +36,23 @@ export class Chain {
     const data = await this.api.blocks.getHeight();
     return data['height'];
   }
+
+  /**
+   * getLastBlock gets the last block of the current chain.
+   * @returns {number} The last block of the chain.
+   */
+  async getLastBlock() {
+    const data = await this.api.blocks.getLastBlock();
+    return data;
+  }
+
+  /**
+   * getBlockAt gets the block of the certain height.
+   * @param {number} height - The height of the block.
+   * @returns {number} The block of the certain height.
+   */
+  async getBlockAt(height) {
+    const data = await this.api.blocks.getBlockAt(height);
+    return data;
+  }
 }

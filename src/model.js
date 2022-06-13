@@ -492,7 +492,7 @@ export class VSYSTimestamp extends NonNegativeBigInt {
 
     const cls = this.constructor;
 
-    if (!(this.data.isZero()) && this.data < cls.SCALE) {
+    if (!this.data.isZero() && this.data < cls.SCALE) {
       throw new Error(
         `Data in ${cls.name} must either be 0 or equal or greater than ${cls.SCALE}`
       );
