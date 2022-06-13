@@ -1,6 +1,6 @@
 /**
  * module contract/atomicSwapHelper provides higher level encapsulation of functionalities for V Atomic Swap contract on VSYS chain.
- * Two swap tokens should be on the same chain.
+ * The two swap tokens should be all be VSYS-based & on the same chain.
  * @module contract/atomicSwapHelper
  */
 
