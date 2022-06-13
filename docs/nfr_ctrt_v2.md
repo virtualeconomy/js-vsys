@@ -2,7 +2,7 @@
 
 - [NFT Contract V2](#nft-contract-v2)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-js-sdk)
+  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -29,13 +29,13 @@ For the whitelist flavor, only users & contracts included in the list can intera
 
 For the blacklist flavor, only users & contracts excluded from the list can interact with the NFT contract instance.
 
-## Usage with JS SDK
+## Usage with Javascript SDK
 
 Examples of NFT contract V2 with whitelist are shown below. The usage of the blacklist one is very similar.
 
 ### Registration
 
-```Javascript
+```javascript
 import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 
 // acnt: Account
@@ -56,9 +56,10 @@ CtrtID { data: 'CF46ab6o5HTfyLwgyBhwrhkEmLxbaLkSJ8a' }
 import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 
 // acnt: Account
+// ch: Chain
 
-const nc_id = "CF46ab6o5HTfyLwgyBhwrhkEmLxbaLkSJ8a";
-const nc = nftv2.NFTCtrtV2Whitelist(nc_id, ch);
+const ncId = "CF46ab6o5HTfyLwgyBhwrhkEmLxbaLkSJ8a";
+const nc = nftv2.NFTCtrtV2Whitelist(ncId, ch);
 ```
 
 ### Querying
@@ -142,9 +143,9 @@ Check if the user is in the whitelist/blacklist
 
 ```javascript
 // nc: nftv2.NFTCtrtV2Whitelist
-arbitrary_ctrt_id = "CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J";
+arbitraryCtrtId = "CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J";
 
-console.log(await nc.isCtrtInList(nc_id));
+console.log(await nc.isCtrtInList(ncId));
 ```
 Example output
 
@@ -199,7 +200,11 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // acnt1: Account
 // nc: nftv2.NFTCtrtV2Whitelist
 
-const resp = await nc.send(acnt0, acnt1.addr.data, 0);
+const resp = await nc.send(
+    acnt0, // by 
+    acnt1.addr.data, // recipient
+    0 // tokIdx
+);
 console.log(resp);
 ```
 Example output
@@ -237,7 +242,12 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // acnt1: Account
 // nc: nftv2.NFTCtrtV2Whitelist
 
-const resp = await nc.transfer(acnt0, acnt0.addr.data, acnt1.addr.data, 0);
+const resp = await nc.transfer(
+    acnt0, // by
+    acnt0.addr.data, // sender
+    acnt1.addr.data,  // recipient
+    0 // tokIdx
+);
 console.log(resp);
 ```
 Example output
@@ -276,9 +286,13 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // acnt1: Account
 // nc: nftv2.NFTCtrtV2Whitelist
 
-const lc_id = lc.ctrtId.data;
+const lcId = lc.ctrtId.data;
 
-const resp = await nc.deposit(acnt0, lc_id, 0);
+const resp = await nc.deposit(
+    acnt0, // by 
+    lcId,  // ctrtId
+    0 // tokIdx
+);
 console.log(resp);
 ```
 Example output
@@ -317,9 +331,13 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // acnt1: Account
 // nc: nftv2.NFTCtrtV2Whitelist
 
-const lc_id = lc.ctrtId.data;
+const lcId = lc.ctrtId.data;
 
-const resp = await nc.withdraw(acnt0, lc_id, 0);
+const resp = await nc.withdraw(
+    acnt0, // by 
+    lcId, // ctrtId
+    0 // tokIdx
+);
 console.log(resp);
 ```
 Example output
@@ -360,9 +378,9 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // nc: nftv2.NFTCtrtV2Whitelist
 
 const resp = await nc.supersede(
-    acnt0, 
-    acnt1.addr.data, 
-    anct2.addr.data
+    acnt0, // by
+    acnt1.addr.data, // newIssuer 
+    anct2.addr.data // newRegulator
 );
 console.log(resp);
 ```
@@ -403,9 +421,9 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // nc: nftv2.NFTCtrtV2Whitelist
 
 const resp = await nc.updateListUser(
-    acnt0, 
-    acnt1.addr.data, 
-    true // false to remove
+    acnt0, // by
+    acnt1.addr.data, // addr
+    true // val; false to remove
 );
 console.log(resp);
 ```
@@ -445,12 +463,12 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // acnt1: Account
 // nc: nftv2.NFTCtrtV2Whitelist
 
-arbitrary_ctrt_id = "CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J"
+arbitraryCtrtId = "CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J"
 
 const resp = await nc.updateListCtrt(
-    acnt0, 
-    lc_id, 
-    true // false to remove
+    acnt0, // by
+    lcId, // addr
+    true // val; false to remove
 );
 console.log(resp);
 ```

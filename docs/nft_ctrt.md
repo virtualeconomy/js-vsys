@@ -2,7 +2,7 @@
 
 - [NFT Contract V1](#nft-contract-v1)
   - [Introduction](#introduction)
-  - [Usage with JS SDK](#usage-with-js-sdk)
+  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -27,7 +27,7 @@ NFT can be thought of as a special kind of custom token where
 
 Note that a NFT contract instance on the VSYS blockchain supports defining multiple NFTs (unlike Token contact which supports defining only 1 kind of token per contract instance).
 
-## Usage with JS SDK
+## Usage with Javascript SDK
 
 ### Registration
 
@@ -52,8 +52,8 @@ import * as nft from './src/contract/nft_ctrt.js';
 
 // ch: Chain
 
-const nc_id = "CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD";
-const nc = new nft.NFTCtrt(nc_id, ch);
+const ncId = "CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD";
+const nc = new nft.NFTCtrt(ncId, ch);
 ```
 
 ### Querying
@@ -151,7 +151,11 @@ import * as nft from './src/contract/nft_ctrt.js';
 // acnt1: Account
 // nc: nft.NFTCtrt
 
-const resp = await nc.send(acnt0, acnt1.addr.data, 0);
+const resp = await nc.send(
+  acnt0, // by
+  acnt1.addr.data, // recipient 
+  0 // tokIdx
+);
 console.log(resp);
 ```
 Example output
@@ -189,7 +193,12 @@ import * as nft from './src/contract/nft_ctrt.js';
 // acnt1: Account
 // nc: nft.NFTCtrt
 
-const resp = await nc.transfer(acnt1, acnt1.addr.data, acnt0.addr.data, 0);
+const resp = await nc.transfer(
+  acnt1, // by
+  acnt1.addr.data, // sender 
+  acnt0.addr.data, // recipient
+  0 // tokIdx
+);
 console.log(resp);
 ```
 Example output
@@ -229,9 +238,13 @@ import * as nft from './src/contract/nft_ctrt.js';
 // lc: lock.LockCtrt
 // nc: nft.NFTCtrt
 
-const lc_id = lc.ctrtId.data;
+const lcId = lc.ctrtId.data;
 
-const resp = await nc.deposit(acnt0, lc_id, 0);
+const resp = await nc.deposit(
+  acnt0, // by
+  lcId, // ctrtId
+  0 // tokIdx
+  );
 console.log(resp);
 ```
 Example output
@@ -271,9 +284,13 @@ import * as nft from './src/contract/nft_ctrt.js';
 // lc: lock.LockCtrt
 // nc: nft.NFTCtrt
 
-const lc_id = lc.ctrtId.data;
+const lcId = lc.ctrtId.data;
 
-const resp = await nc.withdraw(acnt0, lc_id, 0);
+const resp = await nc.withdraw(
+  acnt0, // by
+  lcId, // ctrtId
+  0 // tokIdx
+);
 console.log(resp);
 ```
 Example output
