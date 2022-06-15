@@ -58,14 +58,14 @@ import * as tok from './src/contract/v_option_ctrt.js';
 
 // Register a new contract instance
 const voc = await tok.VOptionCtrt.register(
-    acnt, // by
-    'TWuTFmDynQz815ygjgmoiwU1BL3UTA7VC5VFVQLdw', // baseTokId
-    'TWsbVKNno1EHdeWfjJpkQkCqgPcba2zk8Ud4BU5dV', // targetTokId
-    'TWu14YBZrSKfK3bMpNpoLx4jWjFKPuyeWYdnXNqHt', // optionTokId
-    'TWttyxGagVTPWjx2zJ5Wqb67RuvY3B6gXpkkJ39cA', // proofTokId
-    Date.now() + 100*1000, // executeTime - Unix timestamp
-    Date.now() + 200*1000, // executeDeadline - Unix timestamp
-    '' // ctrtDescription 
+  acnt, // by
+  'TWuTFmDynQz815ygjgmoiwU1BL3UTA7VC5VFVQLdw', // baseTokId
+  'TWsbVKNno1EHdeWfjJpkQkCqgPcba2zk8Ud4BU5dV', // targetTokId
+  'TWu14YBZrSKfK3bMpNpoLx4jWjFKPuyeWYdnXNqHt', // optionTokId
+  'TWttyxGagVTPWjx2zJ5Wqb67RuvY3B6gXpkkJ39cA', // proofTokId
+  Date.now() + 100 * 1000, // executeTime - Unix timestamp
+  Date.now() + 200 * 1000, // executeDeadline - Unix timestamp
+  '' // ctrtDescription
 );
 console.log(voc.ctrtId);
 ```
@@ -86,10 +86,10 @@ import * as tok from './src/contract/v_option_ctrt.js';
 // ch: Chain from './src/chain.js'
 // voc_id: str - contract Id of registered V Option contract
 
-voc_id = 'CErjKJcYHWiho1KnnRBfYYZmouNpvms7bAh'
+voc_id = 'CErjKJcYHWiho1KnnRBfYYZmouNpvms7bAh';
 voc = tok.VOptionCtrt(
-    voc_id, // ctrtId
-    ch // chain
+  voc_id, // ctrtId
+  ch // chain
 );
 ```
 
@@ -291,8 +291,6 @@ Example output
 Token { data: BigNumber { s: 1, e: 3, c: [ 5000 ] }, unit: 1 }
 ```
 
-
-
 #### Price unit
 
 The price unit of the contract creator.
@@ -409,8 +407,6 @@ Example output
 Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 ```
 
-
-
 ### Actions
 
 #### Supersede
@@ -423,8 +419,8 @@ Transfer the ownership of the contract to another account.
 // acnt1: Account from './src/account.js'
 
 let resp = await voc.supersede(
-    acnt0, // by
-    acnt1.addr.data // newOwner
+  acnt0, // by
+  acnt1.addr.data // newOwner
 );
 console.log(resp);
 ```
@@ -465,10 +461,10 @@ Activate the V Option contract to store option token and proof token into the po
 // priceUnit: number
 
 let resp = await voc.activate(
-    acnt, // by
-    10000, // maxIssueNum
-    50, // price,
-    100 //priceUnit
+  acnt, // by
+  10000, // maxIssueNum
+  50, // price,
+  100 //priceUnit
 );
 console.log(resp);
 ```
@@ -507,8 +503,8 @@ Mint target tokens into the pool to get option tokens and proof tokens. Same amo
 // amount: number
 
 let resp = await voc.mint(
-    acnt, // by
-    200 // amount
+  acnt, // by
+  200 // amount
 );
 console.log(resp);
 ```
@@ -581,7 +577,7 @@ Example output
 
 Execute the V Option contract to get target token after execute time. Amount equals to the amount of option tokens to be executed.
 
-Note that amount of `price * amount` Base Tokens need to be deposited to V Option contract by executor. 
+Note that amount of `price * amount` Base Tokens need to be deposited to V Option contract by executor.
 
 ```javascript
 // voc: VOptionCtrt from './src/contract/v_option_ctrt.js'

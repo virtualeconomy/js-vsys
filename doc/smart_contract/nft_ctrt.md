@@ -17,11 +17,11 @@
       - [Withdraw](#withdraw)
       - [Supersede](#supersede)
 
-
 ## Introduction
 
 NFT contract supports defining & managing [NFTs(Non-Fungible Tokens)](https://en.wikipedia.org/wiki/Non-fungible_token).
 NFT can be thought of as a special kind of custom token where
+
 - The unit is fixed to 1 and cannot be updated
 - The max issuing amount for a kind of token is fixed to 1.
 
@@ -39,6 +39,7 @@ import * as nft from './src/contract/nft_ctrt.js';
 const ctrt = await nft.NFTCtrt.register(acnt);
 console.log(ctrt.ctrtId); // print the id of the newly registered contract
 ```
+
 Example output
 
 ```
@@ -67,6 +68,7 @@ The address that has the issuing right of the NFT contract instance.
 
 console.log(await nc.getIssuer());
 ```
+
 Example output
 
 ```
@@ -74,6 +76,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ```
 
 #### Maker
+
 The address that made this NFT contract instance.
 
 ```Javascript
@@ -81,6 +84,7 @@ The address that made this NFT contract instance.
 
 console.log(await nc.getMaker());
 ```
+
 Example output
 
 ```
@@ -88,6 +92,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ```
 
 #### Unit
+
 The unit of tokens defined in this NFT contract instance.
 
 As the unit is obviously fixed to 1 for NFTs, the support of querying unit of NFT is for the compatibility with other token-defining contracts.
@@ -97,6 +102,7 @@ As the unit is obviously fixed to 1 for NFTs, the support of querying unit of NF
 
 console.log(await nc.getUnit());
 ```
+
 Example output
 
 ```
@@ -106,6 +112,7 @@ Example output
 ### Actions
 
 #### Issue
+
 Define a new NFT and issue it. Only the issuer of the contract instance can take this action. The issued NFT will belong to the issuer.
 
 ```Javascript
@@ -117,6 +124,7 @@ import * as nft from './src/contract/nft_ctrt.js';
 const resp = await nc.issue(acnt);
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -142,6 +150,7 @@ Example output
 ```
 
 #### Send
+
 Send an NFT to another user.
 
 ```Javascript
@@ -153,11 +162,12 @@ import * as nft from './src/contract/nft_ctrt.js';
 
 const resp = await nc.send(
   acnt0, // by
-  acnt1.addr.data, // recipient 
+  acnt1.addr.data, // recipient
   0 // tokIdx
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -183,6 +193,7 @@ Example output
 ```
 
 #### Transfer
+
 Transfer the ownership of an NFT to another account(e.g. user or contract).
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
@@ -195,12 +206,13 @@ import * as nft from './src/contract/nft_ctrt.js';
 
 const resp = await nc.transfer(
   acnt1, // by
-  acnt1.addr.data, // sender 
+  acnt1.addr.data, // sender
   acnt0.addr.data, // recipient
   0 // tokIdx
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -226,6 +238,7 @@ Example output
 ```
 
 #### Deposit
+
 Deposit an NFT to a token-holding contract instance(e.g. lock contract).
 
 Note that only the token defined in the token-holding contract instance can be deposited into it.
@@ -247,6 +260,7 @@ const resp = await nc.deposit(
   );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -272,6 +286,7 @@ Example output
 ```
 
 #### Withdraw
+
 Withdraw an NFT from a token-holding contract instance(e.g. lock contract).
 
 Note that only the one who deposits the token can withdraw.
@@ -293,6 +308,7 @@ const resp = await nc.withdraw(
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -318,6 +334,7 @@ Example output
 ```
 
 #### Supersede
+
 Transfer the issuer role of the contract to a new user.
 The maker of the contract has the privilege to take this action.
 
@@ -332,6 +349,7 @@ import * as nft from './src/contract/nft_ctrt.js';
 const resp = await nc.supersede(acnt0, acnt1.addr.data);
 console.log(resp);
 ```
+
 Example output
 
 ```

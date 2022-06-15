@@ -23,6 +23,7 @@
       - [Add/remove a contract from the list](#addremove-a-contract-from-the-list)
 
 ## Introduction
+
 NFT contract V2 adds additional whitelist/blacklist regulation feature upon [NFT contract V1](./nft_ctrt.md).
 
 For the whitelist flavor, only users & contracts included in the list can interact with the NFT contract instance.
@@ -44,6 +45,7 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 const nc = await nftv2.NFTCtrtV2Whitelist.register(acnt);
 console.log(nc.ctrtId); // print the id of the newly registered contract
 ```
+
 Example output
 
 ```
@@ -58,7 +60,7 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // acnt: Account
 // ch: Chain
 
-const ncId = "CF46ab6o5HTfyLwgyBhwrhkEmLxbaLkSJ8a";
+const ncId = 'CF46ab6o5HTfyLwgyBhwrhkEmLxbaLkSJ8a';
 const nc = nftv2.NFTCtrtV2Whitelist(ncId, ch);
 ```
 
@@ -73,6 +75,7 @@ The address that has the issuing right of the NFT contract instance.
 
 console.log(await nc.getIssuer());
 ```
+
 Example output
 
 ```
@@ -80,6 +83,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ```
 
 #### Maker
+
 The address that made this NFT contract instance.
 
 ```javascript
@@ -87,6 +91,7 @@ The address that made this NFT contract instance.
 
 console.log(await nc.getMaker());
 ```
+
 Example output
 
 ```
@@ -94,6 +99,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ```
 
 #### Regulator
+
 The address that serves as the regulator of the NFT contract instance.
 
 ```javascript
@@ -101,6 +107,7 @@ The address that serves as the regulator of the NFT contract instance.
 
 console.log(await nc.getRegulator());
 ```
+
 Example output
 
 ```
@@ -108,6 +115,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ```
 
 #### Unit
+
 The unit of tokens defined in this NFT contract instance.
 
 As the unit is obviously fixed to 1 for NFTs, the support of querying unit of NFT is for the compatibility with other token-defining contracts.
@@ -117,6 +125,7 @@ As the unit is obviously fixed to 1 for NFTs, the support of querying unit of NF
 
 console.log(await nc.getUnit());
 ```
+
 Example output
 
 ```
@@ -124,6 +133,7 @@ Example output
 ```
 
 #### Is user in the list
+
 Check if the user is in the whitelist/blacklist
 
 ```javascript
@@ -132,6 +142,7 @@ Check if the user is in the whitelist/blacklist
 
 console.log(await nc.isUserInList(acnt.addr.data));
 ```
+
 Example output
 
 ```
@@ -139,22 +150,26 @@ false
 ```
 
 #### Is contract in the list
+
 Check if the user is in the whitelist/blacklist
 
 ```javascript
 // nc: nftv2.NFTCtrtV2Whitelist
-arbitraryCtrtId = "CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J";
+arbitraryCtrtId = 'CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J';
 
 console.log(await nc.isCtrtInList(ncId));
 ```
+
 Example output
 
 ```
 false
 ```
+
 ### Actions
 
 #### Issue
+
 Define a new NFT and issue it. Only the issuer of the contract instance can take this action. The issued NFT will belong to the issuer.
 
 ```javascript
@@ -166,6 +181,7 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 const resp = await nc.issue(acnt);
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -191,6 +207,7 @@ Example output
 ```
 
 #### Send
+
 Send an NFT to another user.
 
 ```javascript
@@ -201,12 +218,13 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // nc: nftv2.NFTCtrtV2Whitelist
 
 const resp = await nc.send(
-    acnt0, // by 
-    acnt1.addr.data, // recipient
-    0 // tokIdx
+  acnt0, // by
+  acnt1.addr.data, // recipient
+  0 // tokIdx
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -232,6 +250,7 @@ Example output
 ```
 
 #### Transfer
+
 Transfer the ownership of an NFT to another account(e.g. user or contract).
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
@@ -243,13 +262,14 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // nc: nftv2.NFTCtrtV2Whitelist
 
 const resp = await nc.transfer(
-    acnt0, // by
-    acnt0.addr.data, // sender
-    acnt1.addr.data,  // recipient
-    0 // tokIdx
+  acnt0, // by
+  acnt0.addr.data, // sender
+  acnt1.addr.data, // recipient
+  0 // tokIdx
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -275,6 +295,7 @@ Example output
 ```
 
 #### Deposit
+
 Deposit an NFT to a token-holding contract instance(e.g. lock contract).
 
 Note that only the token defined in the token-holding contract instance can be deposited into it.
@@ -289,12 +310,13 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 const lcId = lc.ctrtId.data;
 
 const resp = await nc.deposit(
-    acnt0, // by 
-    lcId,  // ctrtId
-    0 // tokIdx
+  acnt0, // by
+  lcId, // ctrtId
+  0 // tokIdx
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -320,6 +342,7 @@ Example output
 ```
 
 #### Withdraw
+
 Withdraw an NFT from a token-holding contract instance(e.g. lock contract).
 
 Note that only the one who deposits the token can withdraw.
@@ -334,12 +357,13 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 const lcId = lc.ctrtId.data;
 
 const resp = await nc.withdraw(
-    acnt0, // by 
-    lcId, // ctrtId
-    0 // tokIdx
+  acnt0, // by
+  lcId, // ctrtId
+  0 // tokIdx
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -365,6 +389,7 @@ Example output
 ```
 
 #### Supersede
+
 Transfer the issuer & regulator role of the contract to a new user.
 
 Note that only the contract maker has the privilege to take this action.
@@ -378,12 +403,13 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // nc: nftv2.NFTCtrtV2Whitelist
 
 const resp = await nc.supersede(
-    acnt0, // by
-    acnt1.addr.data, // newIssuer 
-    anct2.addr.data // newRegulator
+  acnt0, // by
+  acnt1.addr.data, // newIssuer
+  anct2.addr.data // newRegulator
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -409,6 +435,7 @@ Example output
 ```
 
 #### Add/remove a user from the list
+
 Add/remove a user from the whitelist/blacklist.
 
 Note the regulator has the privilege to take this action.
@@ -421,12 +448,13 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // nc: nftv2.NFTCtrtV2Whitelist
 
 const resp = await nc.updateListUser(
-    acnt0, // by
-    acnt1.addr.data, // addr
-    true // val; false to remove
+  acnt0, // by
+  acnt1.addr.data, // addr
+  true // val; false to remove
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -452,6 +480,7 @@ Example output
 ```
 
 #### Add/remove a contract from the list
+
 Add/remove a contract from the whitelist/blacklist.
 
 Note the regulator has the privilege to take this action.
@@ -463,15 +492,16 @@ import * as nftv2 from './src/contract/nft_ctrt_v2.js';
 // acnt1: Account
 // nc: nftv2.NFTCtrtV2Whitelist
 
-arbitraryCtrtId = 'CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J'
+arbitraryCtrtId = 'CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J';
 
 const resp = await nc.updateListCtrt(
-    acnt0, // by
-    lcId, // addr
-    true // val; false to remove
+  acnt0, // by
+  lcId, // addr
+  true // val; false to remove
 );
 console.log(resp);
 ```
+
 Example output
 
 ```

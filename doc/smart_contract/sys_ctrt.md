@@ -10,10 +10,9 @@
       - [Withdraw](#withdraw)
       - [Transfer](#transfer)
 
-
 ## Introduction
 
-The System Contract on V Systems is quite unique in that it is directly included in the protocol and not registered by users. Since Contract variables and VSYS tokens use different databases, it is normally not possible for them to interact. However, the System Contract handles the mixing of these two databases, and allows users to do things such as deposit and withdraw VSYS token from contracts. 
+The System Contract on V Systems is quite unique in that it is directly included in the protocol and not registered by users. Since Contract variables and VSYS tokens use different databases, it is normally not possible for them to interact. However, the System Contract handles the mixing of these two databases, and allows users to do things such as deposit and withdraw VSYS token from contracts.
 
 ## Usage with Javascript SDK
 
@@ -53,9 +52,9 @@ import * as sys from './src/contract/sys_ctrt.js';
 // amount: number
 
 const resp = await nc.send(
-    acnt0, // acnt0
-    acnt1.addr.data, // acnt1
-    10 // amount
+  acnt0, // acnt0
+  acnt1.addr.data, // acnt1
+  10 // amount
 );
 console.log(resp);
 ```
@@ -102,9 +101,9 @@ import * as lc from './src/contract/lock_ctrt.js';
 const lcId = lc.ctrtId.data;
 
 const resp = await nc.deposit(
-    acnt0, // by
-    lcId, // ctrtId
-    10 // amount
+  acnt0, // by
+  lcId, // ctrtId
+  10 // amount
 );
 console.log(resp);
 ```
@@ -150,9 +149,9 @@ import * as sys from './src/contract/sys_ctrt.js';
 const lcId = lc.ctrtId.data;
 
 const resp = await nc.withdraw(
-    acnt0, // by
-    lcId, // ctrtId
-    10 // amount
+  acnt0, // by
+  lcId, // ctrtId
+  10 // amount
 );
 console.log(resp);
 ```
@@ -204,23 +203,27 @@ console.log(resp);
 
 Example output
 ```
+
 {
-  type: 9,
-  id: 'Gfwdba3CVwKbYkj4ApowajmQfDmzzLPiRoB6VKT23dFm',
-  fee: 30000000,
-  feeScale: 100,
-  timestamp: 1655114346074000000,
-  proofs: [
-    {
-      proofType: 'Curve25519',
-      publicKey: 'FwuW4LhiBFn6uu5id9nZGtp9o1RUG3DoX5MhyZibrjkE',
-      address: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV',
-      signature: '4P4MEXGLh1b43gdSRrfbBT5Sf6xNNKkj3AXdK1QU5vw7ySjRmts42tQE64SxYHCsPhB2TUe4F7jaRgMUuntTZbj2'
-    }
-  ],
-  contractId: 'CF9Nd9wvQ8qVsGk8jYHbj6sf8TK7MJ2GYgt',
-  functionIndex: 3,
-  functionData: '14VJY1483JwCJVMajdB5ZaWwLWpHK3XV2ArryugxyB9sCGPgWBURtLLbQnCunuE97bAULDv7cWyEU2q1R3cUZTQK',
-  attachment: ''
+type: 9,
+id: 'Gfwdba3CVwKbYkj4ApowajmQfDmzzLPiRoB6VKT23dFm',
+fee: 30000000,
+feeScale: 100,
+timestamp: 1655114346074000000,
+proofs: [
+{
+proofType: 'Curve25519',
+publicKey: 'FwuW4LhiBFn6uu5id9nZGtp9o1RUG3DoX5MhyZibrjkE',
+address: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV',
+signature: '4P4MEXGLh1b43gdSRrfbBT5Sf6xNNKkj3AXdK1QU5vw7ySjRmts42tQE64SxYHCsPhB2TUe4F7jaRgMUuntTZbj2'
 }
+],
+contractId: 'CF9Nd9wvQ8qVsGk8jYHbj6sf8TK7MJ2GYgt',
+functionIndex: 3,
+functionData: '14VJY1483JwCJVMajdB5ZaWwLWpHK3XV2ArryugxyB9sCGPgWBURtLLbQnCunuE97bAULDv7cWyEU2q1R3cUZTQK',
+attachment: ''
+}
+
+```
+
 ```

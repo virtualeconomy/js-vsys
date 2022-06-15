@@ -42,6 +42,7 @@
       - [Swap Target Tokens to Base Tokens](#swap-target-tokens-to-base-tokens)
 
 ## Introduction
+
 The V Stable Swap contract supports creating a liquidity pool of 2 kinds of tokens for exchange on VSYS. The fee is fixed.
 
 The order created in the contract acts like a liquidity pool for two kinds of tokens(i.e. the base token & the target token). Traders are free to take either side of the trade(i.e. base to target or target to base).
@@ -51,6 +52,7 @@ The V Stable Swap contract can accept any type of token in the VSYS blockchain, 
 ## Usage with Javascript SDK
 
 ### Registration
+
 Register a contract instance.
 
 ```javascript
@@ -60,15 +62,16 @@ import * as vss from './src/contract/v_stable_swap_ctrt.js';
 // targetTokId: string E.g. "TWtoBbmn5UgQd9KgtbWkBY96hiUJWzeTTggGrb8ba"
 
 const scc = await vss.StableSwapCtrt.register(
-    acnt,
-    baseTokId,
-    targetTokId,
-    5, // maxOrderPerUser
-    1, // basePriceUnit
-    1 // targetPriceUnit
+  acnt,
+  baseTokId,
+  targetTokId,
+  5, // maxOrderPerUser
+  1, // basePriceUnit
+  1 // targetPriceUnit
 );
-console.log(scc.ctrtId);     
+console.log(scc.ctrtId);
 ```
+
 Example output
 
 ```
@@ -76,6 +79,7 @@ CtrtID { data: 'CF1LQZ5U2S1WiXHbVdY8CwKjhqC1kF8GZwt' }
 ```
 
 ### From Existing Contract
+
 Get an object for an existing contract instance.
 
 ```javascript
@@ -83,13 +87,14 @@ import * as vss from './src/contract/v_stable_swap_ctrt.js';
 
 // ch: Chain
 
-const sccId = "CF1LQZ5U2S1WiXHbVdY8CwKjhqC1kF8GZwt";
+const sccId = 'CF1LQZ5U2S1WiXHbVdY8CwKjhqC1kF8GZwt';
 const scc = new vss.StableSwapCtrt(sccId, ch);
 ```
 
 ### Querying
 
 #### Maker
+
 The address that made this contract instance.
 
 ```javascript
@@ -105,6 +110,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ```
 
 #### Base Token ID
+
 The token ID of the base token in the contract instance.
 
 ```javascript
@@ -112,6 +118,7 @@ The token ID of the base token in the contract instance.
 
 console.log(await scc.getBaseTokId());
 ```
+
 Example output
 
 ```
@@ -119,6 +126,7 @@ TokenID { data: 'TWssXmoLvyB3ssAaJiKk5d7ambFHBxcmr9sMRtPLa' }
 ```
 
 #### Target Token ID
+
 The token ID of the target token in the contract instance.
 
 ```javascript
@@ -126,6 +134,7 @@ The token ID of the target token in the contract instance.
 
 console.log(await scc.getTargetTokId());
 ```
+
 Example output
 
 ```
@@ -133,6 +142,7 @@ TokenID { data: 'TWtoBbmn5UgQd9KgtbWkBY96hiUJWzeTTggGrb8ba' }
 ```
 
 #### Base Token Contract
+
 The token contract object of the base token in the contract instance.
 
 ```javascript
@@ -140,6 +150,7 @@ The token contract object of the base token in the contract instance.
 
 console.log(await scc.getBaseTokCtrt());
 ```
+
 Example output
 
 ```
@@ -190,6 +201,7 @@ TokCtrtWithoutSplit {
 ```
 
 #### Target Token Contract
+
 The token contract object of the target token in the contract instance.
 
 ```javascript
@@ -197,6 +209,7 @@ The token contract object of the target token in the contract instance.
 
 console.log(await scc.getTargetTokCtrt());
 ```
+
 Example output
 
 ```
@@ -247,6 +260,7 @@ TokCtrtWithoutSplit {
 ```
 
 #### Base Token Unit
+
 The unit of the base token in the contract instance.
 
 ```javascript
@@ -254,6 +268,7 @@ The unit of the base token in the contract instance.
 
 console.log(await scc.getBaseTokUnit());
 ```
+
 Example output
 
 ```
@@ -261,6 +276,7 @@ Example output
 ```
 
 #### Target Token Unit
+
 The unit of the target token in the contract instance.
 
 ```javascript
@@ -268,6 +284,7 @@ The unit of the target token in the contract instance.
 
 console.log(await scc.getTargetTokUnit());
 ```
+
 Example output
 
 ```
@@ -275,6 +292,7 @@ Example output
 ```
 
 #### Max Order Limit Per User
+
 The maximum number of orders each user can create.
 
 ```javascript
@@ -282,6 +300,7 @@ The maximum number of orders each user can create.
 
 console.log(await scc.getMaxOrderPerUser());
 ```
+
 Example output
 
 ```
@@ -289,6 +308,7 @@ Example output
 ```
 
 #### Unit of Price of Base Token
+
 The unit of price of base token(i.e. how many target tokens are required to get one base token).
 
 ```javascript
@@ -296,6 +316,7 @@ The unit of price of base token(i.e. how many target tokens are required to get 
 
 console.log(await scc.getBasePriceUnit());
 ```
+
 Example output
 
 ```
@@ -303,6 +324,7 @@ Example output
 ```
 
 #### Unit of Price of Target Token
+
 The unit of price of target token(i.e. how many base tokens are required to get one target token).
 
 ```javascript
@@ -310,6 +332,7 @@ The unit of price of target token(i.e. how many base tokens are required to get 
 
 console.log(await scc.getBasePriceUnit());
 ```
+
 Example output
 
 ```
@@ -317,6 +340,7 @@ Example output
 ```
 
 #### Base Token Balance
+
 Get the base token balance of the given user.
 
 ```javascript
@@ -327,6 +351,7 @@ const bal = await scc.getBaseTokBal(acnt.addr.data);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -335,6 +360,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 0 ] }, unit: 100 }
 ```
 
 #### Target Token Balance
+
 Get the target token balance of the given user.
 
 ```javascript
@@ -345,6 +371,7 @@ const bal = await scc.getTargetTokBal(acnt.addr.data);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -353,15 +380,16 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 0 ] }, unit: 100 }
 ```
 
 #### User Orders
+
 Get the number of orders the user has made.
 
 ```javascript
 // ssc: VStableSwapCtrt
 // acnt: Account
 
-
 console.log(await scc.getUserOrders(acnt.addr.data));
 ```
+
 Example output
 
 ```
@@ -369,6 +397,7 @@ Example output
 ```
 
 #### Order Owner
+
 Get the owner of the order.
 
 ```javascript
@@ -377,6 +406,7 @@ Get the owner of the order.
 
 console.log(await scc.getOrderOwner(orderId));
 ```
+
 Example output
 
 ```
@@ -384,6 +414,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ```
 
 #### Base Token Fee
+
 Get the fee for trading base token in the given order.
 
 ```javascript
@@ -394,6 +425,7 @@ const bal = await scc.getFeeBase(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -402,6 +434,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 100 ] }, unit: 100 }
 ```
 
 #### Target Token Fee
+
 Get the fee for trading target token in the given order.
 
 ```javascript
@@ -412,6 +445,7 @@ const bal = await scc.getFeeTarget(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -420,6 +454,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 100 ] }, unit: 100 }
 ```
 
 #### Base Token Minimum Trading Amount
+
 Get the minimum trading amount for base token in the given order.
 
 ```javascript
@@ -430,6 +465,7 @@ const bal = await scc.getMinBase(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -438,6 +474,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 100 ] }, unit: 100 }
 ```
 
 #### Base Token Maximum Trading Amount
+
 Get the maximum trading amount for base token in the given order.
 
 ```javascript
@@ -448,6 +485,7 @@ const bal = await scc.getMaxBase(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -456,6 +494,7 @@ Token { data: BigNumber { s: 1, e: 2, c: [ 200 ] }, unit: 100 }
 ```
 
 #### Target Token Minimum Trading Amount
+
 Get the minimum trading amount for target token in the given order.
 
 ```javascript
@@ -466,6 +505,7 @@ const bal = await scc.getMinTarget(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -474,6 +514,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 100 ] }, unit: 100 }
 ```
 
 #### Target Token Maximum Trading Amount
+
 Get the maximum trading amount for target token in the given order.
 
 ```javascript
@@ -484,6 +525,7 @@ const bal = await scc.getMaxTarget(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -492,6 +534,7 @@ Token { data: BigNumber { s: 1, e: 2, c: [ 200 ] }, unit: 100 }
 ```
 
 #### Base Token Price
+
 Get the price for base token in the given order.
 
 ```javascript
@@ -502,6 +545,7 @@ const bal = await scc.getPriceBase(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -510,6 +554,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 0 ] }, unit: 100 }
 ```
 
 #### Target Token Price
+
 Get the price for target token in the given order.
 
 ```javascript
@@ -520,6 +565,7 @@ const bal = await scc.getPriceTarget(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -528,6 +574,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 0 ] }, unit: 100 }
 ```
 
 #### Base Token Locked Amount
+
 Get the locked amount of base token in the given order.
 
 ```javascript
@@ -538,6 +585,7 @@ const bal = await scc.getBaseTokLocked(orderId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -546,6 +594,7 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 ```
 
 #### Target Token Locked Amount
+
 Get the locked amount of target token in the given order.
 
 ```javascript
@@ -556,6 +605,7 @@ const bal = await scc.getTargetTokLocked(ordeId);
 console.log(bal);
 console.log(bal.data.toNumber());
 ```
+
 Example output
 
 ```
@@ -564,6 +614,7 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 ```
 
 #### Order Status
+
 Get the status of the given order(i.e. if the order is active).
 
 ```javascript
@@ -572,6 +623,7 @@ Get the status of the given order(i.e. if the order is active).
 
 console.log(await scc.getOrderStatus(ordeId));
 ```
+
 Example output
 
 ```
@@ -581,6 +633,7 @@ true
 ### Actions
 
 #### Supersede
+
 Transfer the contract right to another account.
 
 Only the maker of the contract has the right to take this action.
@@ -593,6 +646,7 @@ Only the maker of the contract has the right to take this action.
 const resp = await scc.supersede(acnt0, acnt1.addr.data);
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -618,6 +672,7 @@ Example output
 ```
 
 #### Set Order
+
 Create an order and deposit initial amounts into the order.
 
 The transaction ID returned by this action serves as the ordeId.
@@ -627,20 +682,21 @@ The transaction ID returned by this action serves as the ordeId.
 // acnt: Account
 
 const resp = await scc.setOrder(
-    acnt, // by
-    1, // feeBase
-    1, // feeTarget
-    1, // minBase
-    2, // maxBase
-    1, // minTarget
-    2, // maxTarget
-    1, // priceBase
-    1, // priceTarget
-    100, // baseDeposit
-    100 // targetDeposit
+  acnt, // by
+  1, // feeBase
+  1, // feeTarget
+  1, // minBase
+  2, // maxBase
+  1, // minTarget
+  2, // maxTarget
+  1, // priceBase
+  1, // priceTarget
+  100, // baseDeposit
+  100 // targetDeposit
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -666,6 +722,7 @@ Example output
 ```
 
 #### Update Order
+
 Update the order settings(e.g. fee, price)
 
 ```javascript
@@ -674,19 +731,20 @@ Update the order settings(e.g. fee, price)
 // ordeId: string E.g. "JChwB1yFyFMUjSLCruuTDHVPWHWqvYvQBkFkinnmRmvY"
 
 const resp = await scc.updateOrder(
-    acnt, // by
-    ordeId, // orderId
-    1, // feeBase
-    1, // feeTarget
-    1, // minBase
-    2, // maxBase
-    1, // minTarget
-    2, // maxTarget
-    1, // priceBase
-    1 // priceTarget
+  acnt, // by
+  ordeId, // orderId
+  1, // feeBase
+  1, // feeTarget
+  1, // minBase
+  2, // maxBase
+  1, // minTarget
+  2, // maxTarget
+  1, // priceBase
+  1 // priceTarget
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -712,6 +770,7 @@ Example output
 ```
 
 #### Deposit to Order
+
 Deposit more tokens into the order.
 
 ```javascript
@@ -720,13 +779,14 @@ Deposit more tokens into the order.
 // ordeId: string E.g. "JChwB1yFyFMUjSLCruuTDHVPWHWqvYvQBkFkinnmRmvY"
 
 const resp = await scc.orderDeposit(
-    acnt, // by
-    ordeId, // orderId
-    50, // baseDeposit
-    50 // targetDeposit
+  acnt, // by
+  ordeId, // orderId
+  50, // baseDeposit
+  50 // targetDeposit
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -752,6 +812,7 @@ Example output
 ```
 
 #### Withdraw from Order
+
 Withdraw some tokens from the order.
 
 ```javascript
@@ -760,13 +821,14 @@ Withdraw some tokens from the order.
 // ordeId: string E.g. "JChwB1yFyFMUjSLCruuTDHVPWHWqvYvQBkFkinnmRmvY"
 
 const resp = await scc.orderWithdraw(
-    acnt, // by
-    ordeId, // orderId
-    50, // baseDeposit
-    50 // targetDeposit
+  acnt, // by
+  ordeId, // orderId
+  50, // baseDeposit
+  50 // targetDeposit
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -792,6 +854,7 @@ Example output
 ```
 
 #### Close Order
+
 Close the given order.
 
 ```javascript
@@ -800,11 +863,12 @@ Close the given order.
 // ordeId: string E.g. "JChwB1yFyFMUjSLCruuTDHVPWHWqvYvQBkFkinnmRmvY"
 
 const resp = await scc.closeOrder(
-    acnt0, // by
-    ordeId, // orderId
+  acnt0, // by
+  ordeId // orderId
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -830,6 +894,7 @@ Example output
 ```
 
 #### Swap Base Tokens to Target Tokens
+
 Trade base tokens for the target tokens.
 
 ```javascript
@@ -837,17 +902,18 @@ Trade base tokens for the target tokens.
 // acnt1: Account
 // ordeId: string E.g. "JChwB1yFyFMUjSLCruuTDHVPWHWqvYvQBkFkinnmRmvY"
 
-const aDayLater = (new Date().getTime()) + 86400;
+const aDayLater = new Date().getTime() + 86400;
 const resp = await scc.swapBaseToTarget(
-    acnt1, // by
-    ordeId, // orderId
-    2, // amount
-    1, // swapFee
-    1, // price
-    aDayLater 
+  acnt1, // by
+  ordeId, // orderId
+  2, // amount
+  1, // swapFee
+  1, // price
+  aDayLater
 );
 console.log(resp);
 ```
+
 Example output
 
 ```
@@ -873,6 +939,7 @@ Example output
 ```
 
 #### Swap Target Tokens to Base Tokens
+
 Trade target tokens for the base tokens.
 
 ```javascript
@@ -880,17 +947,18 @@ Trade target tokens for the base tokens.
 // acnt1: Account
 // ordeId: string E.g. "JChwB1yFyFMUjSLCruuTDHVPWHWqvYvQBkFkinnmRmvY"
 
-const aDayLater = (new Date().getTime()) + 86400;
+const aDayLater = new Date().getTime() + 86400;
 const resp = await scc.swapTargetToBase(
-    acnt1, // by
-    ordeId, // orderId
-    2, // amount
-    1, // swapFee
-    1, // price
-    aDayLater
+  acnt1, // by
+  ordeId, // orderId
+  2, // amount
+  1, // swapFee
+  1, // price
+  aDayLater
 );
 console.log(resp);
 ```
+
 Example output
 
 ```

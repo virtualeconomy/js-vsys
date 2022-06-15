@@ -64,10 +64,12 @@ Wallet {
 Instantiate `Wallet` from an existing seed.
 
 ```javascript
+const host = 'http://veldidina.vos.systems:9928';
+const api = NodeAPI.new(host);
+const ch = new Chain(api, ChainID.TEST_NET);
 const seed = new md.Seed(
   'chair library crew inject master pause west ladder valley survey behave attend culture clip blush'
 );
-
 const wal = new Wallet(seed);
 const acnt0 = wal.getAcnt(ch, 0);
 console.log(acnt0.addr.data);
