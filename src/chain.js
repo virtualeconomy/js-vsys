@@ -23,7 +23,7 @@ export class Chain {
    * @param {api.NodeAPI} nodeApi - The NodeAPI instance.
    * @param {ChainID} chainId - The chain ID. Defaults to ChainID.TEST_NET.
    */
-  constructor(nodeApi, chainId = ChainID.TEST_NET) {
+  constructor(nodeApi, chainId) {
     this.api = nodeApi;
     this.chainId = chainId;
   }
