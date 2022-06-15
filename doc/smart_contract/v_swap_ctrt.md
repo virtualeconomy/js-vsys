@@ -29,7 +29,6 @@
       - [Swap token for exact target token](#Swap-token-for-exact-target-token)
       - [Swap exact token for target token](#Swap-exact-token-for-base-token)
 
-
 ## Introduction
 
 V Swap is an automated market making protocol. Prices are regulated by a constant product formula, and requires no action from the liquidity provider to maintain prices.
@@ -55,11 +54,11 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 
 // Register a new V Swap contract
 const nc = await sp.VSwapCtrt.register(
-    acnt, // by
-    tokAId, // tokAId
-    tokBId, // tokBId
-    liqTokId, // liqTokId
-    50 // minLiq
+  acnt, // by
+  tokAId, // tokAId
+  tokBId, // tokBId
+  liqTokId, // liqTokId
+  50 // minLiq
 );
 console.log(nc.ctrtId); // print the id of the newly registered contract
 ```
@@ -80,7 +79,7 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // ch: Chain
 // ncId: string
 
-const ncId = "CFFCYjeGokKuDfAZAeSS5jdvfwc7imzB4Sk";
+const ncId = 'CFFCYjeGokKuDfAZAeSS5jdvfwc7imzB4Sk';
 const nc = new sp.VSwapCtrt(ncId, ch);
 ```
 
@@ -152,7 +151,7 @@ TokenID { data: 'TWu7afhhWt6jpxx2N9D5374owXmvUYvA7k3EyYQBD' }
 
 #### Swap status
 
-The swap status of whether or not the swap is currently active. 
+The swap status of whether or not the swap is currently active.
 
 ```javascript
 // nc: VSwapCtrt
@@ -374,9 +373,9 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // amountB: number
 
 const resp = await nc.setSwap(
-    acnt, // by
-    amountA, // amountA
-    amountB // amountB
+  acnt, // by
+  amountA, // amountA
+  amountB // amountB
 );
 console.log(resp);
 ```
@@ -420,12 +419,12 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // deadline: number
 
 const resp = await nc.addLiquidity(
-    acnt, // by
-    amountA, // amountA
-    amountB, // amountB
-    amountAMin, // amountAMin
-    amountBMin, // amountBMin
-    600 // deadline
+  acnt, // by
+  amountA, // amountA
+  amountB, // amountB
+  amountAMin, // amountAMin
+  amountBMin, // amountBMin
+  600 // deadline
 );
 console.log(resp);
 ```
@@ -468,11 +467,11 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // deadline: number
 
 const resp = await nc.removeLiquidity(
-    acnt, // by
-    amountLiq, // amountLiq
-    amountAMin, // amountAMin
-    amountBMin, // amountBMin
-    600 // deadline
+  acnt, // by
+  amountLiq, // amountLiq
+  amountAMin, // amountAMin
+  amountBMin, // amountBMin
+  600 // deadline
 );
 console.log(resp);
 ```
@@ -514,10 +513,10 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // deadline: number
 
 const resp = await nc.swapBForExactA(
-    acnt, // by
-    amountA, // amountA
-    amountBMax, // amountBMax
-    600 // deadline
+  acnt, // by
+  amountA, // amountA
+  amountBMax, // amountBMax
+  600 // deadline
 );
 console.log(resp);
 ```
@@ -546,7 +545,7 @@ Example output
 }
 ```
 
-####  Swap exact token for base token
+#### Swap exact token for base token
 
 Swap token B for token A where the amount of token B to pay is fixed.
 
@@ -559,10 +558,10 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // deadline: number
 
 const resp = await nc.swapExactBForA(
-    acnt, // by
-    amountAMin, // amountAMin 
-    amountB, // amountB
-    600 // deadline
+  acnt, // by
+  amountAMin, // amountAMin
+  amountB, // amountB
+  600 // deadline
 );
 console.log(resp);
 ```
@@ -604,10 +603,10 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // deadline: number
 
 const resp = nc.swapAForExactB(
-    acnt, // by
-    amountB, // amountB
-    amountAMax, // amountAMax
-    600 // deadline
+  acnt, // by
+  amountB, // amountB
+  amountAMax, // amountAMax
+  600 // deadline
 );
 console.log(resp);
 ```
@@ -649,10 +648,10 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // deadline: number
 
 const resp = await nc.swapExactAForB(
-    acnt, // by
-    amountBMin, // amountBMin 
-    amountA, // amountA
-    600 // deadline
+  acnt, // by
+  amountBMin, // amountBMin
+  amountA, // amountA
+  600 // deadline
 );
 console.log(resp);
 ```

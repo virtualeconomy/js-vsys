@@ -26,7 +26,6 @@
       - [generate the signature for off chain payments](#generate-the-signature-for-off-chain-payments)
       - [verify the signature](#verify-the-signature)
 
-
 ## Introduction
 
 Payment Channels have been implemented in a large number of blockchains as a method to increase the scalability of any protocol. By taking a large number of the transactions between two parties off-chain, it can significantly reduce the time and money cost of transactions.
@@ -108,7 +107,7 @@ TokenID { data: 'TWum8FrkHp3qooZShMtm3q4GKneV66evJibiwL3EM' }
 
 #### Contract balance
 
-The token balance within this contract. 
+The token balance within this contract.
 
 ```javascript
 // nc: pc.PayChanCtrt
@@ -203,7 +202,7 @@ Token { data: BigNumber { s: 1, e: 2, c: [ 300 ] }, unit: 1 }
 
 #### Channel accumulated payment
 
-The  accumulated payment of the channel.
+The accumulated payment of the channel.
 
 ```javascript
 // nc: PayChanCtrt
@@ -278,10 +277,10 @@ import * as pc from './src/contract/pay_chan_ctrt.js';
 // expiredTime: number
 
 const resp = await nc.createAndLoad(
-    acnt, // account
-    acnt1.addr.data, // string 
-    amount, // number
-    expiredTime // expiredTime
+  acnt, // account
+  acnt1.addr.data, // string
+  amount, // number
+  expiredTime // expiredTime
 );
 console.log(resp);
 ```
@@ -321,7 +320,7 @@ import * as pc from './src/contract/pay_chan_ctrt.js';
 // chanId: string
 // expiredTime: number
 
-const resp  = await nc.extendExpTime(
+const resp = await nc.extendExpTime(
   acnt, // acnt
   chanId, // chanId
   expiredTime // expiredTime
@@ -487,9 +486,9 @@ import * as pc from './src/contract/pay_chan_ctrt.js';
 const resp = await nc.collectPayment(
   acnt, // account
   chanId, // chanId
-  amount, // amount 
+  amount, // amount
   signature // signature
-)
+);
 console.log(resp);
 ```
 
@@ -529,9 +528,9 @@ import * as pc from './src/contract/pay_chan_ctrt.js';
 // amount: number
 
 const resp = await nc.offchainPay(
-    keyPair, // keyPair
-    chan_id, // chanId
-    amount // amount
+  keyPair, // keyPair
+  chan_id, // chanId
+  amount // amount
 );
 console.log(resp);
 ```
