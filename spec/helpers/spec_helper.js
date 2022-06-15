@@ -17,7 +17,7 @@ beforeAll(function () {
   this.SUPERNODE_ADDR = process.env.JS_VSYS_SUPERNODE_ADDR;
 
   this.api = jv.NodeAPI.new(this.HOST);
-  this.chain = new jv.Chain(this.api);
+  this.chain = new jv.Chain(this.api, jv.ChainID.TEST_NET);
   this.seed = new jv.Seed(this.SEED);
   this.wallet = new jv.Wallet(this.seed);
   this.acnt0 = this.wallet.getAcnt(this.chain, 0);
