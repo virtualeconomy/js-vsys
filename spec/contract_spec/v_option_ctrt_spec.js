@@ -206,10 +206,10 @@ describe('Test class VOptionCtrt', function () {
       expect(targetTokBalCol.data).toEqual(
         new bn.BigNumber((this.ACNT0_DEP_AMOUNT - this.MINT_AMOUNT + (this.MINT_AMOUNT-execAmount)*collectAmount/this.MINT_AMOUNT) * this.TARGETTC_UNIT)
       );
-      // Balance of tokens available in contract should be:
+      // Balance of tokens available to acnt0 in contract should be:
       // (accnt0_deposit - minted + targetTc_in_pool * collectAmount_byAcnt0 / Total_ProofTc_amount) * targetTc_unit
       // targetTc_in_pool = minted - (unlocked or executed)
-      // Total_ProofTC_amount = MINT_AMOUNT because we minted only this amount of proof tokens.
+      // Total_ProofTC_amount = MINT_AMOUNT. Because we minted only this amount of proof tokens.
     });
   });
 });
