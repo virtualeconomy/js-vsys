@@ -31,8 +31,8 @@ describe('Test class VOptionCtrt', function () {
     this.baseTc = baseTc;
     this.optionTc = optionTc;
     // issue just enough amount for all tests.
-    // test if optionTc have different unit from proofTc or write it in docs
-    // does not mint if baseTc and targetTc have higher unit than option/proofTc
+    // test if optionTc have different unit from proofTc or write it in docs.
+    // cannot mint if baseTc and targetTc have higher unit than option/proofTc.
     // should be targetTc_amount_deposited >= option/proofTc_issue_amount
     // should be targetTc_unit <= option/proofTc_unit
 
@@ -104,7 +104,7 @@ describe('Test class VOptionCtrt', function () {
         .data;
       expect(optionBal).toEqual(new bn.BigNumber(this.MINT_AMOUNT*this.TARGETTC_UNIT));
       // minted_amount * targetTc_unit
-     const proofBal = (await this.vc.getProofTokBal(this.acnt0.addr.data))
+      const proofBal = (await this.vc.getProofTokBal(this.acnt0.addr.data))
         .data;
       expect(proofBal).toEqual(new bn.BigNumber(this.MINT_AMOUNT*this.TARGETTC_UNIT));
       // minted_amount * targetTc_unit
@@ -112,7 +112,8 @@ describe('Test class VOptionCtrt', function () {
       expect(resp.data).toEqual(
         new bn.BigNumber((this.MAX_ISSUE_AMOUNT*this.TOKEN_UNIT - this.MINT_AMOUNT*this.TARGETTC_UNIT)*this.TOKEN_UNIT)
       );
-      // (MAX_ISSUE_AMOUNT * option/proofTC_unit - total_minted * targetTc_unit) * proofTc_unit
+      // Amount of reserved option tokens should equal:
+      // (MAX_ISSUE_AMOUNT * option/proofTc_unit - total_minted * targetTc_unit) * proofTc_unit
     });
   });
 
@@ -131,7 +132,8 @@ describe('Test class VOptionCtrt', function () {
       expect(targetBal).toEqual(new bn.BigNumber(
         (this.ACNT0_DEP_AMOUNT - this.MINT_AMOUNT + UNLOCK_AMOUNT)*this.TARGETTC_UNIT
       ));
-      // (total_targetTc_deposited - minted_amount + unlock_amount) * targetTc_unit
+      // Total amount of target tokens after unlocking some amount should be:
+      // (acnt0_targetTc_deposited - minted_amount + acnt0_unlock_amount) * targetTc_unit
     });
   });
 
@@ -154,7 +156,7 @@ describe('Test class VOptionCtrt', function () {
       resp = await this.baseTc.send(
         this.acnt0,
         this.acnt1.addr.data,
-        this.PRICE*execAmount // price * execAmount
+        this.PRICE*execAmount
       );
       resp = await this.optionTc.send(
         this.acnt0,
@@ -167,7 +169,7 @@ describe('Test class VOptionCtrt', function () {
       resp = await this.baseTc.deposit(
         this.acnt1,
         this.vc.ctrtId.data,
-        this.PRICE*execAmount // price * execAmount
+        this.PRICE*execAmount
       );
       resp = await this.optionTc.deposit(
         this.acnt1,
@@ -204,6 +206,7 @@ describe('Test class VOptionCtrt', function () {
       expect(targetTokBalCol.data).toEqual(
         new bn.BigNumber((this.ACNT0_DEP_AMOUNT - this.MINT_AMOUNT + (this.MINT_AMOUNT-execAmount)*collectAmount/this.MINT_AMOUNT) * this.TARGETTC_UNIT)
       );
+      // Balance of tokens available in contract should be:
       // (accnt0_deposit - minted + targetTc_in_pool * collectAmount_byAcnt0 / Total_ProofTc_amount) * targetTc_unit
       // targetTc_in_pool = minted - (unlocked or executed)
       // Total_ProofTC_amount = MINT_AMOUNT because we minted only this amount of proof tokens.
