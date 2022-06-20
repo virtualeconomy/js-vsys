@@ -179,9 +179,8 @@ describe('Test class AtomicSwapCtrt', function () {
       await this.assertTxSuccess(takerLockTxId);
 
       // maker solve
-      const makerSolveTxInfo = await this.makerAc.solve(
+      const makerSolveTxInfo = await this.takerAc.solve(
         this.maker,
-        this.takerAc.ctrtId.data,
         takerLockTxId,
         makerPuzzlePlain
       );
@@ -200,9 +199,8 @@ describe('Test class AtomicSwapCtrt', function () {
       expect(revealedSecret).toBe(makerPuzzlePlain);
 
       // taker solve
-      const takerSolveTxInfo = await this.takerAc.solve(
+      const takerSolveTxInfo = await this.makerAc.solve(
         this.taker,
-        this.makerAc.ctrtId.data,
         makerLockTxId,
         revealedSecret
       );

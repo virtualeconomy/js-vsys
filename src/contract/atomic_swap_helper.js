@@ -1,5 +1,6 @@
 /**
- * module contract/atomicSwapHelper provides higher level encapsulation of functionalities for V Atomic Swap contract on vsys chain.
+ * module contract/atomicSwapHelper provides higher level encapsulation of functionalities for V Atomic Swap contract on VSYS chain.
+ * The two swap tokens should be all be VSYS-based & on the same chain.
  * @module contract/atomicSwapHelper
  */
 
@@ -79,7 +80,6 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
     attachment = '',
     fee = md.ExecCtrtFee.DEFAULT
   ) {
-    // TODO: Deal with the case where maker & taker are on different chains.
     // The following code assumes that maker's contract & taker's contract
     // are on the same chain.
     const puzzleDbKey = DBKey.forSwapPuzzle(makerLockTxId);
@@ -113,7 +113,7 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
   /**
    * makerSolve solves the puzzle and reveals the secret to get taker's locked tokens for maker.
    * @param {acnt.Account} by - The action taker.
-   * @param {string} takerCtrtId - The swap contract ID of the taker's.
+   * @param {string} atomicCtrtId - The swap contract ID of the taker's.
    * @param {string} takerLockTxId - The lock transaction ID of taker's.
    * @param {string} secret - The secret.
    * @param {string} attachment - The attachment of the action. Defaults to ''.

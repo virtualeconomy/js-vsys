@@ -14,6 +14,7 @@ import * as hs from './utils/hashes.js';
 import * as curve from './utils/curve_25519.js';
 import * as rd from './utils/random.js';
 import * as api from './api.js';
+import * as tcf from './contract/tok_ctrt_factory.js';
 
 /** Wallet is the class for a wallet in VSYS blockchain network */
 export class Wallet {
@@ -169,6 +170,40 @@ export class Account {
   }
 
   /**
+   * getAvailBal returns the account's available balance(i.e. the balance that can be spent).
+   * NOTE: The amount leased out will NOT be reflected in this balance.
+   * @returns {md.VSYS} The account's available balance.
+   */
+  async getAvailBal() {
+    const resp = await this.api.addr.getBalanceDetails(this.addr.data);
+    return md.VSYS.fromNumber(resp.available);
+  }
+
+  /**
+    * getEffBal returns the account's effective balance(i.e. the balance that counts
+         when contending a slot).
+    * NOTE: The amount leased in&out will NOT be reflected in this balance.
+    * @returns {md.VSYS} The account's effective balance.
+    */
+  async getEffBal() {
+    const resp = await this.api.addr.getBalanceDetails(this.addr.data);
+    return md.VSYS.fromNumber(resp.effective);
+  }
+
+  /**
+    * getTokBal returns the raw balance of the token of the given token ID for this account.
+         NOTE that the token ID from the system contract is not supported due to the pre-defined & built-in nature
+         of system contract.
+    * @param {string} tokId - The token ID.
+    * @returns {md.VSYS} The account's effective balance.
+    */
+  async getTokBal(tokId) {
+    const tc = await tcf.fromTokId(new md.TokenID(tokId), this.chain);
+    const resp = await this.api.ctrt.getTokBal(this.addr.data, tokId);
+    return new md.Token(resp.balance, await tc.getUnit());
+  }
+
+  /**
    * payImpl provides the internal implementation of paying.
    * @param {tx.PaymentTxReq} req - The Payment Transaction Request.
    * @returns {object} The response returned by the NodeAPI.
@@ -177,6 +212,88 @@ export class Account {
     return await this.api.vsys.broadcastPayment(
       req.toBroadcastPaymentPayload(this.keyPair)
     );
+  }
+
+  /**
+   * pay pays the VSYS coins from the action taker to the recipient.
+   * @param {string} recipient - The account address of the recipient
+   * @param {number} amount - The amount of VSYS coins to pay.
+   * @param {string} attachment - The attachment of the action. Defaults to ''.
+   * @param {number} fee - Teh fee to pay for this action. Defaults to md.PaymentFee.DEFAULT.
+   */
+  async pay(recipient, amount, attachment = '', fee = md.PaymentFee.DEFAULT) {
+    const rcptMd = new md.Addr(recipient);
+    rcptMd.mustOn(this.chain);
+
+    const data = await this.payImpl(
+      new tx.PaymentTxReq(
+        rcptMd,
+        md.VSYS.forAmount(amount),
+        md.VSYSTimestamp.now(),
+        new md.Str(attachment),
+        md.PaymentFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * leaseImpl provides the internal implementation of leasing.
+   * @param {tx.LeaseTxReq} req - The leasing Transaction Request.
+   * @returns {object} The response returned by the NodeAPI.
+   */
+  async leaseImpl(req) {
+    return await this.api.leasing.broadcastLease(
+      req.toBroadcastLeasingPayload(this.keyPair)
+    );
+  }
+
+  /**
+   * lease leases the VSYS coins from the action taker to the recipient(a supernode).
+   * @param {string} supernodeAddr - The supernode address.
+   * @param {md.VSYS} amount - The lease amount.
+   * @param {md.Fee} fee - The lease fee. DEFAULT to be md.Fee.DEFAULT.
+   * @returns {object} The response returned by the NodeAPI.
+   */
+  async lease(supernodeAddr, amount, fee = md.LeasingFee.DEFAULT) {
+    const addrMd = new md.Addr(supernodeAddr);
+    addrMd.mustOn(this.chain);
+    const data = await this.leaseImpl(
+      new tx.LeaseTxReq(
+        addrMd,
+        md.VSYS.forAmount(amount),
+        md.VSYSTimestamp.now(),
+        md.LeasingFee.fromNumber(fee)
+      )
+    );
+    return data;
+  }
+
+  /**
+   * leaseCancelImpl provides the internal implementation of leasing.
+   * @param {tx.PaymentTxReq} req - The Payment Transaction Request.
+   * @returns {object} The response returned by the NodeAPI.
+   */
+  async leaseCancelImpl(req) {
+    return await this.api.leasing.broadcastCancel(
+      req.toBroadcastLeasingCancelPayload(this.keyPair)
+    );
+  }
+
+  /**
+   * leaseCancel sends a leasing cancel transaction request on behalf of the account.
+   * @param {md.Addr} leasingTxId - The leasing Transaction id.
+   * @returns {object} The response returned by the NodeAPI.
+   */
+  async leaseCancel(leasingTxId, fee = md.Fee.DEFAULT) {
+    const data = await this.leaseCancelImpl(
+      new tx.LeaseCancelReq(
+        new md.TxID(leasingTxId),
+        md.VSYSTimestamp.now(),
+        md.LeasingCancelFee.fromNumber(fee)
+      )
+    );
+    return data;
   }
 
   /**

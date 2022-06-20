@@ -238,6 +238,11 @@ export class FixedSizedB58Str extends B58Str {
   }
 }
 
+/** TxID is the data model class for tx id */
+export class TxID extends FixedSizedB58Str {
+  static BYTES_LEN = 32;
+}
+
 /** PubKey is the data model class for public keys */
 export class PubKey extends FixedSizedB58Str {
   static BYTES_LEN = 32;
@@ -331,7 +336,7 @@ export class Addr extends FixedSizedB58Str {
    * @param {ch.Chain} chain - The chain.
    */
   mustOn(chain) {
-    if (this.chainId !== chain.chainId) {
+    if (this.chainId.value !== chain.chainId.value) {
       throw new Error(
         `Addr is not on the chain. The Addr has chainId ${this.chainId} while the chain expects ${chain.chainId}`
       );
@@ -492,7 +497,7 @@ export class VSYSTimestamp extends NonNegativeBigInt {
 
     const cls = this.constructor;
 
-    if (this.data !== 0 && this.data < cls.SCALE) {
+    if (!this.data.isZero() && this.data < cls.SCALE) {
       throw new Error(
         `Data in ${cls.name} must either be 0 or equal or greater than ${cls.SCALE}`
       );
@@ -635,6 +640,12 @@ export class Fee extends VSYS {
 
 /** PaymentFee is the data model class for payment fee */
 export class PaymentFee extends Fee {}
+
+/** LeasingFee is the data model class for leasing fee */
+export class LeasingFee extends Fee {}
+
+/** LeasingCancelFee is the data model class for leasing cancel fee */
+export class LeasingCancelFee extends Fee {}
 
 /** RegCtrtFee is the data model class for register contract fee */
 export class RegCtrtFee extends Fee {
