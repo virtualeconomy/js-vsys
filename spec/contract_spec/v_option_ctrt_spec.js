@@ -11,22 +11,26 @@ import * as bn from '../../src/utils/big_number.js';
 
 describe('Test class VOptionCtrt', function () {
   beforeEach(async function () {
-    const MAX_ISSUE_AMOUNT = 1000;
-    this.MAX_ISSUE_AMOUNT = MAX_ISSUE_AMOUNT;
-    const MINT_AMOUNT = 250;
-    this.MINT_AMOUNT = MINT_AMOUNT;
+    this.MAX_ISSUE_AMOUNT = 1000;
+    this.BASETC_UNIT = 100;
+    this.TARGETTC_UNIT = 100;
+    this.TOKEN_UNIT = 100;
+    this.PRICE = 5;
+    this.MINT_AMOUNT = 250;
     this.ACNT0_DEP_AMOUNT = 4000;
     const EXEC_TIME_DELTA = 50;
     const EXEC_DDL_DELTA = 95;
+    // ideally those constants should be asserted, as there is relationship between them. Most likely it will be ok if you follow guidlines in comments.
 
     const [baseTc, targetTc, optionTc, proofTc] = await Promise.all([
-      jv.TokCtrtWithoutSplit.register(this.acnt0, 5000, 100),
-      jv.TokCtrtWithoutSplit.register(this.acnt0, 5000, 100),
-      jv.TokCtrtWithoutSplit.register(this.acnt0, MAX_ISSUE_AMOUNT, 100),
-      jv.TokCtrtWithoutSplit.register(this.acnt0, MAX_ISSUE_AMOUNT, 100),
+      jv.TokCtrtWithoutSplit.register(this.acnt0, 5000, this.BASETC_UNIT),
+      jv.TokCtrtWithoutSplit.register(this.acnt0, 5000, this.TARGETTC_UNIT),
+      jv.TokCtrtWithoutSplit.register(this.acnt0, this.MAX_ISSUE_AMOUNT, this.TOKEN_UNIT),
+      jv.TokCtrtWithoutSplit.register(this.acnt0, this.MAX_ISSUE_AMOUNT, this.TOKEN_UNIT),
     ]);
     this.baseTc = baseTc;
     this.optionTc = optionTc;
+    // issue just enough amount for all tests.
     // test if optionTc have different unit from proofTc or write it in docs
     // does not mint if baseTc and targetTc have higher unit than option/proofTc
     // should be targetTc_amount_deposited >= option/proofTc_issue_amount
@@ -37,8 +41,8 @@ describe('Test class VOptionCtrt', function () {
     await Promise.all([
       baseTc.issue(this.acnt0, 5000),
       targetTc.issue(this.acnt0, 5000),
-      optionTc.issue(this.acnt0, MAX_ISSUE_AMOUNT),
-      proofTc.issue(this.acnt0, MAX_ISSUE_AMOUNT),
+      optionTc.issue(this.acnt0, this.MAX_ISSUE_AMOUNT),
+      proofTc.issue(this.acnt0, this.MAX_ISSUE_AMOUNT),
     ]);
     await this.waitForBlock();
 
@@ -58,23 +62,20 @@ describe('Test class VOptionCtrt', function () {
     await Promise.all([
       baseTc.deposit(this.acnt0, this.vc.ctrtId.data, this.ACNT0_DEP_AMOUNT),
       targetTc.deposit(this.acnt0, this.vc.ctrtId.data, this.ACNT0_DEP_AMOUNT),
-      optionTc.deposit(this.acnt0, this.vc.ctrtId.data, MAX_ISSUE_AMOUNT),
-      proofTc.deposit(this.acnt0, this.vc.ctrtId.data, MAX_ISSUE_AMOUNT),
+      optionTc.deposit(this.acnt0, this.vc.ctrtId.data, this.MAX_ISSUE_AMOUNT),
+      proofTc.deposit(this.acnt0, this.vc.ctrtId.data, this.MAX_ISSUE_AMOUNT),
     ]);
     await this.waitForBlock();
 
     await this.vc.activate(this.acnt0,
-      MAX_ISSUE_AMOUNT,
-      5, // price
+      this.MAX_ISSUE_AMOUNT,
+      this.PRICE, // price
       100 // priceUnit
     );
     await this.waitForBlock();
 
-    await this.vc.mint(this.acnt0, MINT_AMOUNT);
+    await this.vc.mint(this.acnt0, this.MINT_AMOUNT);
     await this.waitForBlock();
-    const targetTokBalCol = await this.vc.getTargetTokBal(
-      this.acnt0.addr.data
-    );
   });
 
   describe('Test method register', function () {
@@ -88,7 +89,7 @@ describe('Test class VOptionCtrt', function () {
   describe('Test method activate', function () {
     it('should activate the V Option contract to store option token and proof token into the pool', async function () {
       const maxIssueNum = (await this.vc.getMaxIssueNum()).data;
-      expect(maxIssueNum).toEqual(new bn.BigNumber(this.MAX_ISSUE_AMOUNT * 100 * 100));
+      expect(maxIssueNum).toEqual(new bn.BigNumber(this.MAX_ISSUE_AMOUNT * this.TOKEN_UNIT * this.BASETC_UNIT));
       // max_issue_amount * option/proof_token_unit * baseTc_unit
     });
   });
@@ -97,19 +98,19 @@ describe('Test class VOptionCtrt', function () {
     it('should lock target tokens into the pool to get option tokens and proof tokens', async function () {
       const targetBal = (await this.vc.getTargetTokBal(this.acnt0.addr.data))
         .data;
-      expect(targetBal).toEqual(new bn.BigNumber((this.ACNT0_DEP_AMOUNT-this.MINT_AMOUNT)*100));
+      expect(targetBal).toEqual(new bn.BigNumber((this.ACNT0_DEP_AMOUNT-this.MINT_AMOUNT)*this.TARGETTC_UNIT));
       // (TargetTc_deposited_amount-minted) * targetTc_unit
       const optionBal = (await this.vc.getOptionTokBal(this.acnt0.addr.data))
         .data;
-      expect(optionBal).toEqual(new bn.BigNumber(this.MINT_AMOUNT*100));
+      expect(optionBal).toEqual(new bn.BigNumber(this.MINT_AMOUNT*this.TARGETTC_UNIT));
       // minted_amount * targetTc_unit
-      const proofBal = (await this.vc.getProofTokBal(this.acnt0.addr.data))
+     const proofBal = (await this.vc.getProofTokBal(this.acnt0.addr.data))
         .data;
-      expect(proofBal).toEqual(new bn.BigNumber(this.MINT_AMOUNT*100));
+      expect(proofBal).toEqual(new bn.BigNumber(this.MINT_AMOUNT*this.TARGETTC_UNIT));
       // minted_amount * targetTc_unit
       let resp = await this.vc.getReversedOption();
       expect(resp.data).toEqual(
-        new bn.BigNumber((this.MAX_ISSUE_AMOUNT*100 - this.MINT_AMOUNT*100)*100)
+        new bn.BigNumber((this.MAX_ISSUE_AMOUNT*this.TOKEN_UNIT - this.MINT_AMOUNT*this.TARGETTC_UNIT)*this.TOKEN_UNIT)
       );
       // (MAX_ISSUE_AMOUNT * option/proofTC_unit - total_minted * targetTc_unit) * proofTc_unit
     });
@@ -128,7 +129,7 @@ describe('Test class VOptionCtrt', function () {
         .data;
 
       expect(targetBal).toEqual(new bn.BigNumber(
-        (this.ACNT0_DEP_AMOUNT - this.MINT_AMOUNT + UNLOCK_AMOUNT)*100
+        (this.ACNT0_DEP_AMOUNT - this.MINT_AMOUNT + UNLOCK_AMOUNT)*this.TARGETTC_UNIT
       ));
       // (total_targetTc_deposited - minted_amount + unlock_amount) * targetTc_unit
     });
@@ -137,6 +138,7 @@ describe('Test class VOptionCtrt', function () {
   describe('Test method execute&collect', function () {
     it('should test method execute&collect', async function () {
       const execAmount = 100;
+      const collectAmount = 100;
 
       let resp = await this.optionTc.withdraw(
         this.acnt0,
@@ -152,7 +154,7 @@ describe('Test class VOptionCtrt', function () {
       resp = await this.baseTc.send(
         this.acnt0,
         this.acnt1.addr.data,
-        500
+        this.PRICE*execAmount // price * execAmount
       );
       resp = await this.optionTc.send(
         this.acnt0,
@@ -161,11 +163,11 @@ describe('Test class VOptionCtrt', function () {
       );
       await this.waitForBlock();
       
-      await ut.sleep(24 * 1000);
+      await ut.sleep(24 * 1000); // after execute timestamp
       resp = await this.baseTc.deposit(
         this.acnt1,
         this.vc.ctrtId.data,
-        500 // price * execAmount
+        this.PRICE*execAmount // price * execAmount
       );
       resp = await this.optionTc.deposit(
         this.acnt1,
@@ -185,13 +187,13 @@ describe('Test class VOptionCtrt', function () {
         this.acnt1.addr.data
       );
       expect(targetTokBalExec.data.minus(targetTokBalInit.data)).toEqual(
-        new bn.BigNumber(execAmount * 100)
+        new bn.BigNumber(execAmount * this.TARGETTC_UNIT)
       );
       // execAmount * targetTc_unit
 
-      await ut.sleep(30 * 1000);
+      await ut.sleep(30 * 1000); // after execute deadline timestamp
 
-      const collectTxinfo = await this.vc.collect(this.acnt0, execAmount);
+      const collectTxinfo = await this.vc.collect(this.acnt0, collectAmount);
       await this.waitForBlock();
       const collectTxId = collectTxinfo.id;
       await this.assertTxSuccess(collectTxId);
@@ -200,10 +202,11 @@ describe('Test class VOptionCtrt', function () {
         this.acnt0.addr.data
       );
       expect(targetTokBalCol.data).toEqual(
-        new bn.BigNumber(3810 * 100)
+        new bn.BigNumber((this.ACNT0_DEP_AMOUNT - this.MINT_AMOUNT + (this.MINT_AMOUNT-execAmount)*collectAmount/this.MINT_AMOUNT) * this.TARGETTC_UNIT)
       );
-      // (accnt0_deposit - minted + targetTc_in_pool * collect_amount/Total_ProofTc_amount) * targetTc_unit
-      // targetTc_in_pool = minted - unlocked/executed
+      // (accnt0_deposit - minted + targetTc_in_pool * collectAmount_byAcnt0 / Total_ProofTc_amount) * targetTc_unit
+      // targetTc_in_pool = minted - (unlocked or executed)
+      // Total_ProofTC_amount = MINT_AMOUNT because we minted only this amount of proof tokens.
     });
   });
 });
