@@ -14,8 +14,7 @@ The official Javascript SDK for VSYS APIs. The [old Javascript SDK](https://gith
     - [Chain & API](#chain--api)
     - [Smart Contracts](#smart-contracts)
   - [Run Tests](#run-tests)
-    - [Functional Tests](#functional-tests)
-  - [Logging](#logging)
+    - [Specification Tests](#specification-tests)
   - [Contributing](#contributing)
 
 ## Installation
@@ -169,7 +168,7 @@ Contract id: CtrtID { data: 'CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD' }
 - [NFT Contract V2](./doc/smart_contract/nft_ctrt_v2.md)
 - [Token Contract V1 without split](./doc/smart_contract/tok_ctrt_no_split.md)
 - [Token Contract V1 with split](./doc/smart_contract/tok_ctrt_split.md)
-- [Token Contract V2 without split](./doc/smart_contract/tok_ctrt_no_split_v2.md)
+- [Token Contract V2 without split](./doc/smart_contract/tok_ctrt_v2.md)
 - [Atomic Swap Contract](./doc/smart_contract/atomic_swap_ctrt.md)
 - [Payment Channel Contract](./doc/smart_contract/pay_chan_ctrt.md)
 - [Lock Contract](./doc/smart_contract/lock_ctrt.md)
