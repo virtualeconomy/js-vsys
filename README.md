@@ -79,7 +79,7 @@ const acnt = wal.getAcnt(ch, 0);
 // Get the account's balance
 console.log("Balance:", await acnt.getBal());
 // Get the account's nonce'
-console.log("Nonce", acnt.nonce);
+console.log("Nonce:", acnt.nonce);
 // Get the account's public key
 console.log("Public key:", acnt.keyPair.pub);
 // Get the account's private key
@@ -93,7 +93,7 @@ const ctrt = new nft.NFTCtrt(ctrtId, ch);
 // Get the contract's maker
 console.log("Maker:", await ctrt.getMaker());
 // Get the contract's issuer
-console.log("Issuer", await ctrt.getIssuer());
+console.log("Issuer:", await ctrt.getIssuer());
 // Get the contract's ID
 console.log("Contract id:", ctrt.ctrtId);
 
@@ -144,13 +144,13 @@ Last block:
 }
 ========== Try out Account ==========
 Balance: VSYS { data: BigNumber { s: 1, e: 13, c: [ 48592200000000 ] } }
-Nonce Nonce { data: 0 }
+Nonce: Nonce { data: 0 }
 Public key: PubKey { data: 'FwuW4LhiBFn6uu5id9nZGtp9o1RUG3DoX5MhyZibrjkE' }
 Private key: PriKey { data: '2dC1PVfaeWBR6bsT4jpPkp4Zr9PNhXwQThPLEAvKWB37' }
 Account address: Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 ========== Try out Smart Contract ==========
 Maker: Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
-Issuer Addr { data: 'AUFDmJqrcwphseJccD1vkR7xbRciMijMpw4' }
+Issuer: Addr { data: 'AUFDmJqrcwphseJccD1vkR7xbRciMijMpw4' }
 Contract id: CtrtID { data: 'CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD' }
 ```
 
