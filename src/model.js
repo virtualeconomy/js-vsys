@@ -336,7 +336,7 @@ export class Addr extends FixedSizedB58Str {
    * @param {ch.Chain} chain - The chain.
    */
   mustOn(chain) {
-    if (this.chainId !== chain.chainId) {
+    if (this.chainId.value !== chain.chainId.value) {
       throw new Error(
         `Addr is not on the chain. The Addr has chainId ${this.chainId} while the chain expects ${chain.chainId}`
       );
