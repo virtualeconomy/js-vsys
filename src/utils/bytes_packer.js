@@ -77,7 +77,7 @@ export function packBool(val) {
  * @returns {number} The unpacking result.
  */
 export function unpackUInt8(buf) {
-  return buf.readUInt8();
+  return buf.readUInt8(0);
 }
 
 /**
@@ -86,7 +86,7 @@ export function unpackUInt8(buf) {
  * @returns {number} The unpacking result.
  */
 export function unpackUInt16(buf) {
-  return buf.readUInt16BE();
+  return buf.readUInt16BE(0);
 }
 
 /**
@@ -95,7 +95,7 @@ export function unpackUInt16(buf) {
  * @returns {number} The unpacking result.
  */
 export function unpackUInt32(buf) {
-  return buf.readUInt32BE();
+  return buf.readUInt32BE(0);
 }
 
 /**
@@ -104,7 +104,7 @@ export function unpackUInt32(buf) {
  * @returns {BigInt} The unpacking result.
  */
 export function unpackUInt64(buf) {
-  return buf.readUInt64BE();
+  return buf.readUInt64BE(0);
 }
 
 /**
@@ -113,6 +113,6 @@ export function unpackUInt64(buf) {
  * @returns {boolean} The unpacking result.
  */
 export function unpackBool(buf) {
-  const i = buf.readUInt8();
+  const i = buf.readUInt8(0);
   return !!i;
 }
