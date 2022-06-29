@@ -222,7 +222,7 @@ export class PubKey extends FixedSizeB58Str {
    * @param {md.PubKey} data - The data model to contain.
    */
   constructor(data) {
-    this.data = data;
+    super(data);
   }
 }
 
