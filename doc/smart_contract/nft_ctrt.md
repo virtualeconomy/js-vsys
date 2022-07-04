@@ -2,7 +2,7 @@
 
 - [NFT Contract V1](#nft-contract-v1)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -27,16 +27,16 @@ NFT can be thought of as a special kind of custom token where
 
 Note that a NFT contract instance on the VSYS blockchain supports defining multiple NFTs (unlike Token contact which supports defining only 1 kind of token per contract instance).
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
 ```Javascript
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 // acnt: Account
 
 // Register a new NFT contract
-const ctrt = await nft.NFTCtrt.register(acnt);
+const ctrt = await jv.NFTCtrt.register(acnt);
 console.log(ctrt.ctrtId); // print the id of the newly registered contract
 ```
 
@@ -49,12 +49,12 @@ CtrtID { data: 'CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD' }
 ### From Existing Contract
 
 ```Javascript
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // ch: Chain
 
 const ncId = "CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD";
-const nc = new nft.NFTCtrt(ncId, ch);
+const nc = new jv.NFTCtrt(ncId, ch);
 ```
 
 ### Querying
@@ -64,7 +64,7 @@ const nc = new nft.NFTCtrt(ncId, ch);
 The address that has the issuing right of the NFT contract instance.
 
 ```Javascript
-// nc: nft.NFTCtrt
+// nc: jv.NFTCtrt
 
 console.log(await nc.getIssuer());
 ```
@@ -80,7 +80,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 The address that made this NFT contract instance.
 
 ```Javascript
-// nc: nft.NFTCtrt
+// nc: jv.NFTCtrt
 
 console.log(await nc.getMaker());
 ```
@@ -98,7 +98,7 @@ The unit of tokens defined in this NFT contract instance.
 As the unit is obviously fixed to 1 for NFTs, the support of querying unit of NFT is for the compatibility with other token-defining contracts.
 
 ```Javascript
-// nc: nft.NFTCtrt
+// nc: jv.NFTCtrt
 
 console.log(await nc.getUnit());
 ```
@@ -116,10 +116,10 @@ Example output
 Define a new NFT and issue it. Only the issuer of the contract instance can take this action. The issued NFT will belong to the issuer.
 
 ```Javascript
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
-// nc: nft.NFTCtrt
+// nc: jv.NFTCtrt
 
 const resp = await nc.issue(acnt);
 console.log(resp);
@@ -154,11 +154,11 @@ Example output
 Send an NFT to another user.
 
 ```Javascript
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nft.NFTCtrt
+// nc: jv.NFTCtrt
 
 const resp = await nc.send(
   acnt0, // by
@@ -198,11 +198,11 @@ Transfer the ownership of an NFT to another account(e.g. user or contract).
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
 ```Javascript
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nft.NFTCtrt
+// nc: jv.NFTCtrt
 
 const resp = await nc.transfer(
   acnt1, // by
@@ -244,12 +244,11 @@ Deposit an NFT to a token-holding contract instance(e.g. lock contract).
 Note that only the token defined in the token-holding contract instance can be deposited into it.
 
 ```Javascript
-import * as lock from './src/contract/lock_ctrt.js';
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
-// lc: lock.LockCtrt
-// nc: nft.NFTCtrt
+// lc: jv.LockCtrt
+// nc: jv.NFTCtrt
 
 const lcId = lc.ctrtId.data;
 
@@ -292,12 +291,11 @@ Withdraw an NFT from a token-holding contract instance(e.g. lock contract).
 Note that only the one who deposits the token can withdraw.
 
 ```Javascript
-import * as lock from './src/contract/lock_ctrt.js';
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
-// lc: lock.LockCtrt
-// nc: nft.NFTCtrt
+// lc: jv.LockCtrt
+// nc: jv.NFTCtrt
 
 const lcId = lc.ctrtId.data;
 
@@ -339,12 +337,11 @@ Transfer the issuer role of the contract to a new user.
 The maker of the contract has the privilege to take this action.
 
 ```Javascript
-import * as lock from './src/contract/lock_ctrt.js';
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
-// lc: lock.LockCtrt
-// nc: nft.NFTCtrt
+// lc: jv.LockCtrt
+// nc: jv.NFTCtrt
 
 const resp = await nc.supersede(acnt0, acnt1.addr.data);
 console.log(resp);
