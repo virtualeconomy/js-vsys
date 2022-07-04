@@ -1,6 +1,6 @@
 {
   "name": "@virtualeconomy/js-vsys",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The official JavaScript SDK for VSYS APIs",
   "keywords": [
     "vsys",
