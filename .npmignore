@@ -6,5 +6,6 @@ npm-debug.log
 .prettierignore
 .prettierrc.json
 *.js
-# js file only from src are published
-!src/*.js
+# js file only from src and spec are published
+!src/**/*.js
+!spec/**/*.js
