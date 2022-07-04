@@ -2,29 +2,29 @@
 
 - [Payment Channel Contract](#payment-channel-contract)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
       - [Maker](#maker)
       - [Token id](#token-id)
       - [Contract balance](#contract-balance)
-      - [channel creator](#channel-creator)
-      - [channel creator's public key](#channel-creator's-public-key)
-      - [channel recipient](#channel-recipient)
-      - [channel accumulated load](#channel-accumulated-load)
-      - [channel accumulated payment](#channel-accumulated-payment)
-      - [channel expiration time](#channel-expiration-time)
-      - [channel status](#channel-status)
+      - [Channel creator](#channel-creator)
+      - [Channel creator's public key](#channel-creators-public-key)
+      - [Channel recipient](#channel-recipient)
+      - [Channel accumulated load](#channel-accumulated-load)
+      - [Channel accumulated payment](#channel-accumulated-payment)
+      - [Channel expiration time](#channel-expiration-time)
+      - [Channel status](#channel-status)
     - [Actions](#actions)
       - [Create and load](#create-and-load)
-      - [extend expiration time](#extend-expiration-time)
-      - [load](#load)
-      - [abort](#abort)
-      - [unload](#unload)
-      - [collect payment](#collect-payment)
-      - [generate the signature for off chain payments](#generate-the-signature-for-off-chain-payments)
-      - [verify the signature](#verify-the-signature)
+      - [Extend expiration time](#extend-expiration-time)
+      - [Load](#load)
+      - [Abort](#abort)
+      - [Unload](#unload)
+      - [Collect payment](#collect-payment)
+      - [Generate the signature for off chain payments](#generate-the-signature-for-off-chain-payments)
+      - [Verify the signature](#verify-the-signature)
 
 ## Introduction
 
@@ -32,7 +32,7 @@ Payment Channels have been implemented in a large number of blockchains as a met
 
 The payment channel contract in VSYS is a one-way payment channel, which means that the paying user is considered as `sender` and the receiving user is `receiver`.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
@@ -41,13 +41,13 @@ The payment channel contract in VSYS is a one-way payment channel, which means t
 For testing purpose, you can create a new [token contract]() , then [issue]() some tokens and [deposit]() into the payment channel contract.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: pv.Account
 // tokId: str
 
 // Register a new Payment Channel contract
-const nc = await pc.PayChanCtrt.register(acnt, tokId);
+const nc = await jv.PayChanCtrt.register(acnt, tokId);
 console.log(nc.ctrtId); // print the id of the newly registered contract
 ```
 
@@ -62,13 +62,13 @@ CtrtID { data: 'CF78zQNY1kRBSVckXnnQFGveCTWBXpQaF4i' }
 ncId is the payment channel contract's id.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // ch: Chain
 // ncId: string
 
 const ncId = 'CF78zQNY1kRBSVckXnnQFGveCTWBXpQaF4i';
-const nc = new pc.PayChanCtrt(ncId, ch);
+const nc = new jv.PayChanCtrt(ncId, ch);
 ```
 
 ### Querying
@@ -78,7 +78,7 @@ const nc = new pc.PayChanCtrt(ncId, ch);
 The address that made this payment channel contract instance.
 
 ```javascript
-// nc: pc.PayChanCtrt
+// nc: jv.PayChanCtrt
 
 console.log(await nc.getMaker());
 ```
@@ -94,7 +94,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 The token id of the token that deposited into this payment channel contract.
 
 ```javascript
-// nc: pc.PayChanCtrt
+// nc: jv.PayChanCtrt
 
 console.log(await nc.getTokId());
 ```
@@ -110,7 +110,7 @@ TokenID { data: 'TWum8FrkHp3qooZShMtm3q4GKneV66evJibiwL3EM' }
 The token balance within this contract.
 
 ```javascript
-// nc: pc.PayChanCtrt
+// nc: jv.PayChanCtrt
 // acnt: pv.Account
 
 const bal = await nc.getCtrtBal(acnt0.addr.data);
@@ -130,7 +130,7 @@ Token { data: BigNumber { s: 1, e: 2, c: [ 300 ] }, unit: 1 }
 The channel creator.
 
 ```javascript
-// nc: pc.PayChanCtrt
+// nc: jv.PayChanCtrt
 // chanId: string e.g. '5dv575QktQMfB9YEi1qyzm5yi9YMMApGNZyddTbsxmpK'
 // chanId is the transaction id of the createAndLoad function.
 
@@ -269,7 +269,7 @@ Create the payment channel and loads an amount into it.
 Note that this transaction id is the channel id.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // receipt: string
@@ -314,7 +314,7 @@ Example output
 Extend the expiration time of the channel to the new input timestamp.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // chanId: string
@@ -357,7 +357,7 @@ Example output
 Load more tokens into the channel.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // chanId: string
@@ -400,7 +400,7 @@ Example output
 Abort the channel, triggering a 2-day grace period where the recipient can still collect payments. After 2 days, the payer can unload all the remaining funds that was locked in the channel.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // chanId: string
@@ -438,7 +438,7 @@ Example output
 Unload all the funcs locked in the channel (only works if the channel has expired).
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // chanId: string
@@ -476,7 +476,7 @@ Example output
 Collect the payment from the channel (only works if the channel has expired).
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // chanId: string
@@ -521,7 +521,7 @@ Example output
 Generate the offchain payment signature.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // keyPair: md.KeyPair
 // chanId: string
@@ -546,7 +546,7 @@ Example output
 Verify the payment signature.
 
 ```javascript
-import * as pc from './src/contract/pay_chan_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // chanId: string
 // amount: number

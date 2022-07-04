@@ -2,7 +2,7 @@
 
 - [V Stable Swap Contract](#v-stable-swap-contract)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -49,19 +49,19 @@ The order created in the contract acts like a liquidity pool for two kinds of to
 
 The V Stable Swap contract can accept any type of token in the VSYS blockchain, including option tokens created through the V Option Contract.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
 Register a contract instance.
 
 ```javascript
-import * as vss from './src/contract/v_stable_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 // acnt: Account
 // baseTokId: string E.g. "TWssXmoLvyB3ssAaJiKk5d7ambFHBxcmr9sMRtPLa"
 // targetTokId: string E.g. "TWtoBbmn5UgQd9KgtbWkBY96hiUJWzeTTggGrb8ba"
 
-const scc = await vss.StableSwapCtrt.register(
+const scc = await jv.StableSwapCtrt.register(
   acnt,
   baseTokId,
   targetTokId,
@@ -83,12 +83,12 @@ CtrtID { data: 'CF1LQZ5U2S1WiXHbVdY8CwKjhqC1kF8GZwt' }
 Get an object for an existing contract instance.
 
 ```javascript
-import * as vss from './src/contract/v_stable_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // ch: Chain
 
 const sccId = 'CF1LQZ5U2S1WiXHbVdY8CwKjhqC1kF8GZwt';
-const scc = new vss.StableSwapCtrt(sccId, ch);
+const scc = new jv.StableSwapCtrt(sccId, ch);
 ```
 
 ### Querying

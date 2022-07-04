@@ -1,0 +1,11 @@
+.gitignore
+.github/
+node_modules/
+npm-debug.log
+.pre-commit-config.yaml
+.prettierignore
+.prettierrc.json
+*.js
+# js file only from src and spec are published
+!src/**/*.js
+!spec/**/*.js

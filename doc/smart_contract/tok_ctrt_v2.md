@@ -42,12 +42,12 @@ The example below shows registering an instance of Token Contract V2 Without Spl
 The usage of the blacklist one is very similiar.
 
 ```javascript
-import * as tok from './src/contract/tok_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// acnt: Account from './src/account.js'
+// acnt: Account
 
 // can use TokCtrtV2Blacklist instead of Whitelist
-const tc = await tok.TokCtrtV2Whitelist.register(
+const tc = await jv.TokCtrtV2Whitelist.register(
   acnt, // by
   10000, // max
   100, // unit
@@ -69,12 +69,12 @@ tokID:  TWuUxvp5R5RDiqxWZPwwUvch84zDtvc6wbmn4K656
 ### From Existing Contract
 
 ```javascript
-import * as tok from './src/contract/tok_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// ch: Chain from './src/chain.js'
+// ch: Chain
 
 tcId = 'CEu9aFoVwdApYBAPFy4hTYc2NUJRzoL5VYc';
-tc = tok.TokCtrtV2Whitelist(tcId, ch); // ctrtId, chain
+tc = jv.TokCtrtV2Whitelist(tcId, ch); // ctrtId, chain
 ```
 
 ### Querying
@@ -84,8 +84,8 @@ tc = tok.TokCtrtV2Whitelist(tcId, ch); // ctrtId, chain
 Get the status of whether the user address is in the list. Returns boolean value.
 
 ```javascript
-// acnt: Account from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt: Account
+// tc: TokCtrtV2Whitelist
 
 console.log(await tc.isUserInList(acnt.addr.data));
 ```
@@ -101,7 +101,7 @@ true
 Get the status of whether the contract id is in the list. Returns boolean value
 
 ```javascript
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// tc: TokCtrtV2Whitelist
 
 // CtrtId we are interested in
 let ctrtId = 'CF5Zkj2Ycx72WrBnjrcNHvJRVwsbNX1tjgT';
@@ -120,7 +120,7 @@ false
 The address that has the issuing right of the Token contract instance.
 
 ```javascript
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// tc: TokCtrtV2Whitelist
 
 console.log(await tc.getIssuer());
 ```
@@ -136,7 +136,7 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The address that made this Token contract instance.
 
 ```javascript
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// tc: TokCtrtV2Whitelist
 
 console.log(await tc.getMaker());
 ```
@@ -154,7 +154,7 @@ The address that serves as the regulator of the contract instance.
 The maker becomes the regulator by default.
 
 ```javascript
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// tc: TokCtrtV2Whitelist
 
 console.log(await tc.getRegulator());
 ```
@@ -172,7 +172,7 @@ The token ID of the token defined in the token contract instance.
 Note that theoretically a token contract instance can have multiple kinds of token, it is restricted to 1 kind of token per token contract instance. In other word, the token ID is of the token index `0`.
 
 ```javascript
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// tc: TokCtrtV2Whitelist
 
 console.log(tc.getTokId(0));
 ```
@@ -188,7 +188,7 @@ TokenID { data: 'TWsi8XxwJqrHZTbjYMj4f3nHCTE37oRXRjfHCwahj' }
 The unit of the token defined in this token contract instance.
 
 ```javascript
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// tc: TokCtrtV2Whitelist
 
 console.log(await tc.getUnit());
 ```
@@ -204,8 +204,8 @@ Example output
 Query the balance of the token defined in the contract for the given user.
 
 ```javascript
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
-// acnt: Account from './src/account.js'
+// tc: TokCtrtV2Whitelist
+// acnt: Account
 
 console.log(await tc.getTokBal(acnt.addr.data));
 ```
@@ -225,9 +225,9 @@ Transfer the issuer role of the contract to a new user.
 The maker of the contract has the privilege to take this action.
 
 ```javascript
-// acnt0: Account from './src/account.js'
-// acnt1: Account from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt0: Account
+// acnt1: Account
+// tc: TokCtrtV2Whitelist
 
 let resp = await tc.supersede(
   acnt0, // by
@@ -267,8 +267,8 @@ Issue the a certain amount of the token. The issued tokens will belong to the is
 Note that only the address with the issuer role can take this action.
 
 ```javascript
-// acnt: Account from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt: Account
+// tc: TokCtrtV2Whitelist
 
 let resp = await tc.issue(acnt, 2500); // by, amount
 console.log(resp);
@@ -305,9 +305,9 @@ Add/remove a user from the whitelist/blacklist.
 Note the regulator has the privilege to take this action.
 
 ```javascript
-// acnt0: Account from './src/account.js'
-// acnt1: Accout from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt0: Account
+// acnt1: Accout
+// tc: TokCtrtV2Whitelist
 
 const addr1 = acnt0.addr.data;
 
@@ -350,8 +350,8 @@ Add/remove a contract from the whitelist/blacklist.
 Note the regulator has the privilege to take this action.
 
 ```javascript
-// acnt0: Account from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt0: Account
+// tc: TokCtrtV2Whitelist
 
 // arbitrary CtrtId
 const ctrtId = 'CF5Zkj2Ycx72WrBnjrcNHvJRVwsbNX1tjgT';
@@ -375,9 +375,9 @@ Example output
 Send a certain amount of the token to another user.
 
 ```javascript
-// acnt0: Account from './src/account.js'
-// acnt1: Accout from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt0: Account
+// acnt1: Accout
+// tc: TokCtrtV2Whitelist
 
 let resp = await tc.send(
   acnt0, // by
@@ -418,8 +418,8 @@ Destroy a certain amount of the token.
 Note that only the address with the issuer role can take this action.
 
 ```javascript
-// acnt: Accout from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt: Accout
+// tc: TokCtrtV2Whitelist
 
 let resp = await tc.destroy(
   acnt, // by
@@ -458,9 +458,9 @@ Transfer a certain amount of the token to another account(e.g. user or contract)
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
 ```javascript
-// acnt0: Accout from './src/account.js'
-// acnt1: Accout from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
+// acnt0: Accout
+// acnt1: Accout
+// tc: TokCtrtV2Whitelist
 
 let resp = await tc.transfer(
   acnt0, // by
@@ -502,9 +502,9 @@ Deposit a certain amount of the token into a token-holding contract instance(e.g
 Note that only the token defined in the token-holding contract instance can be deposited into it.
 
 ```javascript
-// acnt: Accout from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
-// lc: LockCtrt from './src/contract/lock_ctrt.js'
+// acnt: Accout
+// tc: TokCtrtV2Whitelist
+// lc: LockCtrt
 
 const lcId = lc.ctrtId.data;
 
@@ -547,9 +547,9 @@ Withdraw a certain amount of the token from a token-holding contract instance(e.
 Note that only the token defined in the token-holding contract instance can be withdrawn from it.
 
 ```javascript
-// acnt: Accout from './src/account.js'
-// tc: TokCtrtV2Whitelist from './src/contract/tok_ctrt_v2.js'
-// lc: LockCtrt from './src/contract/lock_ctrt.js'
+// acnt: Accout
+// tc: TokCtrtV2Whitelist
+// lc: LockCtrt
 
 lcId = lc.ctrtId.data;
 

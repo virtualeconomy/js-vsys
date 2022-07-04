@@ -2,7 +2,7 @@
 
 - [Atomic Swap Contract](#atomic-swap-contract)
   - [Introduction](#introduction)
-  - [Usage with Python SDK](#usage-with-python-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -29,18 +29,18 @@ Atomic Swap Contract is the VSYS implementation of [Atomic Swap](https://en.bitc
 
 We have written a helper which exclusively serve when both users' accounts and tokens are on VSYS chain.
 
-## Usage with Python SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
 Register an Atomic Swap Contract instance.
 
 ```javascript
-import * as atomic from './src/contract/atomic_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// acnt: Account
+// acnt: jv.Account
 // tokId: string
-const ac = await atomic.AtomicSwapCtrt.register(acnt, tokId);
+const ac = await jv.AtomicSwapCtrt.register(acnt, tokId);
 console.log(ac.ctrtId);
 ```
 
@@ -55,11 +55,11 @@ CtrtID(CFAAxTu44NsfwMUfpmVd6y4vuN9xQNVFtGa)
 Get an object for an existing contract instance.
 
 ```javascript
-import * as atomic from './src/contract/atomic_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // ch: Chain
 const ctrtId = 'CFAAxTu44NsfwMUfpmVd6y4vuN9xQNVFtGa';
-const atomicCtrt = new atomic.AtomicSwapCtrt(atomicCtrtId, ch);
+const atomicCtrt = new jv.AtomicSwapCtrt(atomicCtrtId, ch);
 ```
 
 ### Querying
@@ -246,11 +246,11 @@ If the lock is executed by the taker, we need the hashed secret bytes from the m
 // acnt0: Account
 // acnt1: Account
 // lockAmount: number
-import * as hs from './src/utils/hashes.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // maker lock sample code
 secret = 'abc';
-const puzzleBytes = hs.sha256Hash(Buffer.from(makerPuzzlePlain, 'latin1'));
+const puzzleBytes = jv.sha256Hash(Buffer.from(secret, 'latin1'));
 const makerLockTimestamp = Date.now() + 1800 * 1000;
 
 resp = await ac.lock(

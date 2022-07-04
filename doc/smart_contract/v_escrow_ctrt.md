@@ -63,16 +63,16 @@ Note that the caller is the judge of the escrow contract.
 For testing purpose, you can create a new [token contract]() , then [issue]() some tokens and [deposit]() into the escrow contract.
 
 ```javascript
-import * as tok from './src/contract/v_escrow_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// acnt: Account from './src/account.js'
+// acnt: Account
 // tokId: string
 // dur: number
 // judgeDur: number
 // description: string
 
 // Register a new V Escrow contract
-const vec = await tok.VEscrowCtrt.register(
+const vec = await jv.VEscrowCtrt.register(
   acnt, // by
   tokId, // tokId
   dur, // duration - The duration in which the recipient can take actions.
@@ -93,13 +93,13 @@ ctrtId: CEzgEwke6qw4im78x22aNgnqKe3dVxfeciD
 `vecId` is the escrow contract's id.
 
 ```javascript
-import * as tok from './src/contract/v_escrow_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// ch: Chain from './src/chain.js'
+// ch: Chain
 // vecId: string
 
 const vecId = 'CEzgEwke6qw4im78x22aNgnqKe3dVxfeciD';
-const vec = tok.VEscrowCtrt(
+const vec = jv.VEscrowCtrt(
   vecId, // ctrtId
   ch // chain
 );
@@ -112,7 +112,7 @@ const vec = tok.VEscrowCtrt(
 The address that made this v escrow contract instance.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/tok_ctrt_v2.js'
+// vec: VEscrowCtrt
 
 console.log(await vec.getMaker());
 ```
@@ -128,7 +128,7 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The judge of the contract.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/tok_ctrt_v2.js'
+// vec: VEscrowCtrt
 
 console.log(await vec.getJudge());
 ```
@@ -144,8 +144,8 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The token_id of the contract. Caches result if it hasn't been retrieved earlier.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
-// acnt: Account from './src/account.js'
+// vec: VEscrowCtrt
+// acnt: Account
 
 console.log(await vec.getTokId());
 ```
@@ -161,7 +161,7 @@ TokenID { data: 'TWsi8XxwJqrHZTbjYMj4f3nHCTE37oRXRjfHCwahj' }
 The duration where the recipient can take actions in the contract.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 
 console.log(await vec.getDuration());
 ```
@@ -177,7 +177,7 @@ VSYSTimestamp { data: BigNumber { s: 1, e: 21, c: [ 16552542 ] } }
 The duration where the judge can take actions in the contract.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 
 console.log(await vec.getJudgeDuration());
 ```
@@ -193,8 +193,8 @@ VSYSTimestamp { data: BigNumber { s: 1, e: 21, c: [ 16558590 ] } }
 The balance of the token within this contract belonging to the user address.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
-// acnt: Account from './src/account.js'
+// vec: VEscrowCtrt
+// acnt: Account
 
 console.log(await vec.getCtrtBal(acnt.addr.data));
 ```
@@ -210,7 +210,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 0 ] }, unit: 100 }
 The payer of the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 console.log(await vec.getOrderPayer(orderID));
@@ -227,7 +227,7 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The recipient of the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of buy order
 
 let resp = await vec.getOrderRcpt(orderID);
@@ -245,7 +245,7 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The amount of the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderAmount(orderID);
@@ -263,7 +263,7 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 0 ] }, unit: 100 }
 The amount the recipient should deposit in the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderRcptDeposit(orderID);
@@ -281,7 +281,7 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 The amount the judge should deposit in the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderJudgeDeposit(orderID);
@@ -299,7 +299,7 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 The fee of the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderFee(orderID);
@@ -319,7 +319,7 @@ The amount the recipient will receive from the order if the order goes smoothly(
 The recipient amount = order amount - order fee.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderRcptAmount(orderID);
@@ -341,7 +341,7 @@ The refund amount means how much the payer will receive if the refund occurs.
 It is defined when the order is created.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderRefund(orderID);
@@ -363,7 +363,7 @@ The recipient refund amount means how much the recipient will receive if the ref
 The recipient refund amount = The total deposit(order amount + judge deposit + recipient deposit) - payer refund
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderRcptRefund(orderID);
@@ -381,7 +381,7 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 The expiration time of the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderExpTime(orderID);
@@ -401,7 +401,7 @@ VSYSTimestamp {
 The status of the order. (check if the order is still active)
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderStatus(orderID);
@@ -425,7 +425,7 @@ true - recipient deposited
 false - recipient didn't deposit
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderRcptDepositStatus(orderID);
@@ -445,7 +445,7 @@ The judge deposit status of the order.
 The order judge deposit status means if the judge has deposited into the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderJudgeDepositStatus(orderID);
@@ -467,7 +467,7 @@ true - submitted
 false - not submitted
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderSubmitStatus(orderID);
@@ -485,7 +485,7 @@ true
 The judge status of the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderJudgeStatus(orderID);
@@ -503,7 +503,7 @@ true
 The amount from the recipient that is locked(deposited) in the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderRcptLockedAmount(orderID);
@@ -521,7 +521,7 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 20000 ] }, unit: 100 }
 The amount from the judge that is locked(deposited) in the order.
 
 ```javascript
-// vec: VEscrowCtrt from './src/contract/v_escrow_ctrt.js'
+// vec: VEscrowCtrt
 // orderID: string - TransactionID of escrow order
 
 let resp = await vec.getOrderJudgeLockedAmount(orderID);
@@ -541,8 +541,8 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 Transfer the judge right of the contract to another account.
 
 ```javascript
-// acnt: Account from './src/account.js'
-// newJudge: Account from './src/account.js'
+// acnt: Account
+// newJudge: Account
 
 resp = await vec.supersede(
   acnt, // by
@@ -582,7 +582,7 @@ Create an escrow order and called by the payer.
 Note that this transaction id of this action is the **order ID**.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // recipient: string
 // amount: number
 // rcptDepositAmount: number
@@ -635,7 +635,7 @@ Deposit tokens the recipient deposited into the contract into the order.
 Note that it is called by the recipient.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 resp = await vec.recipientDeposit(
@@ -676,7 +676,7 @@ Deposit tokens the judge deposited into the contract into the order.
 Note that it is called by the judge.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.judgeDeposit(acnt, orderID);
@@ -714,7 +714,7 @@ Cancel the order by the payer.
 Note that it is called by the payer.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.payerCancel(acnt, orderID);
@@ -752,7 +752,7 @@ Cancel the order by the recipient.
 Note that it is called by the recipient.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.recipientCancel(acnt, orderID);
@@ -790,7 +790,7 @@ Cancel the order by the judge.
 Note that it is called by the judge.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.judgeCancel(acnt, orderID);
@@ -828,7 +828,7 @@ Submit the work by the recipient.
 Note that it is called by the recipient.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 resp = await vec.submitWork(acnt, orderID);
@@ -866,7 +866,7 @@ Approve the work and agrees the amounts are paid by the payer.
 Note that it is called by the payer.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 resp = await vec.approveWork(acnt, orderID);
@@ -904,7 +904,7 @@ Apply for the help from judge by the payer.
 Note that it is called by the payer.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.applyToJudge(
@@ -945,7 +945,7 @@ Judge the work and decides on how much the payer & recipient will receive.
 Note that it is called by the judge.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.doJudge(
@@ -990,7 +990,7 @@ The judge will still get the fee.
 Note that it is called by the payer.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.submitPenalty(
@@ -1035,7 +1035,7 @@ The recipient receives the rest.
 Note that it is called by the payer.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.payerRefund(
@@ -1080,7 +1080,7 @@ The recipient receives the rest.
 Note that it is called by the recipient.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.rcptRefund(
@@ -1123,7 +1123,7 @@ The judge will get judge deposited amount & fee.
 Note that it is called by the recipient.
 
 ```javascript
-// acnt: Account from './src/account.js'
+// acnt: Account
 // orderID: string - transaction ID of order(create) transaction
 
 let resp = await vec.collect(

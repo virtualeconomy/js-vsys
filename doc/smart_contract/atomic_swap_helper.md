@@ -2,7 +2,7 @@
 
 - [Atomic Swap Helper](#atomic-swap-helper)
   - [Introduction](#introduction)
-  - [Usage with Python SDK](#usage-with-python-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -27,18 +27,18 @@
 
 This is the helper that provides better user experience if you are just swap two tokens which are both on VSYS chain. We divide the lock and solve function into makerLock, takerLock, makerSolve and takerSolve.
 
-## Usage with Python SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
 Register an Atomic Swap Contract instance.
 
 ```javascript
-import * as atomic from './src/contract/atomic_swap_helper.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // tokId: string
-const ac = await atomic.AtomicSwapHelper.register(acnt, tokId);
+const ac = await jv.AtomicSwapHelper.register(acnt, tokId);
 console.log(ac.ctrtId);
 ```
 
@@ -53,11 +53,11 @@ CtrtID(CFAAxTu44NsfwMUfpmVd6y4vuN9xQNVFtGa)
 Get an object for an existing contract instance.
 
 ```javascript
-import * as atomic from './src/contract/atomic_swap_helper.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // ch: Chain
 const ctrtId = 'CFAAxTu44NsfwMUfpmVd6y4vuN9xQNVFtGa';
-const atomicCtrt = new atomic.AtomicSwapHelper(atomicCtrtId, ch);
+const atomicCtrt = new jv.AtomicSwapHelper(atomicCtrtId, ch);
 ```
 
 ### Querying
@@ -239,7 +239,7 @@ The maker locks tokens into the contract with the recipient, secret, and expirat
 // ac: AtomicSwapHelper
 // maker: Account
 // lockAmount: number
-import * as hs from './src/utils/hashes.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 secret = 'abc';
 const makerLockTimestamp = Date.now() + 1800 * 1000;

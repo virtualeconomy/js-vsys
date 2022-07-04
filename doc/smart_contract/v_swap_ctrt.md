@@ -1,33 +1,33 @@
 # V Swap Contract
 
-- [Payment Channel Contract](#payment-channel-contract)
+- [V Swap Contract](#v-swap-contract)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
       - [Maker](#maker)
-      - [Token A's id](#token-A's-id)
-      - [Token B's id](#token-B's-id)
-      - [Liquidity token's id](#Liquidity_token's-id)
-      - [Swap status](#Swap-status)
-      - [Minimum liquidity](#Minimum-liquidity)
-      - [Token A reserved](#Token-A-reserved)
-      - [Token B reserved](#Token-B-reserved)
-      - [Total supply](#Total-supply)
-      - [Liquidity token left](#Liquidity-token-left)
-      - [Token A's balance](#Token-A's-balance)
-      - [Token B's balance](#Token-B's-balance)
-      - [Liquidity's balance](#Liquidity's-balance)
+      - [Token A's id](#token-as-id)
+      - [Token B's id](#token-bs-id)
+      - [Liquidity token's id](#liquidity-tokens-id)
+      - [Swap status](#swap-status)
+      - [Minimum liquidity](#minimum-liquidity)
+      - [Token A reserved](#token-a-reserved)
+      - [Token B reserved](#token-b-reserved)
+      - [Total supply](#total-supply)
+      - [Liquidity token left](#liquidity-token-left)
+      - [Token A's balance](#token-as-balance)
+      - [Token B's balance](#token-bs-balance)
+      - [Liquidity's balance](#liquiditys-balance)
     - [Actions](#actions)
-      - [Supersede](#Supersede)
-      - [Set swap](#Set-swap)
-      - [Add Liquidity](#Add-Liquidity)
-      - [Remove liquidity](#Remove-liquidity)
-      - [Swap token for exact base token](#Swap-token-for-exact-base-token)
-      - [Swap exact token for base token](#Swap-exact-token-for-base-token)
-      - [Swap token for exact target token](#Swap-token-for-exact-target-token)
-      - [Swap exact token for target token](#Swap-exact-token-for-base-token)
+      - [Supersede](#supersede)
+      - [Set swap](#set-swap)
+      - [Add Liquidity](#add-liquidity)
+      - [Remove liquidity](#remove-liquidity)
+      - [Swap token for exact base token](#swap-token-for-exact-base-token)
+      - [Swap exact token for base token](#swap-exact-token-for-base-token)
+      - [Swap token for exact target token](#swap-token-for-exact-target-token)
+      - [Swap exact token for target token](#swap-exact-token-for-target-token)
 
 ## Introduction
 
@@ -35,7 +35,7 @@ V Swap is an automated market making protocol. Prices are regulated by a constan
 
 The contract allows completely decentralised exchanges to be formed, and allows anyone to be a liquidity provider as long as they have tokens on both sides of the swap.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
@@ -44,7 +44,7 @@ The contract allows completely decentralised exchanges to be formed, and allows 
 For testing purpose, you can create a new [token contract]() , then [issue]() some tokens and [deposit]() into the V Swap contract.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // tokAId: string
@@ -53,7 +53,7 @@ import * as sp from './src/contract/v_swap_ctrt.js';
 // minLiq: number
 
 // Register a new V Swap contract
-const nc = await sp.VSwapCtrt.register(
+const nc = await jv.VSwapCtrt.register(
   acnt, // by
   tokAId, // tokAId
   tokBId, // tokBId
@@ -74,13 +74,13 @@ CtrtID { data: 'CFFCYjeGokKuDfAZAeSS5jdvfwc7imzB4Sk' }
 ncId is the V Swap contract's id.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // ch: Chain
 // ncId: string
 
 const ncId = 'CFFCYjeGokKuDfAZAeSS5jdvfwc7imzB4Sk';
-const nc = new sp.VSwapCtrt(ncId, ch);
+const nc = new jv.VSwapCtrt(ncId, ch);
 ```
 
 ### Querying
@@ -328,7 +328,7 @@ Token { data: BigNumber { s: 1, e: 3, c: [ 1000 ] }, unit: 100 }
 Transfer the contract rights of the contract to a new account.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
@@ -366,7 +366,7 @@ Example output
 Create a swap and deposit initial amounts into the pool.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // amountA: number
@@ -409,7 +409,7 @@ Example output
 Adds liquidity to the pool. The final added amount of token A & B will be in the same proportion as the pool at that moment as the liquidity provider shouldn't change the price of the token while the price is determined by the ratio between A & B.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // amountA: number
@@ -458,7 +458,7 @@ Example output
 Remove liquidity from the pool by redeeming token A & B with liquidity tokens.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // amountLiq: number
@@ -505,7 +505,7 @@ Example output
 Swap token B for token A where the desired amount of token A is fixed.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // amountA: number
@@ -550,7 +550,7 @@ Example output
 Swap token B for token A where the amount of token B to pay is fixed.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // amountAMin: number
@@ -595,7 +595,7 @@ Example output
 Swap token A for token B where the desired amount of token B is fixed.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // amountB: number
@@ -640,7 +640,7 @@ Example output
 Swap token B for token B where the amount of token A to pay is fixed.
 
 ```javascript
-import * as sp from './src/contract/v_swap_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // amountBMin: number
