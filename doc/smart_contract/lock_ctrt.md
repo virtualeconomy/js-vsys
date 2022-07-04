@@ -2,7 +2,7 @@
 
 - [Lock Contract](#lock-contract)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -17,7 +17,7 @@
 
 Lock contract allows users to lock a specific token in the contract for some period of time. This allows users to guarantee they have a certain amount of funds upon lock expiration. This may be helpful in implementing some kinds of staking interactions with users of a VSYS token for instance.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
@@ -26,14 +26,14 @@ Lock contract allows users to lock a specific token in the contract for some per
 For testing purpose, you can create a new [token contract]() , then [issue]() some tokens and [deposit]() into the lock contract.
 
 ```javascript
-import * as lc from './src/contract/lock_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // tokId: string
 
 // Register a new Lock contract
-const nc = await lc.LockCtrt.register(acnt, tokId);
-console.log(nc.ctrtId); // print the id of the newly registered contract
+const lc = await jv.LockCtrt.register(acnt, tokId);
+console.log(lc.ctrtId); // print the id of the newly registered contract
 ```
 
 Example output
@@ -45,12 +45,12 @@ CtrtID { data: 'CFFGTjUwuM41Dk7iVaJg88BrEsPmwQKTmM6' }
 ### From Existing Contract
 
 ```javascript
-import * as lc from './src/contract/lock_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // ch: Chain
 
 const ncId = 'CFFGTjUwuM41Dk7iVaJg88BrEsPmwQKTmM6';
-const nc = lc.LockCtrt(ncId, ch);
+const lc = jv.LockCtrt(ncId, ch);
 ```
 
 ### Querying
@@ -60,9 +60,9 @@ const nc = lc.LockCtrt(ncId, ch);
 The address that made this lock contract instance.
 
 ```javascript
-// nc: lc.LockCtrt
+// nc: jv.LockCtrt
 
-console.log(await nc.getMaker());
+console.log(await lc.getMaker());
 ```
 
 Example output
@@ -76,9 +76,9 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 The token id of the token that deposited into this lock contract.
 
 ```javascript
-// nc: lc.LockCtrt
+// nc: jv.LockCtrt
 
-console.log(await nc.getTokId());
+console.log(await lc.getTokId());
 ```
 
 Example output
@@ -94,10 +94,10 @@ The token balance within this contract.
 Note that the balance is the same no matter the token is locked or not.
 
 ```javascript
-// nc: lc.LockCtrt
+// nc: jv.LockCtrt
 // acnt: Account
 
-const bal = await nc.getCtrtBal(acnt.addr.data);
+const bal = await lc.getCtrtBal(acnt.addr.data);
 console.log(bal);
 console.log(bal['data'].toNumber()); // to see the result better
 ```
@@ -114,10 +114,10 @@ Token { data: BigNumber { s: 1, e: 0, c: [ 0 ] }, unit: 1 }
 The expire timestamp.
 
 ```javascript
-// nc: lc.LockCtrt
+// nc: jv.LockCtrt
 // acnt: Account
 
-const ts = await nc.getCtrtLockTime(acnt.addr.data);
+const ts = await lc.getCtrtLockTime(acnt.addr.data);
 console.log(ts);
 console.log(ts['data'].toNumber()); // to see the result better
 ```
@@ -138,13 +138,13 @@ VSYSTimestamp {
 Lock the token until the expire time. The token can't be withdrawn before the expire time.
 
 ```javascript
-import * as lc from './src/contract/lock_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // expireTime: number
 
 const expireTime = parseInt(new Date().getTime()) + 600;
-const resp = await nc.lock(acnt0, expireTime);
+const resp = await lc.lock(acnt0, expireTime);
 console.log(resp);
 ```
 

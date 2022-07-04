@@ -33,11 +33,11 @@ The token unit can be updated at any time after the contract instance is registe
 The example below shows registering an instance of Token Contract V1 With Split where the max amount is 100 & the unit is 100.
 
 ```javascript
-import * as tok from './src/contract/tok_ctrt_split.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// acnt: Account from './src/account.js'
+// acnt: Account 
 
-const tc = await tok.TokCtrtWithSplit.register(
+const tc = await jv.TokCtrtWithSplit.register(
   acnt, // by
   10000, // max
   100, // unit
@@ -61,12 +61,12 @@ tokID:  TWsi8XxwJqrHZTbjYMj4f3nHCTE37oRXRjfHCwahj
 `tokCtrtId` is the ctrtID of previously registered token.
 
 ```javascript
-import * as tok from './src/contract/tok_ctrt_split.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// ch: Chain from './src/chain.js'
+// ch: Chain 
 
 const tokCtrtId = 'CEu9aFoVwdApYBAPFy4hTYc2NUJRzoL5VYc';
-const tc = new tok.TokCtrtWithSplit(tokCtrtId, ch);
+const tc = new jv.TokCtrtWithSplit(tokCtrtId, ch);
 ```
 
 ### Querying
@@ -76,7 +76,7 @@ const tc = new tok.TokCtrtWithSplit(tokCtrtId, ch);
 The address that has the issuing right of the Token contract instance.
 
 ```javascript
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// tc: TokCtrtWithSplit 
 
 console.log(await tc.getIssuer());
 ```
@@ -92,7 +92,7 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The address that made this Token contract instance.
 
 ```javascript
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// tc: TokCtrtWithSplit 
 
 console.log(await tc.getMaker());
 ```
@@ -110,7 +110,7 @@ The token ID of the token defined in the token contract instance.
 Note that theoretically a token contract instance can have multiple kinds of token, it is restricted to 1 kind of token per token contract instance. In other word, the token ID is of the token index `0`.
 
 ```javascript
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// tc: TokCtrtWithSplit 
 
 console.log(tokB.getTokId(0));
 ```
@@ -126,7 +126,7 @@ TokenID { data: 'TWsi8XxwJqrHZTbjYMj4f3nHCTE37oRXRjfHCwahj' }
 The unit of the token defined in this token contract instance.
 
 ```javascript
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// tc: TokCtrtWithSplit 
 
 console.log(await tc.getUnit());
 ```
@@ -142,8 +142,8 @@ Example output
 Query the balance of the token defined in the contract for the given user.
 
 ```javascript
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
-// acnt: Account from './src/account.js'
+// tc: TokCtrtWithSplit 
+// acnt: Account 
 
 console.log(await tc.getTokBal(acnt.addr.data));
 ```
@@ -163,9 +163,9 @@ Transfer the issuer role of the contract to a new user.
 The maker of the contract has the privilege to take this action.
 
 ```javascript
-// acnt0: Account from './src/account.js'
-// acnt1: Account from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// acnt0: Account 
+// acnt1: Account 
+// tc: TokCtrtWithSplit 
 
 let resp = await tc.supersede(
   acnt0, // by
@@ -206,8 +206,8 @@ Issue the a certain amount of the token. The issued tokens will belong to the is
 Note that only the address with the issuer role can take this action.
 
 ```javascript
-// acnt: Account from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// acnt: Account 
+// tc: TokCtrtWithSplit 
 
 let data1 = await tc.issue(acnt1, 2500);
 
@@ -243,9 +243,9 @@ Example output
 Send a certain amount of the token to another user.
 
 ```javascript
-// acnt0: Account from './src/account.js'
-// acnt1: Accout from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// acnt0: Account 
+// acnt1: Accout 
+// tc: TokCtrtWithSplit 
 
 let resp = await tc.send(
   acnt0, // by
@@ -286,8 +286,8 @@ Destroy a certain amount of the token.
 Note that only the address with the issuer role can take this action.
 
 ```javascript
-// acnt: Accout from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// acnt: Accout 
+// tc: TokCtrtWithSplit 
 
 let resp = await tc.destroy(
   acnt, // by
@@ -326,9 +326,9 @@ Transfer a certain amount of the token to another account(e.g. user or contract)
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
 ```javascript
-// acnt0: Accout from './src/account.js'
-// acnt1: Accout from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// acnt0: Accout 
+// acnt1: Accout 
+// tc: TokCtrtWithSplit 
 
 let resp = await tokB.transfer(
   acnt0, // by
@@ -370,9 +370,9 @@ Deposit a certain amount of the token into a token-holding contract instance(e.g
 Note that only the token defined in the token-holding contract instance can be deposited into it.
 
 ```javascript
-// acnt: Accout from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
-// lc: LockCtrt from './src/contract/lock_ctrt.js'
+// acnt: Accout 
+// tc: TokCtrtWithSplit 
+// lc: LockCtrt 
 
 const lcId = lc.ctrtId.data;
 
@@ -415,9 +415,9 @@ Withdraw a certain amount of the token from a token-holding contract instance(e.
 Note that only the token defined in the token-holding contract instance can be withdrawn from it.
 
 ```javascript
-// acnt: Accout from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
-// lc: LockCtrt from './src/contract/lock_ctrt.js'
+// acnt: Accout 
+// tc: TokCtrtWithSplit 
+// lc: LockCtrt 
 
 const lcId = lc.ctrtId.data;
 
@@ -460,8 +460,8 @@ Update the unit of the token.
 The address with the issuer & maker role can take this action.
 
 ```javascript
-// acnt: Accout from './src/account.js'
-// tc: TokCtrtWithSplit from './src/contract/tok_ctrt_split.js'
+// acnt: Accout 
+// tc: TokCtrtWithSplit 
 
 let resp = await tc.split(acnt, 1000, 'change unit');
 console.log(resp);

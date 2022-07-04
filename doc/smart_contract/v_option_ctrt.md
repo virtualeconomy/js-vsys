@@ -2,7 +2,7 @@
 
 - [V Option Contract](#v-option-contract)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -39,16 +39,16 @@
 
 Option Contract in VSYS provides an opportunity for the interested parties to buy or sell a VSYS underlying asset based on the determined agreement(e.g., pre-determined price, execute timestamp and so on). It allows users to create option tokens on the VSYS blockchain, and buyers holding these option tokens have the right to buy or sell some underlying asset at some point in the future. Different from the traditional option market, everyone can buy or sell option tokens to join the option market at any time without any contractual relationship with an exchange.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
 Register an V Option Contract instance.
 
 ```javascript
-import * as tok from './src/contract/v_option_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// acnt: Account from './src/account.js'
+// acnt: Account
 // baseTokId: str
 // targetTokId: str
 // optionTokId: str
@@ -57,7 +57,7 @@ import * as tok from './src/contract/v_option_ctrt.js';
 // executeDeadline: int - Unix timestamp
 
 // Register a new contract instance
-const voc = await tok.VOptionCtrt.register(
+const voc = await jv.VOptionCtrt.register(
   acnt, // by
   'TWuTFmDynQz815ygjgmoiwU1BL3UTA7VC5VFVQLdw', // baseTokId
   'TWsbVKNno1EHdeWfjJpkQkCqgPcba2zk8Ud4BU5dV', // targetTokId
@@ -81,13 +81,13 @@ CtrtID { data: 'CErjKJcYHWiho1KnnRBfYYZmouNpvms7bAh' }
 Get an object for an existing contract instance.
 
 ```javascript
-import * as tok from './src/contract/v_option_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
-// ch: Chain from './src/chain.js'
+// ch: Chain
 // voc_id: str - contract Id of registered V Option contract
 
 voc_id = 'CErjKJcYHWiho1KnnRBfYYZmouNpvms7bAh';
-voc = tok.VOptionCtrt(
+voc = jv.VOptionCtrt(
   voc_id, // ctrtId
   ch // chain
 );
@@ -100,7 +100,7 @@ voc = tok.VOptionCtrt(
 The address that made this contract instance.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await vec.getMaker());
 ```
@@ -116,7 +116,7 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The base token ID.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getBaseTokId());
 ```
@@ -132,7 +132,7 @@ TokenID { data: 'TWuTFmDynQz815ygjgmoiwU1BL3UTA7VC5VFVQLdw' }
 The target token ID.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getTargetTokId());
 ```
@@ -148,7 +148,7 @@ TokenID { data: 'TWuTFmDynQz815ygjgmoiwU1BL3UTA7VC5VFVQLdw' }
 The option token ID.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getOptionTokId());
 ```
@@ -164,7 +164,7 @@ TokenID { data: 'TWuTFmDynQz815ygjgmoiwU1BL3UTA7VC5VFVQLdw' }
 The proof token ID.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getProofTokId());
 ```
@@ -180,7 +180,7 @@ TokenID { data: 'TWuTFmDynQz815ygjgmoiwU1BL3UTA7VC5VFVQLdw' }
 The execute time.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getExeTime());
 ```
@@ -198,7 +198,7 @@ VSYSTimestamp {
 The execute deadline.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getExeDeadline());
 ```
@@ -216,7 +216,7 @@ VSYSTimestamp {
 The option contract's status.(check if it is still alive)
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getOptionStatus());
 ```
@@ -232,7 +232,7 @@ false
 The maximum issue of the option tokens.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getMaxIssueNum());
 ```
@@ -248,7 +248,7 @@ Token { data: BigNumber { s: 1, e: 8, c: [ 100000000 ] }, unit: 100 }
 The reserved option tokens remaining in the pool.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getReservedOption());
 ```
@@ -264,7 +264,7 @@ Token { data: BigNumber { s: 1, e: 7, c: [ 98200000 ] }, unit: 100 }
 The reserved proof tokens remaining in the pool.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getReservedProof());
 ```
@@ -280,7 +280,7 @@ Token { data: BigNumber { s: 1, e: 6, c: [ 9000000 ] }, unit: 100 }
 The price of the contract creator.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getPrice());
 ```
@@ -296,7 +296,7 @@ Token { data: BigNumber { s: 1, e: 3, c: [ 5000 ] }, unit: 1 }
 The price unit of the contract creator.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getPriceUnit());
 ```
@@ -312,7 +312,7 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 1 }
 The locked token amount. What kind of token?
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getTokenLocked());
 ```
@@ -328,7 +328,7 @@ Token { data: BigNumber { s: 1, e: 6, c: [ 1800000 ] }, unit: 100 }
 The amount of the base tokens in the pool.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// voc: VOptionCtrt
 
 console.log(await voc.getTokenCollected());
 ```
@@ -344,8 +344,8 @@ Token { data: BigNumber { s: 1, e: 5, c: [ 100100 ] }, unit: 100 }
 Get the balance of the available base tokens.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 
 console.log(await voc.getBaseTokBal(acnt.addr.data));
 ```
@@ -361,8 +361,8 @@ Token { data: BigNumber { s: 1, e: 5, c: [ 198999 ] }, unit: 100 }
 Get the balance of the available target tokens.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 
 console.log(await voc.getTargetTokBal(acnt.addr.data));
 ```
@@ -378,8 +378,8 @@ Token { data: BigNumber { s: 1, e: 5, c: [ 182000 ] }, unit: 100 }
 Get the balance of the available option tokens.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 
 console.log(await voc.getOptionTokBal(acnt0.addr.data));
 ```
@@ -395,8 +395,8 @@ Token { data: BigNumber { s: 1, e: 3, c: [ 8000 ] }, unit: 100 }
 Get the balance of the available proof tokens.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 
 console.log(await voc.getProofTokBal(acnt0.addr.data));
 ```
@@ -414,9 +414,9 @@ Token { data: BigNumber { s: 1, e: 4, c: [ 10000 ] }, unit: 100 }
 Transfer the ownership of the contract to another account.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt0: Account from './src/account.js'
-// acnt1: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt0: Account
+// acnt1: Account
 
 let resp = await voc.supersede(
   acnt0, // by
@@ -454,8 +454,8 @@ Example output
 Activate the V Option contract to store option token and proof token into the pool.
 
 ```javascript
-// acnt: Account from './src/account.js'
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
+// acnt: Account
+// voc: VOptionCtrt
 // maxIssueNum: number
 // price: number
 // priceUnit: number
@@ -498,8 +498,8 @@ Example output
 Mint target tokens into the pool to get option tokens and proof tokens. Same amount of option, proof and target tokens are used for minting. For example, if we set amount to 200, then 200 proof and option tokens will be given to acnt and 200 target tokens will be locked.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 // amount: number
 
 let resp = await voc.mint(
@@ -538,8 +538,8 @@ Example output
 Get the remaining option tokens and proof tokens from the pool before the execute time. Amount equals to the amount of Target tokens to be unclocked.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 // amount: number
 
 let resp = await voc.unlock(
@@ -580,8 +580,8 @@ Execute the V Option contract to get target token after execute time. Amount equ
 Note that amount of `price * amount` Base Tokens need to be deposited to V Option contract by executor.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 // amount: number
 
 let resp = await voc.execute(
@@ -620,8 +620,8 @@ Example output
 Collect the base tokens or/and target tokens from the pool depending on the amount of proof tokens after execute deadline.
 
 ```javascript
-// voc: VOptionCtrt from './src/contract/v_option_ctrt.js'
-// acnt: Account from './src/account.js'
+// voc: VOptionCtrt
+// acnt: Account
 // amount: number
 
 let resp = await vc.collect(

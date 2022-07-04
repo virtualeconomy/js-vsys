@@ -30,22 +30,17 @@ Then locate to the folder and run `npm install`.
 ```javascript
 'use strict';
 
-import { NodeAPI } from './src/api.js';
-import { Chain, ChainID } from './src/chain.js';
-import { Wallet } from './src/account.js';
-import * as md from './src/model.js';
-
-import * as nft from './src/contract/nft_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // The RESTful API host address to a node in a public test net
 const host = 'http://veldidina.vos.systems:9928';
 
 // A test net wallet seed
-const seed = new md.Seed(
+const seed = new jv.Seed(
   'your seed'
 );
 
-function print_heading(msg){
+function printHeading(msg){
     function times(char, num){
         let ret = "";
         while(num-->0) ret += char;
@@ -55,25 +50,25 @@ function print_heading(msg){
     console.log(times("=", 10), msg, times("=", 10))
 }
 
-print_heading("Try out NodeAPI");
+printHeading("Try out NodeAPI");
 // NodeAPI is the wrapper for RESTful APIs
-const api = NodeAPI.new(host);
+const api = jv.NodeAPI.new(host);
 // GET /blocks/last
 console.log(await api.blocks.getHeight());
 // GET /node/version
 console.log(await api.node.getVersion());
 
-print_heading("Try out Chain");
+printHeading("Try out Chain");
 // Chain represents the chain itself
-const ch = new Chain(api, ChainID.TEST_NET);
+const ch = new jv.Chain(api, jv.ChainID.TEST_NET);
 // Get chain's height
 console.log("Height:", await ch.getHeight());
 // Get chain's last block
 console.log("Last block: \n", await ch.getLastBlock());
 
-print_heading("Try out Account")
+printHeading("Try out Account")
 // Account represents an account in the net
-const wal = new Wallet(seed);
+const wal = new jv.Wallet(seed);
 const acnt = wal.getAcnt(ch, 0);
 // Get the account's balance
 console.log("Balance:", await acnt.getBal());
@@ -86,19 +81,15 @@ console.log("Private key:", acnt.keyPair.pri);
 // Get the account's address
 console.log("Account address:", acnt.addr);
 
-print_heading("Try out Smart Contract");
+printHeading("Try out Smart Contract");
 const ctrtId = "CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD";
-const ctrt = new nft.NFTCtrt(ctrtId, ch);
+const ctrt = new jv.NFTCtrt(ctrtId, ch);
 // Get the contract's maker
 console.log("Maker:", await ctrt.getMaker());
 // Get the contract's issuer
 console.log("Issuer:", await ctrt.getIssuer());
 // Get the contract's ID
 console.log("Contract id:", ctrt.ctrtId);
-
-
-
-
 ```
 
 Example output

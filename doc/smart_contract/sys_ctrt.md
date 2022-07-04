@@ -2,7 +2,7 @@
 
 - [System Contract](#system-contract)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [Actions](#actions)
       - [Send](#send)
@@ -14,20 +14,20 @@
 
 The System Contract on V Systems is quite unique in that it is directly included in the protocol and not registered by users. Since Contract variables and VSYS tokens use different databases, it is normally not possible for them to interact. However, the System Contract handles the mixing of these two databases, and allows users to do things such as deposit and withdraw VSYS token from contracts.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 ### Registration
 
 ```javascript
-import * as sys from './src/contract/sys_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // ch: Chain
 
 // initial a new system contract on mainnet
-const nc = new sys.SysCtrt('CCL1QGBqPAaFjYiA8NMGVhzkd3nJkGeKYBq');
+const nc = new jv.SysCtrt('CCL1QGBqPAaFjYiA8NMGVhzkd3nJkGeKYBq');
 // initial a new system contract on testnet
-const nc = new sys.SysCtrt('CF9Nd9wvQ8qVsGk8jYHbj6sf8TK7MJ2GYgt', ch);
+const nc = new jv.SysCtrt('CF9Nd9wvQ8qVsGk8jYHbj6sf8TK7MJ2GYgt', ch);
 
 console.log(nc.ctrtId); // print the id of the system contract
 ```
@@ -45,7 +45,7 @@ CtrtID { data: 'CF9Nd9wvQ8qVsGk8jYHbj6sf8TK7MJ2GYgt' }
 Send VSYS tokens to another user.
 
 ```javascript
-import * as sys from './src/contract/sys_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
@@ -90,12 +90,11 @@ Deposit VSYS tokens to a token-holding contract instance(e.g. lock contract).
 Note that only the token defined in the token-holding contract instance can be deposited into it.
 
 ```javascript
-import * as sys from './src/contract/sys_ctrt.js';
-import * as lc from './src/contract/lock_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
-// nc: sys.SysCtrt
-// lc: lc.LockCtrt
+// nc: jv.SysCtrt
+// lc: jv.LockCtrt
 // amount: number
 
 const lcId = lc.ctrtId.data;
@@ -139,11 +138,11 @@ Withdraw VSYS tokens from a token-holding contract instance(e.g. lock contract).
 Note that only the one who deposits the token can withdraw.
 
 ```javascript
-import * as sys from './src/contract/sys_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
-// nc: sys.SysCtrt
-// lc: lc.LockCtrt
+// nc: jv.SysCtrt
+// lc: jv.LockCtrt
 // amount: number
 
 const lcId = lc.ctrtId.data;
@@ -186,11 +185,11 @@ Transfer the VSYS token to another account(e.g. user or contract).
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
 ```javascript
-import * as sys from './src/contract/sys_ctrt.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: sys.SysCtrt
+// nc: jv.SysCtrt
 // amount: number
 
 const resp = await nc.transfer(

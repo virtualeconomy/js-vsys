@@ -2,7 +2,7 @@
 
 - [NFT Contract V2](#nft-contract-v2)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
     - [Registration](#registration)
     - [From Existing Contract](#from-existing-contract)
     - [Querying](#querying)
@@ -30,19 +30,19 @@ For the whitelist flavor, only users & contracts included in the list can intera
 
 For the blacklist flavor, only users & contracts excluded from the list can interact with the NFT contract instance.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
 Examples of NFT contract V2 with whitelist are shown below. The usage of the blacklist one is very similar.
 
 ### Registration
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 
 // Register a new NFT contract
-const nc = await nftv2.NFTCtrtV2Whitelist.register(acnt);
+const nc = await jv.NFTCtrtV2Whitelist.register(acnt);
 console.log(nc.ctrtId); // print the id of the newly registered contract
 ```
 
@@ -55,13 +55,13 @@ CtrtID { data: 'CF46ab6o5HTfyLwgyBhwrhkEmLxbaLkSJ8a' }
 ### From Existing Contract
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
 // ch: Chain
 
 const ncId = 'CF46ab6o5HTfyLwgyBhwrhkEmLxbaLkSJ8a';
-const nc = nftv2.NFTCtrtV2Whitelist(ncId, ch);
+const nc = jv.NFTCtrtV2Whitelist(ncId, ch);
 ```
 
 ### Querying
@@ -71,7 +71,7 @@ const nc = nftv2.NFTCtrtV2Whitelist(ncId, ch);
 The address that has the issuing right of the NFT contract instance.
 
 ```javascript
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 console.log(await nc.getIssuer());
 ```
@@ -87,7 +87,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 The address that made this NFT contract instance.
 
 ```javascript
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 console.log(await nc.getMaker());
 ```
@@ -103,7 +103,7 @@ Addr { data: 'ATse3RcjEzwc5JHDPcduPYe4qA2mWhSNZaV' }
 The address that serves as the regulator of the NFT contract instance.
 
 ```javascript
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 console.log(await nc.getRegulator());
 ```
@@ -121,7 +121,7 @@ The unit of tokens defined in this NFT contract instance.
 As the unit is obviously fixed to 1 for NFTs, the support of querying unit of NFT is for the compatibility with other token-defining contracts.
 
 ```javascript
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 console.log(await nc.getUnit());
 ```
@@ -138,7 +138,7 @@ Check if the user is in the whitelist/blacklist
 
 ```javascript
 // acnt: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 console.log(await nc.isUserInList(acnt.addr.data));
 ```
@@ -154,7 +154,7 @@ false
 Check if the user is in the whitelist/blacklist
 
 ```javascript
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 arbitraryCtrtId = 'CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J';
 
 console.log(await nc.isCtrtInList(ncId));
@@ -173,10 +173,10 @@ false
 Define a new NFT and issue it. Only the issuer of the contract instance can take this action. The issued NFT will belong to the issuer.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 const resp = await nc.issue(acnt);
 console.log(resp);
@@ -211,11 +211,11 @@ Example output
 Send an NFT to another user.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 const resp = await nc.send(
   acnt0, // by
@@ -255,11 +255,11 @@ Transfer the ownership of an NFT to another account(e.g. user or contract).
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 const resp = await nc.transfer(
   acnt0, // by
@@ -301,11 +301,11 @@ Deposit an NFT to a token-holding contract instance(e.g. lock contract).
 Note that only the token defined in the token-holding contract instance can be deposited into it.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 const lcId = lc.ctrtId.data;
 
@@ -348,11 +348,11 @@ Withdraw an NFT from a token-holding contract instance(e.g. lock contract).
 Note that only the one who deposits the token can withdraw.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 const lcId = lc.ctrtId.data;
 
@@ -395,12 +395,12 @@ Transfer the issuer & regulator role of the contract to a new user.
 Note that only the contract maker has the privilege to take this action.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
 // acnt2: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 const resp = await nc.supersede(
   acnt0, // by
@@ -441,11 +441,11 @@ Add/remove a user from the whitelist/blacklist.
 Note the regulator has the privilege to take this action.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 const resp = await nc.updateListUser(
   acnt0, // by
@@ -486,17 +486,17 @@ Add/remove a contract from the whitelist/blacklist.
 Note the regulator has the privilege to take this action.
 
 ```javascript
-import * as nftv2 from './src/contract/nft_ctrt_v2.js';
+import * as jv from '@virtualeconomy/js-vsys';
 
 // acnt0: Account
 // acnt1: Account
-// nc: nftv2.NFTCtrtV2Whitelist
+// nc: jv.NFTCtrtV2Whitelist
 
 arbitraryCtrtId = 'CEsGmTPZMvPkkG7g5gyqgRcXRVc2ZcVXz9J';
 
 const resp = await nc.updateListCtrt(
   acnt0, // by
-  lcId, // addr
+  arbitraryCtrtId, // addr
   true // val; false to remove
 );
 console.log(resp);
