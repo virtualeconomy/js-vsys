@@ -10,6 +10,7 @@ import { Buffer } from 'buffer';
 import * as ch from './chain.js';
 import * as bn from './utils/big_number.js';
 import * as hs from './utils/hashes.js';
+import Crypto from './utils/crypto.js';
 import { WORDS_SET } from './words.js';
 
 /** Model is the base class for data models */
@@ -182,6 +183,15 @@ export class Seed extends Str {
       }
     }
   }
+
+  static encryptSeed(seed, password, encryptionRounds) {
+    return Crypto.encryptSeed(seed, password, encryptionRounds);
+  }
+
+  static decryptSeed(encryptedSeed, password, encryptionRounds) {
+    return Crypto.decryptSeed(encryptedSeed, password, encryptionRounds);
+  }
+  
 }
 
 /** B58Str is the data model class base58 string */
