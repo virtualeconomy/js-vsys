@@ -10,7 +10,7 @@ import { Buffer } from 'buffer';
 import * as ch from './chain.js';
 import * as bn from './utils/big_number.js';
 import * as hs from './utils/hashes.js';
-import Crypto from './utils/crypto.js';
+import * as cy from './utils/crypto.js';
 import { WORDS_SET } from './words.js';
 
 /** Model is the base class for data models */
@@ -184,12 +184,26 @@ export class Seed extends Str {
     }
   }
 
+  /**
+   * encrypt the seed.
+   * @param {Seed} seed - The seed needed to be encrypted.
+   * @param {string} password - The password used when encrypting seed.
+   * @param {number} encryptionRounds - The number of encryption round when encrypting seed.
+   * @returns {string} The encrypted seed.
+   */
   static encryptSeed(seed, password, encryptionRounds) {
-    return Crypto.encryptSeed(seed, password, encryptionRounds);
+    return cy.encryptSeed(seed, password, encryptionRounds);
   }
 
+  /**
+   * decrypt the seed.
+   * @param {Seed} encryptedSeed - The encrypted seed needed to be decrypted.
+   * @param {string} password - The password used when encrypting seed previously.
+   * @param {string} encryptionRounds - The number of encryption round when encrypting seed previously.
+   * @returns The decrypted seed.
+   */
   static decryptSeed(encryptedSeed, password, encryptionRounds) {
-    return Crypto.decryptSeed(encryptedSeed, password, encryptionRounds);
+    return cy.decryptSeed(encryptedSeed, password, encryptionRounds);
   }
   
 }
