@@ -197,7 +197,7 @@ export class Seed extends Str {
   }
 
   /**
-   * encryptSeed encrypts the seed with given password by given encryptionRounds.
+   * encrypt encrypts the seed with given password by given encryptionRounds.
    * @param {string} password - The password used when encrypting seed.
    * @param {number} encryptionRounds - The number of encryption round when encrypting seed.
    * @returns {EncryptedSeed} The encrypted seed.
@@ -207,7 +207,7 @@ export class Seed extends Str {
         throw new Error('Password is required');
     }
     password = this.constructor.strengthenPassword(password, encryptionRounds);
-    return new EncryptedSeed(hs.aes256HashEncrypt(this.data, password));
+    return new EncryptedSeed(hs.aesEncrypt(this.data, password));
   }
   
 }
@@ -231,7 +231,7 @@ export class EncryptedSeed extends Str {
   }
 
   /**
-   * decryptSeed decrypts the seed with given password by given encryptionRounds.
+   * decrypt decrypts the seed with given password by given encryptionRounds.
    * @param {string} password - The password used when encrypting seed previously.
    * @param {string} encryptionRounds - The number of encryption round when encrypting seed previously.
    * @returns {Seed} The decrypted seed.
@@ -241,7 +241,7 @@ export class EncryptedSeed extends Str {
         throw new Error('Password is required');
     }
     password = Seed.strengthenPassword(password, encryptionRounds);
-    return new Seed(hs.aes256hashDecrypt(this.data, password));
+    return new Seed(hs.aesDecrypt(this.data, password));
   }
 
 }
