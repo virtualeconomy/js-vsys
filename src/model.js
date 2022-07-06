@@ -9,6 +9,7 @@ import bs58 from 'bs58';
 import { Buffer } from 'buffer';
 import * as ch from './chain.js';
 import * as bn from './utils/big_number.js';
+import * as bp from './utils/bytes_packer.js'
 import * as hs from './utils/hashes.js';
 import { WORDS_SET } from './words.js';
 
@@ -27,7 +28,7 @@ export class Model {
    * validate validates the instance.
    * @abstract
    */
-  validate() {}
+  validate() { }
 
   /**
    * hasSameType compares this instance with the given instance to see if the types are the same.
@@ -344,9 +345,247 @@ export class Addr extends FixedSizedB58Str {
   }
 }
 
+/** CtrtMetaBytes is the helper data container for bytes used in contract meta data
+ * with handy methods.
+ */
+ class CtrtMetaBytes {
+  /**
+   * Creates a new Bytes instance.
+   * @param {any} data - The bytes data to contain.
+   */
+  constructor(data = Buffer.of()) {
+    this.data = data;
+  }
+
+  /**
+   * lenBytes returns the length of the data in bytes.
+   * @returns {Buffer} The bytes data to contain.
+   */
+  get lenBytes() {
+    return bp.packUInt16(this.data.length);
+  }
+
+  /**
+   * serialize serializes the instance to bytes.
+   * @returns {Buffer} The serialization result.
+   */
+  serialize() {
+    return Buffer.concat([this.lenBytes, this.data]);
+  }
+
+  /**
+   * deserialize deserializes the given bytes and constructs a new CtrtMetaBytes instance.
+   * @param {Buffer} b - The bytes to parse.
+   * @returns {CtrtMetaBytes} The CtrtMetaBytes instance.
+   */
+  static deserialize(b) {
+    const l = bp.unpackUInt16(b.slice(0, 2));
+    return new this(b.slice(2, 2 + l));
+  }
+}
+
+/** CtrtMetaBytesList is a collection of CtrtMetaBytes */
+class CtrtMetaBytesList {
+  /**
+   * Creates a new CtrtMetaBytesList instance.
+   * @param {CtrtMetaBytes[]} items - The CtrtMetaBytes instances to contain.
+   */
+  constructor(...items) {
+    this.items = items;
+  }
+
+  /**
+   * serialize serializes the instance to bytes.
+   * @param {boolean} withBytesLen - Whether or not to include the bytes length in the serialization result.
+   * @returns {Buffer} The serialization result.
+   */
+  serialize(withBytesLen = true) {
+    const bufs = [bp.packUInt16(this.items.length)];
+    this.items.forEach((item) => bufs.push(item.serialize()));
+
+    let b = Buffer.concat(bufs);
+
+    if (withBytesLen === true) {
+      b = Buffer.concat([bp.packUInt16(b.length), b]);
+    }
+    return b;
+  }
+
+  /**
+   * deserialize deserialize the given bytes to a CtrtMetaBytesList instance.
+   * @param {Buffer} b - The bytes to deserialize
+   * @param {boolean} withBytesLen - If the given bytes contain length.
+   * @returns {CtrtMetaBytesList} The CtrtMetaBytesList instance.
+   */
+  static deserialize(b, withBytesLen = true) {
+    if (withBytesLen === true) {
+      const l = bp.unpackUInt16(b.slice(0, 2));
+      b = b.slice(2, 2 + l);
+    }
+
+    const itemsCnt = bp.unpackUInt16(b.slice(0, 2));
+    b = b.slice(2);
+
+    const items = [];
+    for (let i = 0; i < itemsCnt; i++) {
+      const l = bp.unpackUInt16(b.slice(0, 2));
+      items.push(CtrtMetaBytes.deserialize(b));
+      b = b.slice(2 + l);
+    }
+    return new this(...items);
+  }
+}
+
+/** CtrtMeta is the class for smart contract meta data */
+export class CtrtMeta {
+  static LANG_CODE_BYTE_LEN = 4;
+  static LANG_VER_BYTE_LEN = 4;
+  static TOKEN_ADDR_VER = -124;
+  static CTRT_ADDR_VER = 6;
+  static CHECKSUM_LEN = 4;
+  static TOKEN_IDX_BYTES_LEN = 4;
+
+  /**
+   * Create a new CtrtMeta instance.
+   * @param {string} langCode - The language code of the contract. E.g. 'vdds'.
+   * @param {int} langVer - The language version of the contract. E.g. 1.
+   * @param {CtrtMetaBytesList} triggers - The triggers of the contract.
+   * @param {CtrtMetaBytesList} descriptors - The descriptors of the contract.
+   * @param {CtrtMetaBytesList} stateVars - The state variables of the contract.
+   * @param {CtrtMetaBytesList} stateMap - The state map of the contract.
+   * @param {CtrtMetaBytesList} textual - The textual of the contract.
+   */
+  constructor(
+    langCode,
+    langVer,
+    triggers,
+    descriptors,
+    stateVars,
+    stateMap,
+    textual
+  ) {
+    this.langCode = langCode;
+    this.langVer = langVer;
+    this.triggers = triggers;
+    this.descriptors = descriptors;
+    this.stateVars = stateVars;
+    this.stateMap = stateMap;
+    this.textual = textual;
+  }
+
+  /**
+   * serialize serializes CtrtMeta to bytes.
+   * @returns {Buffer} - The serialization result.
+   */
+  serialize() {
+    const stmapBytes =
+      this.langVer === 1 ? Buffer.of() : this.stateMap.serialize();
+    return Buffer.concat([
+      Buffer.from(this.langCode, 'latin1'),
+      bp.packUInt32(this.langVer),
+      this.triggers.serialize(),
+      this.descriptors.serialize(),
+      this.stateVars.serialize(),
+      stmapBytes,
+      this.textual.serialize(false),
+    ]);
+  }
+
+  /**
+   * deserialize deserializes the given bytes to a CtrtMeta object.
+   * @param {Buffer} b - The bytes to parse.
+   * @returns {CtrtMeta} The CtrtMeta instance.
+   */
+  static deserialize(b) {
+    /**
+     * parseLen unpacks the given 2 bytes as an unsigned short integer.
+     * @param {Buffer} b - The bytes to deserialize.
+     * @returns {number} The length.
+     */
+    function parseLen(b) {
+      return bp.unpackUInt16(b);
+    }
+
+    const langCode = b.slice(0, 4).toString('latin1');
+    b = b.slice(4);
+
+    const langVer = bp.unpackUInt32(b.slice(0, 4));
+    b = b.slice(4);
+
+    const triggerLen = parseLen(b.slice(0, 2));
+    const triggers = CtrtMetaBytesList.deserialize(b);
+    b = b.slice(2 + triggerLen);
+
+    const descriptorsLen = parseLen(b.slice(0, 2));
+    const descriptors = CtrtMetaBytesList.deserialize(b);
+    b = b.slice(2 + descriptorsLen);
+
+    const svLen = parseLen(b.slice(0, 2));
+    const stateVars = CtrtMetaBytesList.deserialize(b);
+    b = b.slice(2 + svLen);
+
+    let stateMap;
+
+    if (langVer === 1) {
+      stateMap = new CtrtMetaBytesList();
+    } else {
+      const smLen = parseLen(b.slice(0, 2));
+      stateMap = CtrtMetaBytesList.deserialize(b);
+      b = b.slice(2 + smLen);
+    }
+
+    const textual = CtrtMetaBytesList.deserialize(b, false);
+
+    return new this(
+      langCode,
+      langVer,
+      triggers,
+      descriptors,
+      stateVars,
+      stateMap,
+      textual
+    );
+  }
+
+  /**
+   * fromB58Str creates a CtrtMeta object from the given base58 string.
+   * @param {string} s - The base58 string to parse.
+   * @returns {CtrtMeta} The result CtrtMeta object.
+   */
+  static fromB58Str(s) {
+    return this.deserialize(Buffer.from(bs58.decode(s)));
+  }
+}
+
 /** CtrtID is the data model class for contract ID */
 export class CtrtID extends FixedSizedB58Str {
   static BYTES_LEN = 26;
+
+  /**
+   * getTokId gets the token ID of the token contract with the given token index.
+   * @param {number} tokIdx - The token index.
+   * @returns {TokenID} The token ID.
+  */
+  getTokId(tokIdx) {
+    new TokenIdx(tokIdx); // for validation
+
+    const b = this.bytes;
+    const rawCtrtId = b.slice(1, b.length - CtrtMeta.CHECKSUM_LEN);
+    const tokIdNoChecksum = Buffer.concat([
+      bp.packInt8(CtrtMeta.TOKEN_ADDR_VER),
+      rawCtrtId,
+      bp.packUInt32(tokIdx),
+    ]);
+
+    const h = hs.keccak256Hash(hs.blake2b32Hash(tokIdNoChecksum));
+
+    const tokIdBytes = bs58.encode(
+      Buffer.concat([tokIdNoChecksum, h.slice(0, 4)])
+    );
+
+    const tokId = tokIdBytes.toString('latin1');
+    return new TokenID(tokId);
+  }
 }
 
 /** TokenID is the data model class for token ID */
@@ -365,6 +604,28 @@ export class TokenID extends FixedSizedB58Str {
 
   get isTestnetVsysTok() {
     return this.data === this.constructor.TESTNET_VSYS_TOK_ID;
+  }
+
+  /**
+   * getCtrtId gets the contract ID of the given token ID.
+   * @returns {CtrtID} The contract ID.
+   */
+  getCtrtId() {
+    const b = bs58.decode(this.data);
+    const rawCtrtId = b.slice(1, b.length - CtrtMeta.TOKEN_IDX_BYTES_LEN - CtrtMeta.CHECKSUM_LEN);
+    const ctrtIdNoChecksum = Buffer.concat([
+      bp.packInt8(CtrtMeta.CTRT_ADDR_VER),
+      rawCtrtId
+    ]);
+
+    const h = hs.keccak256Hash(hs.blake2b32Hash(ctrtIdNoChecksum));
+
+    const CtrtIdBytes = bs58.encode(
+      Buffer.concat([ctrtIdNoChecksum, h.slice(0, 4)])
+    );
+
+    const CtrtIdString = CtrtIdBytes.toString('latin1');
+    return new CtrtID(CtrtIdString);
   }
 }
 
@@ -418,10 +679,10 @@ export class NonNegativeInt extends Int {
 }
 
 /** Nonce is the data model class for wallet account nonce */
-export class Nonce extends NonNegativeInt {}
+export class Nonce extends NonNegativeInt { }
 
 /** TokenIdx is the data model class for token index */
-export class TokenIdx extends NonNegativeInt {}
+export class TokenIdx extends NonNegativeInt { }
 
 /** Long is the data model class for long integers (big number) */
 export class Long extends Model {
@@ -559,8 +820,7 @@ export class Token extends NonNegativeBigInt {
 
     if (!data.isInteger()) {
       throw new Error(
-        `Invalid amount for ${
-          this.name
+        `Invalid amount for ${this.name
         }: ${amount}. The minimal valid amount granularity is ${1 / unit}`
       );
     }
@@ -601,8 +861,7 @@ export class VSYS extends NonNegativeBigInt {
 
     if (!data.isInteger()) {
       throw new Error(
-        `Invalid amount for ${
-          this.name
+        `Invalid amount for ${this.name
         }: ${amnt}. The minimal valid amount granularity is ${1 / this.UNIT}`
       );
     }
@@ -639,13 +898,13 @@ export class Fee extends VSYS {
 }
 
 /** PaymentFee is the data model class for payment fee */
-export class PaymentFee extends Fee {}
+export class PaymentFee extends Fee { }
 
 /** LeasingFee is the data model class for leasing fee */
-export class LeasingFee extends Fee {}
+export class LeasingFee extends Fee { }
 
 /** LeasingCancelFee is the data model class for leasing cancel fee */
-export class LeasingCancelFee extends Fee {}
+export class LeasingCancelFee extends Fee { }
 
 /** RegCtrtFee is the data model class for register contract fee */
 export class RegCtrtFee extends Fee {

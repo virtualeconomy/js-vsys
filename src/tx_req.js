@@ -131,7 +131,7 @@
    /**
     * Creates a new RegCtrtTxReq instance.
     * @param {de.DataStack} dataStack - The payload of this request.
-    * @param {ctrt.CtrtMeta} ctrtMeta - The meta data of the contract to register.
+    * @param {md.CtrtMeta} ctrtMeta - The meta data of the contract to register.
     * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
     * @param {md.Str} description - The description for this request. Defaults to new md.Str().
     * @param {md.RegCtrtFee} fee - The fee for this request. Defaults to md.RegCtrtFee.default().
