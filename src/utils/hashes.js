@@ -10,6 +10,7 @@ import blake from 'blakejs';
 const { blake2b } = blake;
 import keccak256 from 'keccak256';
 import sha256 from 'js-sha256';
+import CryptoJS from 'crypto-js';
 
 /**
  * sha256Hash hashes the given data in SHA256
@@ -36,4 +37,24 @@ export function keccak256Hash(data) {
  */
 export function blake2b32Hash(data) {
   return Buffer.from(blake2b(data, null, 32), 'latin1');
+}
+
+/**
+ * aesEncrypt encrypts the given data in AES.
+ * @param {string} data - The data to encrypt.
+ * @param {string} key - The key used to encrypt data.
+ * @returns {string} The encryption result
+ */
+export function aesEncrypt(data, key) {
+  return CryptoJS.AES.encrypt(data, key).toString();
+}
+
+/**
+ * aesDecrypt decrypts the given data encrypted by AES.
+ * @param {string} data - The data to decrypt.
+ * @param {string} key - The key used to decrypt data.
+ * @returns {string} The decryption result.
+ */
+export function aesDecrypt(data, key) {
+  return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
 }

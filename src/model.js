@@ -183,6 +183,68 @@ export class Seed extends Str {
       }
     }
   }
+
+  /**
+   * strengthenPassword strengthens the given password by hashing the given rounds.
+   * @param {string} password - The password to strengthen.
+   * @param {number} rounds - The number of strengthen rounds.
+   * @returns {string} The strengthened password.
+   */
+  static strengthenPassword(password, rounds) {
+    if (rounds === void 0) { rounds = 5000; }
+    while (rounds--)
+        password = hs.sha256Hash(Buffer.from(password, 'utf8'));
+    return password.toString();
+  }
+
+  /**
+   * encrypt encrypts the seed with given password by given encryptionRounds.
+   * @param {string} password - The password used when encrypting seed.
+   * @param {number} encryptionRounds - The number of encryption round when encrypting seed.
+   * @returns {EncryptedSeed} The encrypted seed.
+   */
+  encrypt(password, encryptionRounds) {
+    if (!password || typeof password !== 'string') {
+        throw new Error('Password is required');
+    }
+    password = this.constructor.strengthenPassword(password, encryptionRounds);
+    return new EncryptedSeed(hs.aesEncrypt(this.data, password));
+  }
+  
+}
+
+export class EncryptedSeed extends Str {
+
+  /**
+   * validate validates the instance.
+   */
+  validate() {
+    super.validate()
+
+    const expectedSeedLen = 152;
+
+    if(this.data.length !== expectedSeedLen) {
+      throw new Error(
+        `Data in encryptedSeed must contain exactly ${expectedSeedLen} words`
+      );
+    }
+
+  }
+
+  /**
+   * decrypt decrypts the seed with given password by given encryptionRounds.
+   * @param {string} password - The password used when encrypting seed previously.
+   * @param {string} encryptionRounds - The number of encryption round when encrypting seed previously.
+   * @returns {Seed} The decrypted seed.
+   */
+  decrypt(password, encryptionRounds) {
+    if (!password || typeof password !== 'string') {
+        throw new Error('Password is required');
+    }
+    password = Seed.strengthenPassword(password, encryptionRounds);
+    return new Seed(hs.aesDecrypt(this.data, password));
+  }
+
 }
 
 /** B58Str is the data model class base58 string */
