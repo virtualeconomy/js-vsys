@@ -185,14 +185,14 @@ export class Seed extends Str {
 
   /**
    * strengthenPassword strengthens the given password by hashing the given rounds.
-   * @param {string} password - The password used when encrypting seed previously.
-   * @param {number} rounds - The number of encryption round when encrypting seed previously.
-   * @returns {string} The encrypted password.
+   * @param {string} password - The password to strengthen.
+   * @param {number} rounds - The number of strengthen rounds.
+   * @returns {string} The strengthened password.
    */
   static strengthenPassword(password, rounds) {
     if (rounds === void 0) { rounds = 5000; }
     while (rounds--)
-        password = hs.sha256Hash(password);
+        password = hs.sha256Hash(Buffer.from(password, 'utf8'));
     return password.toString();
   }
 
