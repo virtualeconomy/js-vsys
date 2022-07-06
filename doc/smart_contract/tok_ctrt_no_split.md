@@ -69,7 +69,7 @@ ctrtID: CEuFhD7N4sRfGnx6HZnCLnnd517Zgy19p4Q
 ```javascript
 import * as jv from '@virtualeconomy/js-vsys';
 
-// ch: Chain 
+// ch: Chain
 
 const tokCtrtId = 'CEuFhD7N4sRfGnx6HZnCLnnd517Zgy19p4Q';
 const tc = new jv.TokCtrtWithoutSplit(tokCtrtId, ch);
@@ -82,7 +82,7 @@ const tc = new jv.TokCtrtWithoutSplit(tokCtrtId, ch);
 The address that has the issuing right of the Token contract instance.
 
 ```javascript
-// tc: TokCtrtWithoutSplit 
+// tc: TokCtrtWithoutSplit
 
 console.log(await tc.getIssuer());
 ```
@@ -98,7 +98,7 @@ Addr { data: 'ATracVxHwdYF394gXEawdZe9stB9yLH6V7q' }
 The address that made this Token contract instance.
 
 ```javascript
-// tc: TokCtrtWithoutSplit 
+// tc: TokCtrtWithoutSplit
 
 console.log(await tc.getMaker());
 ```
@@ -116,7 +116,7 @@ The token ID of the token defined in the token contract instance.
 Note that theoretically a token contract instance can have multiple kinds of token, it is restricted to 1 kind of token per token contract instance. In other word, the token ID is of the token index `0`.
 
 ```javascript
-// tc: TokCtrtWithoutSplit 
+// tc: TokCtrtWithoutSplit
 
 console.log(tokB.getTokId(0));
 ```
@@ -132,7 +132,7 @@ TokenID { data: 'TWsipaf2H3TPkDXwp2usNX9fdStSJ7SPPJzAc7nZo' }
 The unit of the token defined in this token contract instance.
 
 ```javascript
-// tc: TokCtrtWithoutSplit 
+// tc: TokCtrtWithoutSplit
 
 console.log(await tc.getUnit());
 ```
@@ -148,8 +148,8 @@ Example output
 Query the balance of the token defined in the contract for the given user.
 
 ```javascript
-// tc: TokCtrtWithoutSplit 
-// acnt: Account 
+// tc: TokCtrtWithoutSplit
+// acnt: Account
 
 console.log(await tc.getTokBal(acnt.addr.data));
 ```
@@ -168,9 +168,9 @@ Transfer the issuer role of the contract to a new user.
 The maker of the contract has the privilege to take this action.
 
 ```javascript
-// acnt0: Account 
-// acnt1: Account 
-// tc: TokCtrtWithoutSplit 
+// acnt0: Account
+// acnt1: Account
+// tc: TokCtrtWithoutSplit
 
 const resp = await tc.supersede(
   acnt0, // by
@@ -210,8 +210,8 @@ Issue the a certain amount of the token. The issued tokens will belong to the is
 Note that only the address with the issuer role can take this action.
 
 ```javascript
-// acnt1: Account 
-// tc: TokCtrtWithoutSplit 
+// acnt1: Account
+// tc: TokCtrtWithoutSplit
 
 const data = await tc.issue(acnt, 2500);
 console.log(data);
@@ -247,9 +247,9 @@ feeScale: 100,
 Send a certain amount of the token to another user.
 
 ```javascript
-// acnt0: Account 
-// acnt1: Accout 
-// tc: TokCtrtWithoutSplit 
+// acnt0: Account
+// acnt1: Accout
+// tc: TokCtrtWithoutSplit
 
 let resp = await tc.send(
   acnt0, // by
@@ -290,8 +290,8 @@ Destroy a certain amount of the token.
 Note that only the address with the issuer role can take this action.
 
 ```javascript
-// acnt: Accout 
-// tc: TokCtrtWithoutSplit 
+// acnt: Accout
+// tc: TokCtrtWithoutSplit
 
 let resp = await tc.destroy(
   acnt, // by
@@ -330,9 +330,9 @@ Transfer a certain amount of the token to another account(e.g. user or contract)
 `transfer` is the underlying action of `send`, `deposit`, and `withdraw`. It is not recommended to use transfer directly. Use `send`, `deposit`, `withdraw` instead when possible.
 
 ```javascript
-// acnt0: Accout 
-// acnt1: Accout 
-// tc: TokCtrtWithoutSplit 
+// acnt0: Accout
+// acnt1: Accout
+// tc: TokCtrtWithoutSplit
 
 let resp = await tokB.transfer(
   acnt0, // by
@@ -374,9 +374,9 @@ Deposit a certain amount of the token into a token-holding contract instance(e.g
 Note that only the token defined in the token-holding contract instance can be deposited into it.
 
 ```javascript
-// acnt: Accout 
-// tc: TokCtrtWithoutSplit 
-// lc: LockCtrt 
+// acnt: Accout
+// tc: TokCtrtWithoutSplit
+// lc: LockCtrt
 
 const lcId = lc.ctrtId.data;
 
@@ -419,9 +419,9 @@ Withdraw a certain amount of the token from a token-holding contract instance(e.
 Note that only the token defined in the token-holding contract instance can be withdrawn from it.
 
 ```javascript
-// acnt: Accout 
-// tc: TokCtrtWithoutSplit 
-// lc: LockCtrt 
+// acnt: Accout
+// tc: TokCtrtWithoutSplit
+// lc: LockCtrt
 
 const lcId = lc.ctrtId.data;
 

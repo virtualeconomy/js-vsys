@@ -12,7 +12,6 @@ import * as de from '../data_entry.js';
 import * as bp from '../utils/bytes_packer.js';
 import * as en from '../utils/enum.js';
 
-
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends en.Enum {
   serialize() {

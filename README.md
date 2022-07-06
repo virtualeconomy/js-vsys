@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-BSD_4--Clause-green.svg)](./LICENSE)
 
-> ***Under active maintenance. Contributions are always welcome!***
+> **_Under active maintenance. Contributions are always welcome!_**
 
 The official Javascript SDK for VSYS APIs. The [old Javascript SDK](https://github.com/virtualeconomy/js-v-sdk) is deprecated and will be archived soon.
 
@@ -20,9 +20,11 @@ The official Javascript SDK for VSYS APIs. The [old Javascript SDK](https://gith
 ## Installation
 
 Install from Github
+
 ```bash
 git clone git@github.com:virtualeconomy/js-vsys.git
 ```
+
 Then locate to the folder and run `npm install`.
 
 ## Quick Example
@@ -36,21 +38,19 @@ import * as jv from '@virtualeconomy/js-vsys';
 const host = 'http://veldidina.vos.systems:9928';
 
 // A test net wallet seed
-const seed = new jv.Seed(
-  'your seed'
-);
+const seed = new jv.Seed('your seed');
 
-function printHeading(msg){
-    function times(char, num){
-        let ret = "";
-        while(num-->0) ret += char;
-        
-        return ret;
-    }
-    console.log(times("=", 10), msg, times("=", 10))
+function printHeading(msg) {
+  function times(char, num) {
+    let ret = '';
+    while (num-- > 0) ret += char;
+
+    return ret;
+  }
+  console.log(times('=', 10), msg, times('=', 10));
 }
 
-printHeading("Try out NodeAPI");
+printHeading('Try out NodeAPI');
 // NodeAPI is the wrapper for RESTful APIs
 const api = jv.NodeAPI.new(host);
 // GET /blocks/last
@@ -58,48 +58,49 @@ console.log(await api.blocks.getHeight());
 // GET /node/version
 console.log(await api.node.getVersion());
 
-printHeading("Try out Chain");
+printHeading('Try out Chain');
 // Chain represents the chain itself
 const ch = new jv.Chain(api, jv.ChainID.TEST_NET);
 // Get chain's height
-console.log("Height:", await ch.getHeight());
+console.log('Height:', await ch.getHeight());
 // Get chain's last block
-console.log("Last block: \n", await ch.getLastBlock());
+console.log('Last block: \n', await ch.getLastBlock());
 
-printHeading("Try out Account")
+printHeading('Try out Account');
 // Account represents an account in the net
 const wal = new jv.Wallet(seed);
 const acnt = wal.getAcnt(ch, 0);
 // Get the account's balance
-console.log("Balance:", await acnt.getBal());
+console.log('Balance:', await acnt.getBal());
 // Get the account's nonce'
-console.log("Nonce:", acnt.nonce);
+console.log('Nonce:', acnt.nonce);
 // Get the account's public key
-console.log("Public key:", acnt.keyPair.pub);
+console.log('Public key:', acnt.keyPair.pub);
 // Get the account's private key
-console.log("Private key:", acnt.keyPair.pri);
+console.log('Private key:', acnt.keyPair.pri);
 // Get the account's address
-console.log("Account address:", acnt.addr);
+console.log('Account address:', acnt.addr);
 
-printHeading("Try out Smart Contract");
-const ctrtId = "CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD";
+printHeading('Try out Smart Contract');
+const ctrtId = 'CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD';
 const ctrt = new jv.NFTCtrt(ctrtId, ch);
 // Get the contract's maker
-console.log("Maker:", await ctrt.getMaker());
+console.log('Maker:', await ctrt.getMaker());
 // Get the contract's issuer
-console.log("Issuer:", await ctrt.getIssuer());
+console.log('Issuer:', await ctrt.getIssuer());
 // Get the contract's ID
-console.log("Contract id:", ctrt.ctrtId);
+console.log('Contract id:', ctrt.ctrtId);
 ```
 
 Example output
+
 ```
 ========== Try out NodeAPI ==========
 { height: 2767707 }
 { version: 'VSYS Core v0.4.1' }
 ========== Try out Chain ==========
 Height: 2767707
-Last block: 
+Last block:
  {
   version: 1,
   timestamp: 1655457048010768100,
@@ -147,14 +148,17 @@ Contract id: CtrtID { data: 'CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD' }
 ## Docs
 
 ### Account & Wallet
+
 - [Account](./doc/account.md)
 - [Wallet](./doc/wallet.md)
 
 ### Chain & API
+
 - [Chain](./doc/chain.md)
 - [Api](./doc/api.md)
 
 ### Smart Contracts
+
 - [NFT Contract V1](./doc/smart_contract/nft_ctrt.md)
 - [NFT Contract V2](./doc/smart_contract/nft_ctrt_v2.md)
 - [Token Contract V1 without split](./doc/smart_contract/tok_ctrt_no_split.md)
@@ -172,28 +176,35 @@ Contract id: CtrtID { data: 'CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD' }
 ## Run Tests
 
 ### Specification Tests
+
 Specification tests are scripts that simulate the behaviour of a normal user to interact wtih `js_vsys`(e.g. register a smart contract & call functions of it).
 
 To run it, ensure that you have `jasmine` properly installed.
 
 First set up the global variables like below.
+
 ```bash
 export JS_VSYS_HOST='http://veldidina.vos.systems:9928'
 export JS_VSYS_AVG_BLOCK_DELAY=6
 export JS_VSYS_SEED='your_seed'
 ```
+
 Then go to the root of the project and run (take NFT contract as an example).
+
 ```bash
 npx jasmine './spec/contract_spec/nft_ctrt_spec.js'
 ```
+
 The above command will test each aspect(e.g. function `send` of NFT contract) individually and have required resources set up before testing(e.g. register a new contract, issue a token, etc). It's good for testing a specific aspect while it might consume too much resources to test every aspect in this way.
 
 Take NFT contract as an example, it will register a contract first and then execute functions like `send`, `transfer`, `deposit`, etc in a pre-orchestrated manner so that some common set up(e.g. register a contract) will be done only once.
 
 To run a single test, say `issue`, just comment all parts except `beforeAll` and `test method issue`, run
+
 ```bash
 npx jasmine './spec/contract_spec/nft_ctrt_spec.js'
 ```
+
 ## Contributing
 
 **Contributions are always welcome!**

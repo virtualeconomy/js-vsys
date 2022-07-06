@@ -9,7 +9,7 @@ import bs58 from 'bs58';
 import { Buffer } from 'buffer';
 import * as ch from './chain.js';
 import * as bn from './utils/big_number.js';
-import * as bp from './utils/bytes_packer.js'
+import * as bp from './utils/bytes_packer.js';
 import * as hs from './utils/hashes.js';
 import { WORDS_SET } from './words.js';
 
@@ -28,7 +28,7 @@ export class Model {
    * validate validates the instance.
    * @abstract
    */
-  validate() { }
+  validate() {}
 
   /**
    * hasSameType compares this instance with the given instance to see if the types are the same.
@@ -348,7 +348,7 @@ export class Addr extends FixedSizedB58Str {
 /** CtrtMetaBytes is the helper data container for bytes used in contract meta data
  * with handy methods.
  */
- class CtrtMetaBytes {
+class CtrtMetaBytes {
   /**
    * Creates a new Bytes instance.
    * @param {any} data - The bytes data to contain.
@@ -565,7 +565,7 @@ export class CtrtID extends FixedSizedB58Str {
    * getTokId gets the token ID of the token contract with the given token index.
    * @param {number} tokIdx - The token index.
    * @returns {TokenID} The token ID.
-  */
+   */
   getTokId(tokIdx) {
     new TokenIdx(tokIdx); // for validation
 
@@ -612,10 +612,13 @@ export class TokenID extends FixedSizedB58Str {
    */
   getCtrtId() {
     const b = bs58.decode(this.data);
-    const rawCtrtId = b.slice(1, b.length - CtrtMeta.TOKEN_IDX_BYTES_LEN - CtrtMeta.CHECKSUM_LEN);
+    const rawCtrtId = b.slice(
+      1,
+      b.length - CtrtMeta.TOKEN_IDX_BYTES_LEN - CtrtMeta.CHECKSUM_LEN
+    );
     const ctrtIdNoChecksum = Buffer.concat([
       bp.packInt8(CtrtMeta.CTRT_ADDR_VER),
-      rawCtrtId
+      rawCtrtId,
     ]);
 
     const h = hs.keccak256Hash(hs.blake2b32Hash(ctrtIdNoChecksum));
@@ -679,10 +682,10 @@ export class NonNegativeInt extends Int {
 }
 
 /** Nonce is the data model class for wallet account nonce */
-export class Nonce extends NonNegativeInt { }
+export class Nonce extends NonNegativeInt {}
 
 /** TokenIdx is the data model class for token index */
-export class TokenIdx extends NonNegativeInt { }
+export class TokenIdx extends NonNegativeInt {}
 
 /** Long is the data model class for long integers (big number) */
 export class Long extends Model {
@@ -820,7 +823,8 @@ export class Token extends NonNegativeBigInt {
 
     if (!data.isInteger()) {
       throw new Error(
-        `Invalid amount for ${this.name
+        `Invalid amount for ${
+          this.name
         }: ${amount}. The minimal valid amount granularity is ${1 / unit}`
       );
     }
@@ -861,7 +865,8 @@ export class VSYS extends NonNegativeBigInt {
 
     if (!data.isInteger()) {
       throw new Error(
-        `Invalid amount for ${this.name
+        `Invalid amount for ${
+          this.name
         }: ${amnt}. The minimal valid amount granularity is ${1 / this.UNIT}`
       );
     }
@@ -898,13 +903,13 @@ export class Fee extends VSYS {
 }
 
 /** PaymentFee is the data model class for payment fee */
-export class PaymentFee extends Fee { }
+export class PaymentFee extends Fee {}
 
 /** LeasingFee is the data model class for leasing fee */
-export class LeasingFee extends Fee { }
+export class LeasingFee extends Fee {}
 
 /** LeasingCancelFee is the data model class for leasing cancel fee */
-export class LeasingCancelFee extends Fee { }
+export class LeasingCancelFee extends Fee {}
 
 /** RegCtrtFee is the data model class for register contract fee */
 export class RegCtrtFee extends Fee {
