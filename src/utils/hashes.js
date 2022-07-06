@@ -40,21 +40,21 @@ export function blake2b32Hash(data) {
 }
 
 /**
- * aes256HashEncrypt hashes the given data in AES256 hash.
+ * aesEncrypt encrypts the given data in AES.
  * @param {string} data - The data to hash.
  * @param {string} key - The key used to hash data.
  * @returns {string} The hash result
  */
-export function aes256HashEncrypt(data, key) {
+export function aesEncrypt(data, key) {
   return CryptoJS.AES.encrypt(data, key).toString();
 }
 
 /**
- * aes256hashDecrypt decrypts the data hashed by aes256Hash.
+ * aesDecrypt decrypts the data encrypted by AES.
  * @param {string} data - The data to hash.
  * @param {string} key - The key used to hash data.
  * @returns {string} The hash result.
  */
-export function aes256hashDecrypt(data, key) {
+export function aesDecrypt(data, key) {
   return CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
 }

@@ -184,7 +184,7 @@ export class Seed extends Str {
   }
 
   /**
-   * encrypt the password.
+   * strengthenPassword strengthens the given password by hashing the given rounds.
    * @param {string} password - The password used when encrypting seed previously.
    * @param {number} rounds - The number of encryption round when encrypting seed previously.
    * @returns {string} The encrypted password.
@@ -197,25 +197,22 @@ export class Seed extends Str {
   }
 
   /**
-   * encrypt the seed.
+   * encryptSeed encrypts the seed with given password by given encryptionRounds.
    * @param {string} password - The password used when encrypting seed.
    * @param {number} encryptionRounds - The number of encryption round when encrypting seed.
-   * @returns {string} The encrypted seed.
+   * @returns {EncryptedSeed} The encrypted seed.
    */
-  encryptSeed(password, encryptionRounds) {
-    if (typeof this.data !== 'string') {
-      throw new Error('Seed is required');
-    }
+  encrypt(password, encryptionRounds) {
     if (!password || typeof password !== 'string') {
         throw new Error('Password is required');
     }
-    password = Seed.strengthenPassword(password, encryptionRounds);
-    return hs.aes256HashEncrypt(this.data, password);
+    password = this.constructor.strengthenPassword(password, encryptionRounds);
+    return new EncryptedSeed(hs.aes256HashEncrypt(this.data, password));
   }
   
 }
 
-export class encryptedSeed extends Str {
+export class EncryptedSeed extends Str {
 
   /**
    * validate validates the instance.
@@ -234,20 +231,17 @@ export class encryptedSeed extends Str {
   }
 
   /**
-   * decrypt the seed.
+   * decryptSeed decrypts the seed with given password by given encryptionRounds.
    * @param {string} password - The password used when encrypting seed previously.
    * @param {string} encryptionRounds - The number of encryption round when encrypting seed previously.
-   * @returns {string} The decrypted seed.
+   * @returns {Seed} The decrypted seed.
    */
-  decryptSeed(password, encryptionRounds) {
-    if (!this.data || typeof this.data !== 'string') {
-      throw new Error('Encrypted seed is required');
-    }
+  decrypt(password, encryptionRounds) {
     if (!password || typeof password !== 'string') {
         throw new Error('Password is required');
     }
     password = Seed.strengthenPassword(password, encryptionRounds);
-    return hs.aes256hashDecrypt(this.data, password);
+    return new Seed(hs.aes256hashDecrypt(this.data, password));
   }
 
 }
