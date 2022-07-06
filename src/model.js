@@ -10,7 +10,6 @@ import { Buffer } from 'buffer';
 import * as ch from './chain.js';
 import * as bn from './utils/big_number.js';
 import * as hs from './utils/hashes.js';
-import * as cy from './utils/crypto.js';
 import { WORDS_SET } from './words.js';
 
 /** Model is the base class for data models */
@@ -185,27 +184,72 @@ export class Seed extends Str {
   }
 
   /**
+   * encrypt the password.
+   * @param {string} password - The password used when encrypting seed previously.
+   * @param {number} rounds - The number of encryption round when encrypting seed previously.
+   * @returns {string} The encrypted password.
+   */
+  static strengthenPassword(password, rounds) {
+    if (rounds === void 0) { rounds = 5000; }
+    while (rounds--)
+        password = hs.sha256Hash(password);
+    return password.toString();
+  }
+
+  /**
    * encrypt the seed.
-   * @param {Seed} seed - The seed needed to be encrypted.
    * @param {string} password - The password used when encrypting seed.
    * @param {number} encryptionRounds - The number of encryption round when encrypting seed.
    * @returns {string} The encrypted seed.
    */
-  static encryptSeed(seed, password, encryptionRounds) {
-    return cy.encryptSeed(seed, password, encryptionRounds);
+  encryptSeed(password, encryptionRounds) {
+    if (typeof this.data !== 'string') {
+      throw new Error('Seed is required');
+    }
+    if (!password || typeof password !== 'string') {
+        throw new Error('Password is required');
+    }
+    password = Seed.strengthenPassword(password, encryptionRounds);
+    return hs.aes256HashEncrypt(this.data, password);
+  }
+  
+}
+
+export class encryptedSeed extends Str {
+
+  /**
+   * validate validates the instance.
+   */
+  validate() {
+    super.validate()
+
+    const expectedSeedLen = 152;
+
+    if(this.data.length !== expectedSeedLen) {
+      throw new Error(
+        `Data in encryptedSeed must contain exactly ${expectedSeedLen} words`
+      );
+    }
+
   }
 
   /**
    * decrypt the seed.
-   * @param {Seed} encryptedSeed - The encrypted seed needed to be decrypted.
    * @param {string} password - The password used when encrypting seed previously.
    * @param {string} encryptionRounds - The number of encryption round when encrypting seed previously.
-   * @returns The decrypted seed.
+   * @returns {string} The decrypted seed.
    */
-  static decryptSeed(encryptedSeed, password, encryptionRounds) {
-    return cy.decryptSeed(encryptedSeed, password, encryptionRounds);
+  decryptSeed(password, encryptionRounds) {
+    if (!this.data || typeof this.data !== 'string') {
+      throw new Error('Encrypted seed is required');
+    }
+    if (!password || typeof password !== 'string') {
+        throw new Error('Password is required');
+    }
+    password = Seed.strengthenPassword(password, encryptionRounds);
+    return hs.aes256hashDecrypt(this.data, password);
   }
-  
+
 }
 
 /** B58Str is the data model class base58 string */
