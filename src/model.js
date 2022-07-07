@@ -11,6 +11,7 @@ import * as ch from './chain.js';
 import * as bn from './utils/big_number.js';
 import * as bp from './utils/bytes_packer.js';
 import * as hs from './utils/hashes.js';
+import * as curve from './utils/curve_25519.js';
 import { WORDS_SET } from './words.js';
 
 /** Model is the base class for data models */
@@ -110,6 +111,35 @@ export class Bytes extends Model {
   }
 }
 
+/** AcntSeedHash is the data model class for account seed hash */
+export class AcntSeedHash extends Bytes {
+  static BYTES_LEN = 32;
+
+  validate() {
+    super.validate();
+    const cls = this.constructor;
+
+    if (this.data.length !== cls.BYTES_LEN) {
+      throw new Error(
+        `Data in ${cls.name} must be exactly ${cls.BYTES_LEN} bytes.`
+      );
+    }
+  }
+
+  /**
+   * getKeyPair generates a key pair
+   * @returns {KeyPair} The generated key pair.
+   */
+  getKeyPair() {
+    const kp = curve.genKeyPair(this.data);
+
+    return new KeyPair(
+      new PubKey(bs58.encode(kp.pub)),
+      new PriKey(bs58.encode(kp.pri))
+    );
+  }
+}
+
 /** Str is the data model class for string */
 export class Str extends Model {
   /**
@@ -191,9 +221,10 @@ export class Seed extends Str {
    * @returns {string} The strengthened password.
    */
   static strengthenPassword(password, rounds) {
-    if (rounds === void 0) { rounds = 5000; }
-    while (rounds--)
-        password = hs.sha256Hash(Buffer.from(password, 'utf8'));
+    if (rounds === void 0) {
+      rounds = 5000;
+    }
+    while (rounds--) password = hs.sha256Hash(Buffer.from(password, 'utf8'));
     return password.toString();
   }
 
@@ -205,16 +236,28 @@ export class Seed extends Str {
    */
   encrypt(password, encryptionRounds) {
     if (!password || typeof password !== 'string') {
-        throw new Error('Password is required');
+      throw new Error('Password is required');
     }
     password = this.constructor.strengthenPassword(password, encryptionRounds);
     return new EncryptedSeed(hs.aesEncrypt(this.data, password));
   }
-  
+
+  /**
+   * getAcntSeedHash gets account seed hash
+   * @param {Nonce} nonce - The nonce.
+   * @returns {AcntSeedHash} The account seed hash.
+   */
+  getAcntSeedHash(nonce) {
+    const b = hs.sha256Hash(
+      hs.keccak256Hash(
+        hs.blake2b32Hash(Buffer.from(`${nonce.data}${this.data}`, 'latin1'))
+      )
+    );
+    return new AcntSeedHash(b);
+  }
 }
 
 export class EncryptedSeed extends Str {
-
   /**
    * validate validates the instance.
    */
@@ -230,12 +273,11 @@ export class EncryptedSeed extends Str {
    */
   decrypt(password, encryptionRounds) {
     if (!password || typeof password !== 'string') {
-        throw new Error('Password is required');
+      throw new Error('Password is required');
     }
     password = Seed.strengthenPassword(password, encryptionRounds);
     return new Seed(hs.aesDecrypt(this.data, password));
   }
-
 }
 
 /** B58Str is the data model class base58 string */
@@ -395,6 +437,28 @@ export class Addr extends FixedSizedB58Str {
         `Addr is not on the chain. The Addr has chainId ${this.chainId} while the chain expects ${chain.chainId}`
       );
     }
+  }
+
+  /**
+   * fromPubKey creates a new Addr instance from the given public key & chain ID.
+   * @param {PubKey} pubKey - The public key.
+   * @param {ch.ChainID} chainId - The chain ID.
+   * @returns {Addr} The new Addr instance.
+   */
+  static fromPubKey(pubKey, chainId) {
+    const rawAddr =
+      String.fromCharCode(this.VERSION) +
+      chainId.val +
+      hs
+        .keccak256Hash(hs.blake2b32Hash(pubKey.bytes))
+        .toString('latin1')
+        .slice(0, 20);
+
+    const checksum = hs
+      .keccak256Hash(hs.blake2b32Hash(Buffer.from(rawAddr, 'latin1')))
+      .toString('latin1')
+      .slice(0, 4);
+    return this.fromBytes(Buffer.from(rawAddr + checksum, 'latin1'));
   }
 }
 
@@ -695,6 +759,18 @@ export class KeyPair {
   constructor(pub, pri) {
     this.pub = pub;
     this.pri = pri;
+
+    this.validate();
+  }
+
+  validate() {
+    const msg = Buffer.from('abc');
+    const sig = curve.sign(this.pri.bytes, msg);
+
+    const isValid = curve.verify(this.pub.bytes, msg, sig);
+    if (!isValid) {
+      throw new Error('Public key & private key do not match');
+    }
   }
 }
 

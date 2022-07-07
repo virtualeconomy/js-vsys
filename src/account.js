@@ -5,12 +5,10 @@
 
 'use strict';
 
-import bs58 from 'bs58';
 import { WORDS } from './words.js';
 import * as md from './model.js';
 import * as ch from './chain.js';
 import * as tx from './tx_req.js';
-import * as hs from './utils/hashes.js';
 import * as curve from './utils/curve_25519.js';
 import * as rd from './utils/random.js';
 import * as api from './api.js';
@@ -68,87 +66,44 @@ export class Wallet {
   }
 
   /**
-   * getAcntSeedHash gets account seed hash
-   * @param {md.Seed} seed - The wallet seed.
-   * @param {md.Nonce} nonce - The nonce.
-   * @returns {Buffer} The account seed hash.
-   */
-  static getAcntSeedHash(seed, nonce) {
-    return hs.sha256Hash(
-      hs.keccak256Hash(
-        hs.blake2b32Hash(Buffer.from(`${nonce.data}${seed.data}`, 'latin1'))
-      )
-    );
-  }
-
-  /**
-   * getKeyPair generates a key pair based on the given account seed hash.
-   * @param {Buffer} acntSeedHash - The account seed hash.
-   * @returns {md.KeyPair} The generated key pair.
-   */
-  static getKeyPair(acntSeedHash) {
-    const kp = curve.genKeyPair(acntSeedHash);
-
-    return new md.KeyPair(
-      new md.PubKey(bs58.encode(kp.pub)),
-      new md.PriKey(bs58.encode(kp.pri))
-    );
-  }
-
-  /**
-   * getAddr generates an account address.
-   * @param {md.PubKey} pubKey - The public key.
-   * @param {number} addrVer - The address version.
-   * @param {ch.ChainID} chainId - The chain ID.
-   * @returns {md.Addr} The generated address.
-   */
-  static getAddr(pubKey, addrVer, chainId) {
-    const rawAddr =
-      String.fromCharCode(addrVer) +
-      chainId.val +
-      hs
-        .keccak256Hash(hs.blake2b32Hash(pubKey.bytes))
-        .toString('latin1')
-        .slice(0, 20);
-
-    const checksum = hs
-      .keccak256Hash(hs.blake2b32Hash(Buffer.from(rawAddr, 'latin1')))
-      .toString('latin1')
-      .slice(0, 4);
-    return md.Addr.fromBytes(Buffer.from(rawAddr + checksum, 'latin1'));
-  }
-
-  /**
    * getAcnt gets the account of the given nonce of the wallet on the given chain.
    * @param {ch.Chain} chain - The chain where the account is on.
    * @param {number} nonce - The nonce. Defaults to 0.
    */
   getAcnt(chain, nonce = 0) {
-    return new Account(chain, this, new md.Nonce(nonce));
+    const acntSeedHash = this.seed.getAcntSeedHash(new md.Nonce(nonce));
+    const keyPair = acntSeedHash.getKeyPair();
+    return new Account(chain, keyPair.pri, keyPair.pub);
   }
 }
 
 /** Account is the class for an account in VSYS blockchain network */
 export class Account {
-  static addrVer = 5;
-
   /**
    * Creates a new Account instance.
    * @param {ch.Chain} chain - The chain where the account is on.
-   * @param {Wallet} wallet - The wallet that owns the account.
-   * @param {md.Nonce} nonce - The nonce of the account. Defaults to new md.Nonce(0).
+   * @param {md.PriKey} priKey - The private key of the account.
+   * @param {md.PubKey} priKey - The public key of the account.
    */
-  constructor(chain, wallet, nonce) {
+  constructor(chain, priKey, pubKey) {
     this.chain = chain;
-    this.wallet = wallet;
-    this.nonce = nonce;
-    this.acntSeedHash = Wallet.getAcntSeedHash(wallet.seed, this.nonce);
-    this.keyPair = Wallet.getKeyPair(this.acntSeedHash);
-    this.addr = Wallet.getAddr(
-      this.keyPair.pub,
-      this.constructor.addrVer,
-      this.chain.chainId
-    );
+
+    if (!pubKey) {
+      pubKey = md.PubKey.fromBytes(curve.genPubKeyFromPriKey(priKey.bytes));
+    }
+
+    this.keyPair = new md.KeyPair(pubKey, priKey);
+    this.addr = md.Addr.fromPubKey(pubKey, chain.chainId);
+  }
+
+  /**
+   * fromPriKeyStr creates a new account from the given chain object & private key string.
+   * @param {ch.Chain} chain - The chain where the account is on.
+   * @param {string} priKey - The private key string.
+   * @returns {Account} - The new Account instance.
+   */
+  static fromPriKeyStr(chain, priKey) {
+    return new this(chain, new md.PriKey(priKey));
   }
 
   /**
