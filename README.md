@@ -72,8 +72,6 @@ const wal = new jv.Wallet(seed);
 const acnt = wal.getAcnt(ch, 0);
 // Get the account's balance
 console.log('Balance:', await acnt.getBal());
-// Get the account's nonce'
-console.log('Nonce:', acnt.nonce);
 // Get the account's public key
 console.log('Public key:', acnt.keyPair.pub);
 // Get the account's private key

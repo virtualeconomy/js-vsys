@@ -2,13 +2,13 @@
 
 - [Account](#account)
   - [Introduction](#introduction)
-  - [Usage with Javascript SDK](#usage-with-javascript-sdk)
+  - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
+    - [Create Account](#create-account)
+      - [From Wallet](#from-wallet)
+      - [From Private Key & Public Key](#from-private-key--public-key)
     - [Properties](#properties)
       - [Chain](#chain)
       - [Api](#api)
-      - [Wallet](#wallet)
-      - [Nonce](#nonce)
-      - [Account Seed Hash](#account-seed-hash)
       - [Key Pair](#key-pair)
       - [Address](#address)
       - [VSYS Balance](#vsys-balance)
@@ -33,9 +33,35 @@ There are 2 kinds of accounts:
 
 The key difference between them lies in whether they have a private key.
 
-## Usage with Javascript SDK
+## Usage with JavaScript SDK
 
-In JS SDK we have an `Account` module that represents a user account on the VSYS blockchain.
+In JS SDK we have an `Account` class that represents a user account on the VSYS blockchain.
+
+### Create Account
+
+#### From Wallet
+The `Account` object can be contructed by a `Wallet` object given the `Chain` object & nonce.
+
+```javascript
+import * as jv from '@virtualeconomy/js-vsys';
+// ch // a jv.Chain object
+// wal // a jv.Wallet object
+const acnt0 = wal.getAcnt(ch, 0); // get the account of nonce 0 of the wallet.
+```
+
+#### From Private Key & Public Key
+The `Account` object can be constructed by a private key & opionally along with a public key.
+
+If the public key is omitted, it will be derived from the private key.
+If the public key is provided, it will be verified against the private key.
+
+```javascript
+import * as jv from '@virtualeconomy/js-vsys';
+// ch // a jv.Chain object
+const acnt0 = jv.Account.fromPriKeyStr(ch, 'your_private_key');
+const acnt1 = new jv.Account(ch, new jv.PriKey('your_private_key'));
+const acnt2 = new jv.Account(ch, new jv.PriKey('your_private_key'), new jv.PubKey('your_public_key'));
+```
 
 ### Properties
 
@@ -98,60 +124,6 @@ NodeAPI {
     sess: Session { host: 'http://veldidina.vos.systems:9928', apiKey: '' }
   }
 }
-```
-
-#### Wallet
-
-The `Wallet` object that represents the wallet that contains this account.
-
-```javascript
-// acnt: Account
-console.log(acnt.wallet);
-```
-
-Example output
-
-```
-Wallet {
-  seed: Seed {
-    data: 'your_seed'
-  }
-}
-```
-
-#### Nonce
-
-The nonce of this account in the wallet.
-
-```javascript
-// acnt: Account
-console.log(acnt.nonce);
-```
-
-Example output
-
-```
-Nonce { data: 0 }
-```
-
-#### Account Seed Hash
-
-Account Seed Hash is the hashing result of
-
-- the seed of the wallet the account is in
-- the nonce of the account that
-
-Account Seed Hash can be used to generate the private/public key pair of the account.
-
-```javascript
-// acnt: Account
-console.log(acnt.acntSeedHash);
-```
-
-Example output
-
-```
-<Buffer 44 d2 3e 1f fc 9d 6b 4b 7b 9c a6 fe 23 26 26 61 c5 54 c0 6d a4 62 5b bb d6 e5 44 d1 43 e9 9f>
 ```
 
 #### Key Pair
