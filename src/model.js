@@ -219,16 +219,7 @@ export class EncryptedSeed extends Str {
    * validate validates the instance.
    */
   validate() {
-    super.validate()
-
-    const expectedSeedLen = 152;
-
-    if(this.data.length !== expectedSeedLen) {
-      throw new Error(
-        `Data in encryptedSeed must contain exactly ${expectedSeedLen} words`
-      );
-    }
-
+    super.validate();
   }
 
   /**
