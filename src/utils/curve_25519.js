@@ -43,3 +43,12 @@ export function genKeyPair(rand32) {
     pub: Buffer.from(kp.public),
   };
 }
+
+/**
+ * genPubKeyFromPriKey generates public key from the given private key.
+ * @param {Buffer} priKey - The private key.
+ * @returns {Buffer} The generated public key.
+ */
+export function genPubKeyFromPriKey(priKey) {
+  return Axlsign.derivePublicKey(priKey);
+}
