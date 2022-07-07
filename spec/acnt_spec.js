@@ -33,4 +33,37 @@ describe('Test class Account', function () {
       expect(acnt1GainActual.isEqualTo(acnt1GainExpected)).toBeTrue();
     });
   });
+
+  describe('Test instantiating', function () {
+    beforeAll(function () {
+      this.priKey = 'EV5stVcWZ1kEQhrS7qcfYQdHpMHM5jwkyRxi9n9kXteZ';
+      this.pubKey = '4EyuJtDzQH15qAfnTPgqa8QB4ZU1dzqihdCs13UYEiV4';
+      this.addr = 'ATuQXbkZV4dCKsoFtXSCH5eKw92dMXQdUYU';
+    });
+    it('should instantiate class Account with private key string', function () {
+      const acnt = jv.Account.fromPriKeyStr(this.chain, this.priKey);
+      expect(acnt.keyPair.pri.data).toBe(this.priKey);
+      expect(acnt.keyPair.pub.data).toBe(this.pubKey);
+      expect(acnt.addr.data).toBe(this.addr);
+    });
+
+    it('should instantiate with the given correct private key & public key', function () {
+      const acnt = new jv.Account(this.chain, new jv.PriKey(this.priKey), new jv.PubKey(this.pubKey));
+      expect(acnt.keyPair.pri.data).toBe(this.priKey);
+      expect(acnt.keyPair.pub.data).toBe(this.pubKey);
+      expect(acnt.addr.data).toBe(this.addr);
+    });
+
+    it('should check if the given private key & public key match', function () {
+      const wrongPubKey = '4EyuJtDzQH15qAfnTPgqa8QB4ZU1dzqihdCs13U12345'
+      const chain = this.chain;
+      const priKey = this.priKey;
+
+      expect(
+        function () {
+          new jv.Account(chain, new jv.PriKey(priKey), new jv.PubKey(wrongPubKey));
+        }
+      ).toThrow(new Error('Public key & private key do not match'));
+    });
+  });
 });
