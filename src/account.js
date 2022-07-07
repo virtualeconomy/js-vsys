@@ -137,18 +137,36 @@ export class Account {
    * @param {ch.Chain} chain - The chain where the account is on.
    * @param {Wallet} wallet - The wallet that owns the account.
    * @param {md.Nonce} nonce - The nonce of the account. Defaults to new md.Nonce(0).
+   * @param {md.PriKey} priKey - The private key of the account.
    */
-  constructor(chain, wallet, nonce) {
-    this.chain = chain;
-    this.wallet = wallet;
-    this.nonce = nonce;
-    this.acntSeedHash = Wallet.getAcntSeedHash(wallet.seed, this.nonce);
-    this.keyPair = Wallet.getKeyPair(this.acntSeedHash);
-    this.addr = Wallet.getAddr(
-      this.keyPair.pub,
-      this.constructor.addrVer,
-      this.chain.chainId
-    );
+  constructor(chain, wallet, nonce, priKey) {
+
+    if (priKey === undefined) {
+      this.chain = chain;
+      this.wallet = wallet;
+      this.nonce = nonce;
+      this.acntSeedHash = Wallet.getAcntSeedHash(wallet.seed, this.nonce);
+      this.keyPair = Wallet.getKeyPair(this.acntSeedHash);
+      this.addr = Wallet.getAddr(
+        this.keyPair.pub,
+        this.constructor.addrVer,
+        this.chain.chainId
+      );
+    }
+    else {
+      this.chain = chain;
+      this.priKey = priKey;
+      this.pubKey = new md.PubKey(bs58.encode(curve.derivePublicKey(this.priKey.data)));
+      this.keyPair = new md.KeyPair(
+        this.pubKey,
+        this.priKey,
+      );
+      this.addr = Wallet.getAddr(
+        this.keyPair.pub,
+        this.constructor.addrVer,
+        this.chain.chainId
+      );
+    }
   }
 
   /**

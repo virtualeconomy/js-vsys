@@ -6,6 +6,7 @@
 'use strict';
 
 import Axlsign from 'axlsign';
+import bs58 from 'bs58';
 import { Buffer } from 'buffer';
 import * as rd from './random.js';
 
@@ -42,4 +43,13 @@ export function genKeyPair(rand32) {
     pri: Buffer.from(kp.private),
     pub: Buffer.from(kp.public),
   };
+}
+
+/**
+ * derivePublicKey generates a public key based on the given private key string.
+ * @param {string} priKey - The private key string.
+ * @returns {Buffer} The public key.
+ */
+export function derivePublicKey(priKey) {
+  return Buffer.from(Axlsign.derivePublicKey(bs58.decode(priKey)));
 }
