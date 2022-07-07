@@ -16,7 +16,7 @@ Wallet can be thought of as a group of user accounts. Each wallet has its own se
 
 ## Usage with JavaScript SDK
 
-In JavaScript SDK we have a `Wallet` module that represents a wallet on the VSYS blockchain.
+In JavaScript SDK we have a `Wallet` class that represents a wallet on the VSYS blockchain.
 
 ### Properties
 
