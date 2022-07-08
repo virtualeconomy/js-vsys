@@ -237,7 +237,7 @@ export class Account {
 
   /**
    * leaseCancel sends a leasing cancel transaction request on behalf of the account.
-   * @param {md.Addr} leasingTxId - The leasing Transaction id.
+   * @param {string} leasingTxId - The leasing Transaction id.
    * @returns {object} The response returned by the NodeAPI.
    */
   async leaseCancel(leasingTxId, fee = md.Fee.DEFAULT) {
