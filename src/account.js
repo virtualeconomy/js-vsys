@@ -206,7 +206,7 @@ export class Account {
   /**
    * lease leases the VSYS coins from the action taker to the recipient(a supernode).
    * @param {string} supernodeAddr - The supernode address.
-   * @param {md.VSYS} amount - The lease amount.
+   * @param {number} amount - The lease amount.
    * @param {md.Fee} fee - The lease fee. DEFAULT to be md.Fee.DEFAULT.
    * @returns {object} The response returned by the NodeAPI.
    */
