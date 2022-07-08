@@ -207,7 +207,7 @@ export class Account {
    * lease leases the VSYS coins from the action taker to the recipient(a supernode).
    * @param {string} supernodeAddr - The supernode address.
    * @param {number} amount - The lease amount.
-   * @param {md.Fee} fee - The lease fee. DEFAULT to be md.Fee.DEFAULT.
+   * @param {number} fee - The lease fee. DEFAULT to be md.Fee.DEFAULT.
    * @returns {object} The response returned by the NodeAPI.
    */
   async lease(supernodeAddr, amount, fee = md.LeasingFee.DEFAULT) {
@@ -237,7 +237,8 @@ export class Account {
 
   /**
    * leaseCancel sends a leasing cancel transaction request on behalf of the account.
-   * @param {md.Addr} leasingTxId - The leasing Transaction id.
+   * @param {string} leasingTxId - The leasing Transaction id.
+   * @param {number} fee - The leasing cancel fee. DEFAULT to be md.Fee.DEFAULT.
    * @returns {object} The response returned by the NodeAPI.
    */
   async leaseCancel(leasingTxId, fee = md.Fee.DEFAULT) {
