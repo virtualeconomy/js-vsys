@@ -95,9 +95,9 @@ export class PaymentTxReq extends TxReq {
     const cls = this.constructor;
     return Buffer.concat([
       cls.TX_TYPE.serialize(),
-      bp.packUInt64(this.timestamp.bigInt),
-      bp.packUInt64(this.amount.bigInt),
-      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt64(this.timestamp.data),
+      bp.packUInt64(this.amount.data),
+      bp.packUInt64(this.fee.data),
       bp.packUInt16(cls.FEE_SCALE),
       this.recipient.bytes,
       bp.packUInt16(this.attachment.data.length),
@@ -162,9 +162,9 @@ export class RegCtrtTxReq extends TxReq {
       dataStack,
       bp.packUInt16(this.description.data.length),
       this.description.bytes,
-      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt64(this.fee.data),
       bp.packUInt16(cls.FEE_SCALE),
-      bp.packUInt64(this.timestamp.bigInt),
+      bp.packUInt64(this.timestamp.data),
     ]);
   }
 
@@ -226,9 +226,9 @@ export class ExecCtrtFuncTxReq extends TxReq {
       dataStack,
       bp.packUInt16(this.attachment.data.length),
       this.attachment.bytes,
-      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt64(this.fee.data),
       bp.packUInt16(cls.FEE_SCALE),
-      bp.packUInt64(this.timestamp.bigInt),
+      bp.packUInt64(this.timestamp.data),
     ]);
   }
 
@@ -281,10 +281,10 @@ export class LeaseTxReq extends TxReq {
     return Buffer.concat([
       cls.TX_TYPE.serialize(),
       this.supernodeAddr.bytes,
-      bp.packUInt64(this.amount.bigInt),
-      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt64(this.amount.data),
+      bp.packUInt64(this.fee.data),
       bp.packUInt16(cls.FEE_SCALE),
-      bp.packUInt64(this.timestamp.bigInt),
+      bp.packUInt64(this.timestamp.data),
     ]);
   }
 
@@ -332,9 +332,9 @@ export class LeaseCancelReq extends TxReq {
 
     return Buffer.concat([
       cls.TX_TYPE.serialize(),
-      bp.packUInt64(this.fee.bigInt),
+      bp.packUInt64(this.fee.data),
       bp.packUInt16(cls.FEE_SCALE),
-      bp.packUInt64(this.timestamp.bigInt),
+      bp.packUInt64(this.timestamp.data),
       this.leasingTxId.bytes,
     ]);
   }
