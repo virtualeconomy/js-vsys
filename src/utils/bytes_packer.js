@@ -7,6 +7,9 @@
 
 import { Buffer } from 'buffer';
 
+import jsBNPkg from 'bignumber.js';
+export const { BigNumber } = jsBNPkg;
+
 /**
  * packUInt8 packs the given integer into 1 byte
  * @param {number} val - The value to pack.
@@ -53,13 +56,21 @@ export function packUInt32(val) {
 
 /**
  * packUInt64 packs the given integer into 8 bytes in Big Endian order.
- * @param {BigInt} val - The value to pack.
+ * @param {BigNumber} val - The value to pack.
  * @returns {Buffer} The packing result.
  */
 export function packUInt64(val) {
-  const buf = Buffer.alloc(8);
-  buf.writeBigUInt64BE(val);
-  return buf;
+  let s = val.toString(16);
+  if (s.length < 16) {
+    let diff = 16 - s.length;
+    let prefix = '';
+    while (diff--) {
+      prefix = prefix + '0';
+    }
+    s = prefix + s;
+  }
+
+  return Buffer.from(s, 'hex');
 }
 
 /**
@@ -101,10 +112,11 @@ export function unpackUInt32(buf) {
 /**
  * unpackUInt64 unpacks the given 8-byte Buffer to an integer in Big Endian order.
  * @param {Buffer} buf - The 8-byte buffer to unpack.
- * @returns {BigInt} The unpacking result.
+ * @returns {BigNumber} The unpacking result.
  */
 export function unpackUInt64(buf) {
-  return buf.readUInt64BE(0);
+  const s = buf.toString('hex');
+  return new BigNumber(s, 16);
 }
 
 /**

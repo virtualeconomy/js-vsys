@@ -566,7 +566,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
     const msg = Buffer.concat([
       bp.packUInt16(chanIdBytes.length),
       chanIdBytes,
-      bp.packUInt64(bn.toBigInt(rawAmount)),
+      bp.packUInt64(rawAmount),
     ]);
 
     return msg;
