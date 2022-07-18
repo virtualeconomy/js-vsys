@@ -12,6 +12,7 @@ import * as bn from './utils/big_number.js';
 import * as bp from './utils/bytes_packer.js';
 import * as hs from './utils/hashes.js';
 import * as curve from './utils/curve_25519.js';
+import * as crypto from './utils/crypto.js';
 import { WORDS_SET } from './words.js';
 
 /** Model is the base class for data models */
@@ -239,7 +240,7 @@ export class Seed extends Str {
       throw new Error('Password is required');
     }
     password = this.constructor.strengthenPassword(password, encryptionRounds);
-    return new EncryptedSeed(hs.aesEncrypt(this.data, password));
+    return new EncryptedSeed(crypto.aesEncrypt(this.data, password));
   }
 
   /**
@@ -276,7 +277,7 @@ export class EncryptedSeed extends Str {
       throw new Error('Password is required');
     }
     password = Seed.strengthenPassword(password, encryptionRounds);
-    return new Seed(hs.aesDecrypt(this.data, password));
+    return new Seed(crypto.aesDecrypt(this.data, password));
   }
 }
 
