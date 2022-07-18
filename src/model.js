@@ -827,14 +827,6 @@ export class Long extends Model {
   }
 
   /**
-   * bigInt returns the containing data in JavaScript built-in BigInt.
-   * @returns {BigInt}
-   */
-  get bigInt() {
-    return bn.toBigInt(this.data);
-  }
-
-  /**
    * validate validates the instance.
    */
   validate() {
