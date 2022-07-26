@@ -202,6 +202,16 @@ class Transactions extends APIGrp {
   async getInfo(txId) {
     return await this.get(`/info/${txId}`);
   }
+
+  /**
+   * getTxList gets the list of transactions involving the given address.
+   * @param {string} addr - The wallet address or contract address.
+   * @param {int} limit - The number of records to be returned.
+   * @returns 
+   */
+  async getTxList(addr, limit) {
+    return await this.get(`/address/${addr}/limit/${limit}`);
+  }
 }
 
 /** Node is the class for API group 'node' */
