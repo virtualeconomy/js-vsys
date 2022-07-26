@@ -206,8 +206,8 @@ class Transactions extends APIGrp {
   /**
    * getTxList gets the list of transactions involving the given address.
    * @param {string} addr - The wallet address or contract address.
-   * @param {int} limit - The number of records to be returned.
-   * @returns 
+   * @param {number} limit - The number of records to be returned.
+   * @returns {object} The response.
    */
   async getTxList(addr, limit) {
     return await this.get(`/address/${addr}/limit/${limit}`);
