@@ -53,7 +53,7 @@ function printHeading(msg) {
 printHeading('Try out NodeAPI');
 // NodeAPI is the wrapper for RESTful APIs
 const api = jv.NodeAPI.new(host);
-// GET /blocks/last
+// GET /blocks/height
 console.log(await api.blocks.getHeight());
 // GET /node/version
 console.log(await api.node.getVersion());

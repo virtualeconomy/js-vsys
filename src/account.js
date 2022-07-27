@@ -150,12 +150,11 @@ export class Account {
          NOTE that the token ID from the system contract is not supported due to the pre-defined & built-in nature
          of system contract.
     * @param {string} tokId - The token ID.
-    * @returns {md.VSYS} The account's effective balance.
+    * @returns {md.Token} The account's balance of the given token.
     */
   async getTokBal(tokId) {
-    const tc = await tcf.fromTokId(new md.TokenID(tokId), this.chain);
     const resp = await this.api.ctrt.getTokBal(this.addr.data, tokId);
-    return new md.Token(resp.balance, await tc.getUnit());
+    return md.Token.fromNumber(resp.balance, resp.unity);
   }
 
   /**
