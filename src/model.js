@@ -729,7 +729,7 @@ export class TokenID extends FixedSizedB58Str {
    * @returns {CtrtID} The contract ID.
    */
   getCtrtId() {
-    const b = bs58.decode(this.data);
+    const b = this.bytes;
     const rawCtrtId = b.slice(
       1,
       b.length - CtrtMeta.TOKEN_IDX_BYTES_LEN - CtrtMeta.CHECKSUM_LEN
