@@ -16,7 +16,7 @@ import * as nft_ctrt_v2 from './nft_ctrt_v2.js';
 import * as sys_ctrt from './sys_ctrt.js';
 
 /** TokCtrtType is the class for token contract types */
-class TokCtrtType extends en.Enum {
+export class TokCtrtType extends en.Enum {
   static elems = {
     NFT: 'NonFungibleContract',
     NFT_V2_BLACKLIST: 'NFTContractWithBlacklist',
