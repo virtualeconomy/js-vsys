@@ -725,6 +725,16 @@ export class TokenID extends FixedSizedB58Str {
   }
 
   /**
+   * tokIdx returns the token index from the token id.
+   * @returns {TokenIdx} The token index.
+   */
+  get tokIdx() {
+    const tokIdNoChecksum = this.bytes.slice(0, -4);
+    const tokIdxBytes = tokIdNoChecksum.slice(-4);
+    return new TokenIdx(bp.unpackUInt32(tokIdxBytes));
+  }
+
+  /**
    * getCtrtId gets the contract ID of the given token ID.
    * @returns {CtrtID} The contract ID.
    */
