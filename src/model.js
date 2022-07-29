@@ -729,10 +729,9 @@ export class TokenID extends FixedSizedB58Str {
    * @returns {TokenIdx} The token index.
    */
   get tokIdx() {
-    const tokIdBytes = bs58.decode(this.data);
-    const tokIdNoChecksum = Buffer.from(tokIdBytes).slice(0, Buffer.length-7);
-    const tokIdx = tokIdNoChecksum.slice(22,);
-    return new TokenIdx(bp.unpackUInt32(tokIdx));
+    const tokIdNoChecksum = this.bytes.slice(0, -4);
+    const tokIdxBytes = tokIdNoChecksum.slice(-4);
+    return new TokenIdx(bp.unpackUInt32(tokIdxBytes));
   }
 
   /**
