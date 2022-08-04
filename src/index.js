@@ -4,6 +4,7 @@ export * from './account.js';
 export * from './tx_req.js';
 export * from './model.js';
 export * as de from './data_entry.js';
+export * from './multisign.js';
 export * from './contract/ctrt.js';
 export * from './contract/lock_ctrt.js';
 export * from './contract/atomic_swap_ctrt.js';
