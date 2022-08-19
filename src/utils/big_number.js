@@ -6,4 +6,4 @@
 'use strict';
 
 import jsBNPkg from 'bignumber.js';
-export const { BigNumber } = jsBNPkg;
+export const BigNumber = jsBNPkg;

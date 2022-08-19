@@ -8,7 +8,7 @@
 import { Buffer } from 'buffer';
 
 import jsBNPkg from 'bignumber.js';
-export const { BigNumber } = jsBNPkg;
+export const BigNumber = jsBNPkg;
 
 /**
  * packUInt8 packs the given integer into 1 byte
