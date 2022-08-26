@@ -145,7 +145,7 @@ class Long extends DataEntry {
    * @returns {Long} The data entry.
    */
   static fromBytes(b) {
-    return new this(new md.Long.fromNumber(bp.unpackUInt64(b)));
+    return new this(md.Long.fromNumber(bp.unpackUInt64(b)));
   }
 
   /**
