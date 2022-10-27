@@ -11,6 +11,8 @@ import * as de from './data_entry.js';
 import * as en from './utils/enum.js';
 import * as bp from './utils/bytes_packer.js';
 import * as ctrt from './contract/ctrt.js';
+import * as dp from './dbput.js';
+import { ConsoleReporter } from 'jasmine';
 
 /** TxType is the enum class that defines transaction types. */
 class TxType extends en.Enum {
@@ -348,6 +350,60 @@ export class LeaseCancelReq extends TxReq {
     return {
       senderPublicKey: keyPair.pub.data,
       txId: this.leasingTxId.data,
+      fee: this.fee.data.toNumber(),
+      feeScale: this.constructor.FEE_SCALE,
+      timestamp: this.timestamp.data.toNumber(),
+      signature: new md.Bytes(this.sign(keyPair)).b58Str,
+    };
+  }
+}
+
+export class DBPutTxReq extends TxReq {
+  static TX_TYPE = TxType.DB_PUT;
+
+  /**
+   * Creates a new DBPutTxReq instance.
+   * @param {dp.DBPutKey}  - The db key of the data.
+   * @param {dp.DBPutData}  - The data to put.
+   * @param {md.VSYSTimestamp} timestamp - The timestamp of this request.
+   * @param {md.ExecCtrtFee} fee - The fee for this request. Defaults to md.DBPutFee.default().
+   */
+  constructor(dbKey, data, timestamp, fee = md.DBPutFee()) {
+    super();
+    this.dbKey = dbKey;
+    this.data = data;
+    this.timestamp = timestamp;
+    this.fee = fee;
+  }
+
+  /**
+   * dataToSign returns the data to sign.
+   * @returns {Buffer} The data to sign.
+   */
+  get dataToSign() {
+    const cls = this.constructor;
+    
+    return Buffer.concat([
+      cls.TX_TYPE.serialize(),
+      this.dbKey.serialize(),
+      this.data.serialize(),
+      bp.packUInt64(this.fee.data),
+      bp.packUInt16(cls.FEE_SCALE),
+      bp.packUInt64(this.timestamp.data)
+    ]);
+  }
+
+  /**
+   * toBroadcastLeasingPayload returns the payload for node api /leasing/lease
+   * @param {md.KeyPair} keyPair - The key pair used for signing.
+   * @returns {object} The payload.
+   */
+  toBroadcastPutPayload(keyPair) {
+    return {
+      senderPublicKey: keyPair.pub.data,
+      dbKey: this.dbKey.data.data,
+      dataType: "ByteArray",
+      data: this.data.data.data,
       fee: this.fee.data.toNumber(),
       feeScale: this.constructor.FEE_SCALE,
       timestamp: this.timestamp.data.toNumber(),

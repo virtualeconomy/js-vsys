@@ -12,7 +12,7 @@ import * as tx from './tx_req.js';
 import * as curve from './utils/curve_25519.js';
 import * as rd from './utils/random.js';
 import * as api from './api.js';
-import * as tcf from './contract/tok_ctrt_factory.js';
+import * as dp from './dbput.js';
 
 /** Wallet is the class for a wallet in VSYS blockchain network */
 export class Wallet {
@@ -294,5 +294,23 @@ export class Account {
     return await this.api.ctrt.broadcastExecute(
       req.toBroadcastExecutePayload(this.keyPair)
     );
+  }
+
+  async dbPutImpl(req) {
+    return await this.api.database.broadcastPut(
+      req.toBroadcastPutPayload(this.keyPair)
+    )
+  }
+
+  async dbPut(dbKey, data, dataType = dp.ByteArray, fee = md.DBPutFee.DEFAULT) {
+    data = await this.dbPutImpl(
+      new tx.DBPutTxReq(
+        dp.DBPutKey.fromStr(dbKey),
+        dp.DBPutData.new(data, dataType),
+        md.VSYSTimestamp.now(),
+        md.DBPutFee.fromNumber(fee)
+      )
+    )
+    return data;
   }
 }
