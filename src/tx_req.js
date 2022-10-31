@@ -358,6 +358,7 @@ export class LeaseCancelReq extends TxReq {
   }
 }
 
+// BPutTxReq is DB Put Transaction Request.
 export class DBPutTxReq extends TxReq {
   static TX_TYPE = TxType.DB_PUT;
 
@@ -382,19 +383,19 @@ export class DBPutTxReq extends TxReq {
    */
   get dataToSign() {
     const cls = this.constructor;
-    
+
     return Buffer.concat([
       cls.TX_TYPE.serialize(),
       this.dbKey.serialize(),
       this.data.serialize(),
       bp.packUInt64(this.fee.data),
       bp.packUInt16(cls.FEE_SCALE),
-      bp.packUInt64(this.timestamp.data)
+      bp.packUInt64(this.timestamp.data),
     ]);
   }
 
   /**
-   * toBroadcastLeasingPayload returns the payload for node api /leasing/lease
+   * toBroadcastPutPayload returns the payload for node api /database/broadcast/put
    * @param {md.KeyPair} keyPair - The key pair used for signing.
    * @returns {object} The payload.
    */
@@ -402,7 +403,7 @@ export class DBPutTxReq extends TxReq {
     return {
       senderPublicKey: keyPair.pub.data,
       dbKey: this.dbKey.data.data,
-      dataType: "ByteArray",
+      dataType: 'ByteArray',
       data: this.data.data.data,
       fee: this.fee.data.toNumber(),
       feeScale: this.constructor.FEE_SCALE,
