@@ -12,7 +12,7 @@ import * as tx from './tx_req.js';
 import * as curve from './utils/curve_25519.js';
 import * as rd from './utils/random.js';
 import * as api from './api.js';
-import * as tcf from './contract/tok_ctrt_factory.js';
+import * as dp from './dbput.js';
 
 /** Wallet is the class for a wallet in VSYS blockchain network */
 export class Wallet {
@@ -294,5 +294,37 @@ export class Account {
     return await this.api.ctrt.broadcastExecute(
       req.toBroadcastExecutePayload(this.keyPair)
     );
+  }
+
+  /**
+   * executeContractImpl provides the internal implementation of executing a contract function.
+   * @param {tx.ExecCtrtFuncTxReq} req - The Execute Contract Function Transaction Request.
+   * @returns {object} The response returned by the NodeAPI.
+   */
+  async dbPutImpl(req) {
+    return await this.api.database.broadcastPut(
+      req.toBroadcastPutPayload(this.keyPair)
+    );
+  }
+
+  /**
+  * dbPut stores the data under the key onto the chain.
+  * @param {string} dbKey - The db key of the data.
+  * @param {string} data - The data to put.
+  * @param {DBPutData} dataType - The type of the data(i.e. how should the string be parsed).
+              Defaults to dp.ByteArray.
+  * @param {number} fee - Teh fee to pay for this action. Defaults to md.DBPutFee.DEFAULT.
+  * @returns {object} - The response returned by the Node API.
+  */
+  async dbPut(dbKey, data, dataType = dp.ByteArray, fee = md.DBPutFee.DEFAULT) {
+    data = await this.dbPutImpl(
+      new tx.DBPutTxReq(
+        dp.DBPutKey.fromStr(dbKey),
+        dp.DBPutData.new(data, dataType),
+        md.VSYSTimestamp.now(),
+        md.DBPutFee.fromNumber(fee)
+      )
+    );
+    return data;
   }
 }

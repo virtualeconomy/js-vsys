@@ -1053,6 +1053,10 @@ export class ExecCtrtFee extends Fee {
   static DEFAULT = VSYS.UNIT * 0.3;
 }
 
+export class DBPutFee extends Fee {
+  static DEFAULT = VSYS.UNIT
+}
+
 /** Bool is the data model class for boolean values */
 export class Bool extends Model {
   /**

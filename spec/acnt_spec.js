@@ -66,4 +66,19 @@ describe('Test class Account', function () {
       ).toThrow(new Error('Public key & private key do not match'));
     });
   });
+
+  describe('Test db put', function() {
+      it('should put and get data from vsys db', async function() {
+          const db_key = "func_test";
+          const data = "testdata";
+
+          let resp = await this.acnt0.dbPut(db_key, data);
+          await this.waitForBlock();
+          await this.assertTxSuccess(resp.id);
+
+          resp = await this.api.database.getDB(this.acnt0.addr.data, db_key);
+          console.log(resp);
+          expect(resp.data).toBe(data);
+      });
+  });
 });
