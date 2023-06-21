@@ -12,7 +12,6 @@ import * as en from './utils/enum.js';
 import * as bp from './utils/bytes_packer.js';
 import * as ctrt from './contract/ctrt.js';
 import * as dp from './dbput.js';
-import { ConsoleReporter } from 'jasmine';
 
 /** TxType is the enum class that defines transaction types. */
 class TxType extends en.Enum {
