@@ -72,24 +72,6 @@ export class MultiSignAccount {
   }
 
   /**
-   * fromPriKeyStr creates a new account from the given chain object & private key string.
-   * @param {ch.Chain} chain - The chain where the account is on.
-   * @param {string} priKey - The private key string.
-   * @returns {Account} - The new Account instance.
-   */
-  static fromPriKeyStr(chain, priKey) {
-    return new this(chain, new md.PriKey(priKey));
-  }
-
-  /**
-   * api returns the NodeAPI instance of the chain.
-   * @returns {api.NodeAPI} The NodeAPI instance.
-   */
-  get api() {
-    return this.chain.api;
-  }
-
-  /**
    * getBal returns the account's ledger(regular) balance.
    * NOTE: The amount leased out will NOT be reflected in this balance.
    * @returns {md.VSYS} The account's ledger(regular) balance.
