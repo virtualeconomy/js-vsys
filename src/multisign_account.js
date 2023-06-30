@@ -46,17 +46,24 @@ export class MultiSignAccount {
       var bpA = MULPK.getbpA(this.allAs);
       this.bpAs.push(bpA);
     }
-    this.mulPub = jv.MultiSign.getPub(this.bpAs);
+    this.multiPubKey = jv.MultiSign.getPub(this.bpAs);
   }
-  static getSign(msg) {
-    // involving message
+  getPubKeyStr() {
+    return md.PubKey.fromBytes(this.multiPubKey);
+  }
+  getAddr(chain) {
+    var mulpubStr = this.getPubKeyStr();
+    return md.Addr.fromPubKey(mulpubStr, chain.chainId);
+  }
+  getSign(msg) {
+    var RAND = rd.getRandomBytes(64);
+
     for (var MULPK of this.MULPKS) {
       var R = MULPK.getR(msg, RAND);
       this.Rs.push(R);
     }
     this.unionR = jv.MultiSign.getUnionR(this.Rs);
 
-    // involving message
     for (var MULPK of this.MULPKS) {
       var sign = MULPK.sign(msg, RAND, this.unionA, this.unionR, this.allAs);
       this.sigs.push(sign);
