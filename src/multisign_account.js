@@ -50,7 +50,7 @@ export class MultiSignAccount {
     }
     this.multiPubKey = jv.MultiSign.getPub(this.bpAs);
   }
-  broadcastInput() {
+  get keyPair() {
     return {
       sign: (param) => this.getSign(param),
       pub: this.getPubKeyStr()
@@ -136,7 +136,7 @@ export class MultiSignAccount {
    */
   async payImpl(req) {
     return await this.api.vsys.broadcastPayment(
-      req.toBroadcastPaymentPayload(this.broadcastInput())
+      req.toBroadcastPaymentPayload(this.keyPair)
     );
   }
 
