@@ -57,7 +57,12 @@ class TxReq {
    * @returns {Buffer} The signature.
    */
   sign(keyPair) {
-    return curve.sign(keyPair.pri.bytes, this.dataToSign);
+    if (keyPair instanceof md.KeyPair) {
+      return curve.sign(keyPair.pri.bytes, this.dataToSign);
+    }
+    else {
+      return keyPair.getSign(this.dataToSign);
+    }
   }
 }
 
@@ -113,7 +118,7 @@ export class PaymentTxReq extends TxReq {
    */
   toBroadcastPaymentPayload(keyPair) {
     return {
-      senderPublicKey: keyPair.pub.data,
+      senderPublicKey: keyPair instanceof md.KeyPair ? keyPair.pub.data : keyPair.getPubKeyStr().data,
       recipient: this.recipient.data,
       amount: this.amount.data.toNumber(),
       fee: this.fee.data.toNumber(),

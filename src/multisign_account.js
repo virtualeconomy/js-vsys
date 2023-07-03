@@ -130,7 +130,7 @@ export class MultiSignAccount {
    */
   async payImpl(req) {
     return await this.api.vsys.broadcastPayment(
-      req.toBroadcastPaymentPayload(this.keyPair)
+      req.toBroadcastPaymentPayload(this)
     );
   }
 
