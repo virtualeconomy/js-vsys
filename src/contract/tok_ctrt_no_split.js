@@ -115,7 +115,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
 
   /**
    * register registers a new contract instance.
-   * @param {acnt.Account|msacnt.MultiSignAccount} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} max - The max amount that can be issued.
    * @param {number} unit - The granularity of splitting a token.
    * @param {string} tokDescription - The description of the token. Defaults to ''.
@@ -160,7 +160,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
 
   /**
    * supersede transfers the issuer role of the contract to a new account.
-   * @param {acnt.Account|msacnt.MultiSignAccount} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} newIssuer - The account address of the new issuer.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -190,7 +190,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
 
   /**
    * issue issues new Tokens by account who has the issuing right.
-   * @param {acnt.Account|msacnt.MultiSignAccount} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount of token to issue.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -214,7 +214,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
 
   /**
    * send sends tokens to another account.
-   * @param {acnt.Account|msacnt.MultiSignAccount} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} recipient - The recipient account.
    * @param {number} amount - The amount of token to send.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -251,7 +251,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
 
   /**
    * destroy destroys an amount of tokens by account who has the issuing right..
-   * @param {acnt.Account|msacnt.MultiSignAccount} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount of token to destroy.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -317,7 +317,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
 
   /**
    * deposit deposits the tokens into the contract.
-   * @param {acnt.Account|msacnt.MultiSignAccount} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract id to deposit into.
    * @param {number} amount - The amount of token to deposit.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -352,7 +352,7 @@ export class TokCtrtWithoutSplit extends ctrt.BaseTokCtrt {
 
   /**
    * withdraw withdraws tokens from another contract.
-   * @param {acnt.Account|msacnt.MultiSignAccount} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract id to withdraw from.
    * @param {number} amount - The amount of token to withdraw.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
