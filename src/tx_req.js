@@ -61,7 +61,7 @@ class TxReq {
       return curve.sign(keyPair.pri.bytes, this.dataToSign);
     }
     else {
-      return keyPair.getSign(this.dataToSign);
+      return keyPair.sign(this.dataToSign);
     }
   }
 }
@@ -118,7 +118,7 @@ export class PaymentTxReq extends TxReq {
    */
   toBroadcastPaymentPayload(keyPair) {
     return {
-      senderPublicKey: keyPair instanceof md.KeyPair ? keyPair.pub.data : keyPair.getPubKeyStr().data,
+      senderPublicKey: keyPair.pub.data,
       recipient: this.recipient.data,
       amount: this.amount.data.toNumber(),
       fee: this.fee.data.toNumber(),
