@@ -14,6 +14,7 @@ import * as tcf from './tok_ctrt_factory.js';
 import * as curve from '../utils/curve_25519.js';
 import * as bp from '../utils/bytes_packer.js';
 import * as bn from '../utils/big_number.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -311,7 +312,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
 
   /**
    * register registers a Payment Channel Contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} tokId - The ID of the token deposited into the contract.
    * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
@@ -338,7 +339,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
   /**
    * createAndLoad creates the payment channel and loads an amount into it.
      (This function's transaction id becomes the channel ID)
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} recipient - The recipient's address.
    * @param {number} amount - The amount of the token.
    * @param {number} expireTime - The expired timestamp of the channel.
@@ -378,7 +379,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
 
   /**
    * extendExpTime extends the expiration time of the channel to the new input timestamp.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} chanId - The channel ID.
    * @param {number} expireTime - The expired timestamp of the lock.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -410,7 +411,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
 
   /**
    * load loads more tokens into the channel.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} chanId - The channel ID.
    * @param {number} amount - The amount of tokens.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -446,7 +447,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
    * abort aborts the channel, triggering a 2-day grace period where the recipient can still
      collect payments. After 2 days, the payer can unload all the remaining funds that was locked
      in the channel.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} chanId - The channel ID.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -468,7 +469,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
 
   /**
    * unload unloads all the funcs locked in the channel (only works if the channel has expired).
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} chanId - The channel ID.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -490,7 +491,7 @@ export class PayChanCtrt extends ctrt.Ctrt {
 
   /**
    * collectPayment collects the payment from the channel.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} chanId - The channel ID.
    * @param {number} amount - The amount of the token.
    * @param {string} signature - The signature in base 58 format.
