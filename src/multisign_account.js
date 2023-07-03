@@ -30,8 +30,6 @@ export class MultiSignAccount {
     this.allAs = [];
     this.xAs = [];
     this.bpAs = [];
-    this.Rs = [];
-    this.sigs = [];
     for (var priKey of priKeys) {
       var MULPK = new jv.MultiSignPriKey(Buffer.from(bs58.decode(priKey)));
       var A = MULPK.A;
@@ -50,12 +48,7 @@ export class MultiSignAccount {
     }
     this.multiPubKey = jv.MultiSign.getPub(this.bpAs);
   }
-  get keyPair() {
-    return {
-      sign: (param) => this.getSign(param),
-      pub: this.getPubKeyStr()
-    }
-  }
+  
   getPubKeyStr() {
     return md.PubKey.fromBytes(this.multiPubKey);
   }
@@ -65,18 +58,18 @@ export class MultiSignAccount {
   }
   getSign(msg) {
     var RAND = rd.getRandomBytes(64);
-
+    var Rs = [], sigs = [];
     for (var MULPK of this.MULPKS) {
       var R = MULPK.getR(msg, RAND);
-      this.Rs.push(R);
+      Rs.push(R);
     }
-    this.unionR = jv.MultiSign.getUnionR(this.Rs);
+    var unionR = jv.MultiSign.getUnionR(Rs);
 
     for (var MULPK of this.MULPKS) {
-      var sign = MULPK.sign(msg, RAND, this.unionA, this.unionR, this.allAs);
-      this.sigs.push(sign);
+      var sign = MULPK.sign(msg, RAND, this.unionA, unionR, this.allAs);
+      sigs.push(sign);
     }
-    return jv.MultiSign.getSig(this.unionA, this.unionR, this.sigs);
+    return jv.MultiSign.getSig(this.unionA, unionR, sigs);
   }
   /**
    * api returns the NodeAPI instance of the chain.
@@ -84,6 +77,12 @@ export class MultiSignAccount {
    */
   get api() {
     return this.chain.api;
+  }
+  get keyPair() {
+    return {
+      sign: (param) => this.getSign(param),
+      pub: this.getPubKeyStr()
+    }
   }
 
   /**
