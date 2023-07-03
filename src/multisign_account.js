@@ -22,8 +22,10 @@ export class MultiSignAccount {
   /**
    * Creates a new Multisign Account instance.
    * @param {md.PriKey} priKey - The private key list
+   * @param {ch.Chain} chain - The chain where the account is on.
    */
-  constructor(priKeys) {
+  constructor(priKeys, chain) {
+    this.chain = chain;
     this.MULPKS = [];
     this.allAs = [];
     this.xAs = [];
@@ -69,6 +71,13 @@ export class MultiSignAccount {
       this.sigs.push(sign);
     }
     return jv.MultiSign.getSig(this.unionA, this.unionR, this.sigs);
+  }
+  /**
+   * api returns the NodeAPI instance of the chain.
+   * @returns {api.NodeAPI} The NodeAPI instance.
+   */
+  get api() {
+    return this.chain.api;
   }
 
   /**
