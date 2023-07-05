@@ -153,7 +153,7 @@ Example output
 
 ```
 KeyPair {
-  sign: PriKey { data: 'AGy4AXXXXXXXXXXXXXXXXXXXXXXXXXXXXwdyKT7p8vot' },
+  sign: [Function: sign],
   pub: PubKey { data: '5N32sXXXXXXXXXXXXXXXXXXXXXXXXXXXXHJusMfbDcjp' }
 }
 ```
@@ -314,12 +314,12 @@ Example output
 
 #### Register Contract
 
-The `Account` module does not provide a public interface for this action. Users should always use a contract instance object and pass in the `Account` object as the action taker instead.
+The `Multisign Account` module does not provide a public interface for this action. Users should always use a contract instance object and pass in the `Account` object as the action taker instead.
 
 See [the example of registering an NFT contract instance](./smart_contract/nft_ctrt.md#Registration).
 
 #### Execute Contract
 
-The `Account` module does not provide a public interface for this action. Users should always use a contract instance object and pass in the `Account` object as the action taker instead.
+The `Multisign Account` module does not provide a public interface for this action. Users should always use a contract instance object and pass in the `Account` object as the action taker instead.
 
 See [the example of executing a function of an NFT instance](./smart_contract/nft_ctrt.md#Send)
