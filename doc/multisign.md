@@ -235,10 +235,10 @@ The example below shows paying 100 VSYS coins to another account.
 
 ```javascript
 // MulAcnt: Account
-// acnt: Account
-
+// acnt1: Account
+acnt1='ATt7XXXXXXXXXXXXXXXXXXXXXXXXXXXXXZa'
 const resp = await MulAcnt.pay(
-  acnt.addr.data, // recipient
+  acnt1 // recipient
   100 // amount
 );
 console.log(resp);
@@ -249,20 +249,20 @@ Example output
 ```
 {
   type: 2,
-  id: '6DJGGwdrjcVnAV1pRY2f5VEuR3MCehFduxcZVtL6Z3XE',
+  id: 'ABxXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXy7',
   fee: 10000000,
   feeScale: 100,
-  timestamp: 1654827041025000000,
+  timestamp: 1688630129675000000,
   proofs: [
     {
       proofType: 'Curve25519',
-      publicKey: 'AGy4ASY2CmVPSjQX4rNHrSHmcYAL4DNBawdyKT7p8vot',
-      address: 'AU8h6YH5iJuwFzcUdGugUwKo2E8tbEHdtqu',
-      signature: '3GAHpXkV6kGczZtTp5PDKKKLcg8KCyoiby8RZzSPRb76JoF2sHamx64yubfoEdTXKg37EMa1Hs1y2FABCzD7vJdU'
+      publicKey: 'EsXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXGU',
+      address: 'AU7qMm19r9sej8w9tmscCKCFPampQTNfQnn',
+      signature: '65cAem68ft6zGNZQVmaWRxp2ak8r98DAzxXDo1pG8ugxNtXz2uJPriNcpk5pfxC6bKZ76tpBxNzL7J6rraBNGjeS'
     }
   ],
-  recipient: 'AU1KWrn3sFwddbZjfeKnauh4zAYiDTmo9gM',
-  amount: 10000000000,
+  recipient: 'ATt7XXXXXXXXXXXXXXXXXXXXXXXXXXXXXZa',
+  amount: 3000000000,
   attachment: ''
 }
 ```
