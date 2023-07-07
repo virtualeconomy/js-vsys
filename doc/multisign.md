@@ -3,7 +3,7 @@
 - [Multisign Account](#multisign-account)
   - [Introduction](#introduction)
   - [Usage with JavaScript SDK](#usage-with-javascript-sdk)
-    - [Create Multisign Account](#create-multising-account)
+    - [Create Multisign Account](#create-multisingn-account)
     - [Properties](#properties)
       - [Public Key](#public-key)
       - [Multisig Address](#multisig-address)
