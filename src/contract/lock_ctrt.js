@@ -10,6 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 class FuncIdx extends ctrt.FuncIdx {
@@ -99,7 +100,7 @@ export class LockCtrt extends ctrt.Ctrt {
 
   /**
    * register registers a Lock Contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} tokId - The ID of the token to lock.
    * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
@@ -176,7 +177,7 @@ export class LockCtrt extends ctrt.Ctrt {
 
   /**
    * lock locks the user's deposited tokens in the contract until the given timestamp.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} expireAt - Unix timestamp when the lock will expire.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.

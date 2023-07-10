@@ -149,6 +149,7 @@ Contract id: CtrtID { data: 'CF3cK7TJFfw1AcPk74osKyGeGxee6u5VNXD' }
 
 - [Account](./doc/account.md)
 - [Wallet](./doc/wallet.md)
+- [Multisign](./doc/multisign.md)
 
 ### Chain & API
 

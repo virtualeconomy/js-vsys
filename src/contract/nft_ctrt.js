@@ -10,6 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -89,7 +90,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * register registers an NFT Contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
    * @returns {NFTCtrt} The NFTCtrt object of the registered NFT Contract.
@@ -110,7 +111,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * supersede transafers the issuer role of the contract to a new account.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} newIssuer - The account address of the new issuer.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -140,7 +141,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * issue issues a token of the NFT contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} tokDescription - The description of the token. Defaults to ''.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -167,7 +168,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * send sends the NFT token from the action taker to the recipient.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} recipient - The account address of the recipient.
    * @param {number} tokIdx - The index of the token within this contract to send.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -202,7 +203,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * transfer transfers the NFT token from the sender to the recipient.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} sender - The account address of the sender.
    * @param {string} recipient - The account address of the recipient.
    * @param {number} tokIdx - The index of the token within this contract to send.
@@ -243,7 +244,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * deposit deposits the NFT from the action taker to another token-holding contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract ID.
    * @param {number} tokIdx - The index of the token within this contract to send.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -276,7 +277,7 @@ export class NFTCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * withdraw withdraws the NFT from a token-holding contract to the action taker.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract ID.
    * @param {number} tokIdx - The index of the token within this contract to send.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
