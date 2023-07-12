@@ -30,6 +30,7 @@ export class MultiSignAccount {
     this.allAs = [];
     this.xAs = [];
     this.bpAs = [];
+    this.addr = '';
     for (var priKey of priKeys) {
       var MULPK = new jv.MultiSignPriKey(Buffer.from(bs58.decode(priKey)));
       var A = MULPK.A;
@@ -47,15 +48,16 @@ export class MultiSignAccount {
       this.bpAs.push(bpA);
     }
     this.multiPubKey = jv.MultiSign.getPub(this.bpAs);
+    this.addr = md.Addr.fromPubKey(md.PubKey.fromBytes(this.multiPubKey), chain.chainId);
   }
   
   getPubKeyStr() {
     return md.PubKey.fromBytes(this.multiPubKey);
   }
-  getAddr(chain) {
-    var mulpubStr = this.getPubKeyStr();
-    return md.Addr.fromPubKey(mulpubStr, chain.chainId);
-  }
+  // getAddr(chain) {
+  //   var mulpubStr = this.getPubKeyStr();
+  //   return md.Addr.fromPubKey(mulpubStr, chain.chainId);
+  // }
   getSign(msg) {
     var RAND = rd.getRandomBytes(64);
     var Rs = [], sigs = [];
