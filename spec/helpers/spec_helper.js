@@ -8,6 +8,7 @@
 import assert from 'assert/strict';
 import * as ut from './utils.js';
 import * as jv from '../../src/index.js';
+import "dotenv/config.js";
 
 beforeAll(function () {
   this.HOST = process.env.JS_VSYS_HOST;
