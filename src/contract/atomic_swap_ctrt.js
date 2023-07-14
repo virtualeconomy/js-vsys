@@ -10,6 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -161,7 +162,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
 
   /**
    * register registers a Atomic Swap Contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} tokId - The ID of the token.
    * @param {string} ctrtDescription - The description of the contract. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.RegCtrtFee.DEFAULT.
@@ -287,7 +288,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
 
   /**
    * lock locks the token and creates a swap.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount of the token to be locked.
    * @param {string} recipient - The recipient's address.
    * @param {Buffer} hashSecret - The hash of secret.
@@ -327,7 +328,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
 
   /**
    * solve solves the puzzle in the swap so that the action taker can get the tokens in the swap.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} lockTxId - The lock transaction ID that created the swap.
    * @param {string} secret - The secret.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -359,7 +360,7 @@ export class AtomicSwapCtrt extends ctrt.Ctrt {
 
   /**
    * expWithdraw withdraws the tokens when the lock is expired.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} lockTxId - The transaction lock ID.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.

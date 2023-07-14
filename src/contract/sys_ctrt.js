@@ -10,6 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 class FuncIdx extends ctrt.FuncIdx {
@@ -79,7 +80,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * send sends VSYS coins to another account.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} recipient - The account address of the recipient.
    * @param {number} amount - The amount of token to be sent.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -111,7 +112,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * transfer transfers tokens from sender to recipient.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} sender - The account address of the sender.
    * @param {string} recipient - The account address of the recipient.
    * @param {number} amount - The amount of token to transfer.
@@ -152,7 +153,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * deposit deposits the tokens into the contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract ID to deposit into.
    * @param {number} amount - The amount of token to deposit.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -185,7 +186,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * withdraw withdraws the tokens from the contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract ID to withdraw tokens from.
    * @param {number} amount - The amount of token to withdraw.
    * @param {string} attachment - The attachment of the action. Defaults to ''.

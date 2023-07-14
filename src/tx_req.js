@@ -57,7 +57,12 @@ class TxReq {
    * @returns {Buffer} The signature.
    */
   sign(keyPair) {
-    return curve.sign(keyPair.pri.bytes, this.dataToSign);
+    if (keyPair instanceof md.KeyPair) {
+      return curve.sign(keyPair.pri.bytes, this.dataToSign);
+    }
+    else {
+      return keyPair.sign(this.dataToSign);
+    }
   }
 }
 

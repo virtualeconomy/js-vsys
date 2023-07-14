@@ -11,6 +11,7 @@ import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 import * as tcf from './tok_ctrt_factory.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -548,7 +549,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
 
   /**
    * register registers a V Option Contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} baseTokId - The base token's id.
    * @param {string} targetTokId - The target token's id.
    * @param {string} optionTokId - The option token's id.
@@ -591,7 +592,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
 
   /**
    * supersede transfers the issuer role of the contract to a new account.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} newOwner - The account address of the new owner.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -616,7 +617,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
 
   /**
    * activate activates the V Option contract to store option token and proof token into the pool.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} maxIssueNum - The number of the maximum issue of the option tokens.
    * @param {number} price - The price of the creator of the V Option contract.
    * @param {number} priceUnit - The price unit of the creator of the V Option contract.
@@ -651,7 +652,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
 
   /**
    * mint locks target tokens into the pool to get option tokens and proof tokens.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The mint amount.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -675,7 +676,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
 
   /**
    * unlock gets the remaining option tokens and proof tokens from the pool before the execute time.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -699,7 +700,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
 
   /**
    * execute executes the V Option contract to get target token after execute time.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -723,7 +724,7 @@ export class VOptionCtrt extends ctrt.Ctrt {
 
   /**
    * collect collects the base tokens or/and target tokens from the pool depending on the amount of proof tokens after execute deadline.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
