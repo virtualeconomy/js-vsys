@@ -5,8 +5,7 @@
 
 'use strict';
 
-import nodeFetch from 'node-fetch';
-global.fetch = global.fetch || nodeFetch;
+import fetch from 'node-fetch';
 
 /** Session is the class for HTTP request session */
 class Session {
