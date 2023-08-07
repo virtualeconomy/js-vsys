@@ -232,7 +232,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * getInt16Bytes converts Short Integer into 2-byte array
-   * @param {BigInt} x - integer to be converted
+   * @param {number} x - integer to be converted
    * @returns {Buffer} 2 Byte array
   */
   async getInt16Bytes(x) {
