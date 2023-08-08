@@ -10,6 +10,7 @@ import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 import * as tcf from './tok_ctrt_factory.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -394,7 +395,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * register registers a V Swap Contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} tokAId - The token A's id.
    * @param {string} tokBId - The token B's id.
    * @param {string} liqTokId - The liquidity token's id.
@@ -459,7 +460,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * setSwap creates a swap and deposit initial amounts into the pool.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amntA - The initial amount for token A.
    * @param {number} amntB - The initial amount for token B.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -496,7 +497,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
    * addLiquidity adds liquidity to the pool. The final added amount of token A & B will
      be in the same proportion as the pool at that moment as the liquidity provider shouldn't
      change the price of the token while the price is determined by the ratio between A & B.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amntA - The desired amount for token A.
    * @param {number} amntB - The desired amount for token B.
    * @param {number} amntAMin - The minimum acceptable amount for token A.
@@ -540,7 +541,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * removeLiquidity removes liquidity from the pool by redeeming token A & B with liquidity tokens.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amntLiq - The amount of liquidity token to return.
    * @param {number} amntAMin - The minimum acceptable amount of token A to redeem.
    * @param {number} amntBMin - The minimum acceptable amount of token B to redeem.
@@ -582,7 +583,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * swapBForExactA swaps token B for token A where the desired amount of token A is fixed.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amntA - The desired amount for token A.
    * @param {number} amntBMax - The maximum amount of token B the action taker is willing to pay.
    * @param {any} deadline - The deadline for this operation to complete.
@@ -620,7 +621,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * swapExactBForA swaps token B for token A where the amount of token B to pay is fixed.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amntAMin - The minimum acceptable amount for token A.
    * @param {number} amntB - The amount of token B to pay.
    * @param {number} deadline - The deadline for this operation to complete.
@@ -658,7 +659,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * swapAForExactB swaps token A for token B where the desired amount of token B is fixed.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amntB - The desired amount of token B.
    * @param {number} amntAMax - The maximum amount of token A the action taker is willing to pay.
    * @param {number} deadline - The deadline for this operation to complete.
@@ -696,7 +697,7 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * swapExactAForB swaps token A for token B where the amount of token A to pay is fixed.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amntBMin - The minimum acceptable amount of token B.
    * @param {number} amntA - The amount of token A to pay.
    * @param {number} deadline - The deadline for this operation to complete.
