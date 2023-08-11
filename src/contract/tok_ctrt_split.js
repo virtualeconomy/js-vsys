@@ -11,6 +11,7 @@ import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 import * as tcns from './tok_ctrt_no_split.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -48,7 +49,7 @@ export class TokCtrtWithSplit extends tcns.TokCtrtWithoutSplit {
 
   /**
    * split updates the unit.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} newUnit - The new unit to update.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.

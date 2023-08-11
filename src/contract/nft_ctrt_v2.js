@@ -11,6 +11,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -131,7 +132,7 @@ class NFTCtrtV2Base extends nc.NFTCtrt {
   /**
    * updateListImpl updates the presence of the address within the given data entry in the list.
         It's the helper method for updateList.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {(de.Addr|de.CtrtAcnt)} addrDataEntry - The data entry for the address to update.
    * @param {boolean} val - The value to update to.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -160,7 +161,7 @@ class NFTCtrtV2Base extends nc.NFTCtrt {
 
   /**
    * updateListUser updates the presence of the user address in the list.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} addr - The account address of the user.
    * @param {boolean} val - The value to update to.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -187,7 +188,7 @@ class NFTCtrtV2Base extends nc.NFTCtrt {
 
   /**
    * updateListCtrt updates the presence of the contract address in the list.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} addr - The account address of the user.
    * @param {boolean} val - The value to update to.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -213,7 +214,7 @@ class NFTCtrtV2Base extends nc.NFTCtrt {
 
   /**
    * supersede transfers the issuer role of the contract to a new account.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} newIssuer - The account address of the new issuer.
    * @param {string} newRegulator - The account address of the new regulator.
    * @param {string} attachment - The attachment of the action. Defaults to ''.

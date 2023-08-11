@@ -10,6 +10,10 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import base58 from "bs58";
+import { Buffer } from "node:buffer";
+import { blake2b } from 'blakejs';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 class FuncIdx extends ctrt.FuncIdx {
@@ -79,7 +83,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * send sends VSYS coins to another account.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} recipient - The account address of the recipient.
    * @param {number} amount - The amount of token to be sent.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -111,7 +115,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * transfer transfers tokens from sender to recipient.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} sender - The account address of the sender.
    * @param {string} recipient - The account address of the recipient.
    * @param {number} amount - The amount of token to transfer.
@@ -152,7 +156,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * deposit deposits the tokens into the contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract ID to deposit into.
    * @param {number} amount - The amount of token to deposit.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -185,7 +189,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
 
   /**
    * withdraw withdraws the tokens from the contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} ctrtId - The contract ID to withdraw tokens from.
    * @param {number} amount - The amount of token to withdraw.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
@@ -215,4 +219,62 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
     );
     return data;
   }
+
+  /**
+   * getInt64Bytes converts Big Integer into 8-byte array
+   * @param {BigInt} x - integer to be converted
+   * @returns {Buffer} 8 Byte array
+  */
+  async getInt64Bytes(x) {
+    const bytes = Buffer.alloc(8);
+    bytes.writeBigInt64BE(x);
+    return bytes;
+  }
+
+  /**
+   * getInt16Bytes converts Short Integer into 2-byte array
+   * @param {number} x - integer to be converted
+   * @returns {Buffer} 2 Byte array
+  */
+  async getInt16Bytes(x) {
+    const bytes = Buffer.alloc(2);
+    bytes.writeInt16BE(x);
+    return bytes;
+  }
+
+  /**
+   * generateTxID generates transaction ID based on parameters
+   * @param {number} timestamp - timestamp in millis from transaction info
+   * @param {number} amount - amount from transaction info
+   * @param {number} fee - fee from transaction info
+   * @param {number} feeScale - fee scale from transaction info
+   * @param {string} recipient - encoded recipient address from transaction info
+   * @param {string} attachment - encoded attachment from transaction info
+   * @returns {string} generated transaction ID
+   */
+  async generateTxID(
+    timestamp,
+    amount,
+    fee,
+    feeScale, 
+    recipient,
+    attachment
+  ) {
+    const timestampBytes = getInt64Bytes(BigInt(timestamp.toString()))
+    const amountBytes = getInt64Bytes(BigInt(amount.toString()))
+    const feeBytes = getInt64Bytes(BigInt(fee.toString()))
+    const feeScaleBytes = getInt16Bytes(feeScale)
+    const recipientBytesArr = base58.decode(recipient)
+
+    const attachmentBytes = base58.decode(attachment)
+    const lenBytes = getInt16Bytes(attachmentBytes.length)
+    
+    const toSign = Buffer.concat([Uint8Array.from([2]), timestampBytes, amountBytes, feeBytes, feeScaleBytes, recipientBytesArr, lenBytes, attachmentBytes])
+
+    const txIDHashed = blake2b(toSign, undefined, 32)
+    const txIDStr = base58.encode(txIDHashed)
+
+    return txIDStr
+  }
+  
 }

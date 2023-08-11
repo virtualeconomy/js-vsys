@@ -15,11 +15,12 @@ import * as de from '../data_entry.js';
 import * as hs from '../utils/hashes.js';
 import * as atomicCtrt from './atomic_swap_ctrt.js';
 import { DBKey } from './atomic_swap_ctrt.js';
+import * as msacnt from '../multisign_account.js';
 
 export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
   /**
    * makerLock locks the token by the maker.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount of the token to be locked.
    * @param {string} recipient - The taker's address.
    * @param {string} secret - The secret.
@@ -60,7 +61,7 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
 
   /**
    * takerLock locks the token by the taker.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} amount - The amount of the token to be locked.
    * @param {string} makerCtrtId - The ID of the maker's contract.
    * @param {string} recipient - The maker's address.
@@ -112,7 +113,7 @@ export class AtomicSwapHelper extends atomicCtrt.AtomicSwapCtrt {
 
   /**
    * makerSolve solves the puzzle and reveals the secret to get taker's locked tokens for maker.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} atomicCtrtId - The swap contract ID of the taker's.
    * @param {string} takerLockTxId - The lock transaction ID of taker's.
    * @param {string} secret - The secret.

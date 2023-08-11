@@ -10,6 +10,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -608,7 +609,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * register registers a V Escrow Contract.
-   * @param {acnt.Account} by - The action maker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action maker.
    * @param {string} tokId - The ID of the token deposited into the contract.
    * @param {number} duration - The duration where the recipient can take actions.
    * @param {number} judgeDuration - The duration where the judge can take actions.
@@ -642,7 +643,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * supersede transfers the judge right of the contract to another account.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} newJudge - The new judge of the contract.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -668,7 +669,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   /**
   * create creates an escrow order.
     NOTE that the transaction id of this action is the order ID.
-  * @param {acnt.Account} by - The action taker.
+  * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
   * @param {string} recipient - The recipient account.
   * @param {number} amount - The amount of tokens.
   * @param {number} rcptDepositAmount - The amount that the recipient needs to deposit.
@@ -720,7 +721,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * recipientDeposit deposits tokens the recipient deposited into the contract into the order.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -747,7 +748,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * judgeDeposit deposits tokens the judge deposited into the contract into the order.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -774,7 +775,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * payerCancel cancels the order by the payer.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -801,7 +802,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * recipientCancel cancels the order by the recipient.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -828,7 +829,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * judgeCancel cancels the order by the judge.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -855,7 +856,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * submitWork submits the work by the recipient.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -877,7 +878,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * approveWork approves the work and agrees the amounts are paid by the payer.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -904,7 +905,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
 
   /**
    * applyToJudge applies for the help from judge by the payer.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of this action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -932,7 +933,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   /**
   * doJudge judges the work and decides on how much the payer & recipient
     will receive.
-  * @param {acnt.Account} by - The action taker.
+  * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
   * @param {string} orderId - The order id.
   * @param {number} payerAmount - The amount the payer will get.
   * @param {number} rcptAmount - The amount the recipient will get.
@@ -971,7 +972,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   * submitPenalty submits penalty by the payer for the case where the recipient does not submit
     work before the expiration time. The payer will obtain the recipient deposit amount and the payer amount(fee deducted).
     The judge will still get the fee.
-  * @param {acnt.Account} by - The action taker.
+  * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
   * @param {string} orderId - The order id.
   * @param {string} attachment - The attachment of this action. Defaults to ''.
   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -1001,7 +1002,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
     after the apply_to_judge function is invoked.
     The judge loses his deposit amount and the payer receives the refund amount.
     The recipient receives the rest.
-  * @param {acnt.Account} by - The action taker.
+  * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
   * @param {string} orderId - The order id.
   * @param {string} attachment - The attachment of this action. Defaults to ''.
   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -1031,7 +1032,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
    after the apply_to_judge function is invoked.
     The judge loses his deposit amount and the payer receives the refund amount.
     The recipient receives the rest.
-  * @param {acnt.Account} by - The action taker.
+  * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
   * @param {string} orderId - The order id.
   * @param {string} attachment - The attachment of this action. Defaults to ''.
   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -1055,7 +1056,7 @@ export class VEscrowCtrt extends ctrt.Ctrt {
   * collect collects the order amount & recipient deposited amount by the recipient when the work is submitted
     while the payer doesn't either approve or apply to judge in his action duration.
     The judge will get judge deposited amount & fee.
-  * @param {acnt.Account} by - The action taker.
+  * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
   * @param {string} orderId - The order id.
   * @param {string} attachment - The attachment of this action. Defaults to ''.
   * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.

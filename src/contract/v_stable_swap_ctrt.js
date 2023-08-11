@@ -11,6 +11,7 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
+import * as msacnt from '../multisign_account.js';
 
 /** FuncIdx is the class for function indexes */
 export class FuncIdx extends ctrt.FuncIdx {
@@ -323,7 +324,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * register registers a V Stable Swap Contract.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} baseTokId - The base token ID.
    * @param {string} targetTokId - The target token ID.
    * @param {number} maxOrderPerUser - The max order number that per user can create.
@@ -623,7 +624,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * supersede transfers the ownership of the contract to another account.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} newOwner - The account address of the new owner.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -648,7 +649,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * setOrder creates the order.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {number} feeBase - The fee of base token.
    * @param {number} feeTarget - The fee of target token.
    * @param {number} minBase - The minimum amount of base token.
@@ -709,7 +710,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * updateOrder updates the order.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {number} feeBase - The fee of base token.
    * @param {number} feeTarget - The fee of target token.
@@ -767,7 +768,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * orderDeposit locks the tokens.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {number} baseDeposit - The deposit balance of base token.
    * @param {number} targetDeposit - The deposit balance of target token.
@@ -805,7 +806,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * orderWithdraw unlocks the tokens.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {number} baseWithdraw - The withdraw balance of base token.
    * @param {number} targetWithdraw - The withdraw balance of target token.
@@ -843,7 +844,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * closeOrder closes the order.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {string} attachment - The attachment of the action. Defaults to ''.
    * @param {number} fee - The fee to pay for this action. Defaults to md.ExecCtrtFee.DEFAULT.
@@ -865,7 +866,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * swapBaseToTarget swaps base token to target token.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {number} amount - The swap amount.
    * @param {number} swapFee - The swap fee.
@@ -909,7 +910,7 @@ export class StableSwapCtrt extends ctrt.Ctrt {
 
   /**
    * swapTargetToBase swaps target token to base token.
-   * @param {acnt.Account} by - The action taker.
+   * @param {acnt.Account | msacnt.MultiSignAccount} by - The action taker.
    * @param {string} orderId - The order id.
    * @param {number} amount - The swap amount.
    * @param {number} swapFee - The swap fee.
