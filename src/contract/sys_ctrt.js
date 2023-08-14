@@ -221,22 +221,22 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
   }
 
   /**
-   * getInt64Bytes converts Big Integer into 8-byte array
+   * getInt64Bits converts Big Integer into 8-byte array
    * @param {BigInt} x - integer to be converted
    * @returns {Buffer} 8 Byte array
   */
-  async getInt64Bytes(x) {
+  getInt64Bits(x) {
     const bytes = Buffer.alloc(8);
     bytes.writeBigInt64BE(x);
     return bytes;
   }
 
   /**
-   * getInt16Bytes converts Short Integer into 2-byte array
+   * getInt16Bits converts Short Integer into 2-byte array
    * @param {number} x - integer to be converted
    * @returns {Buffer} 2 Byte array
   */
-  async getInt16Bytes(x) {
+  getInt16Bits(x) {
     const bytes = Buffer.alloc(2);
     bytes.writeInt16BE(x);
     return bytes;
@@ -252,7 +252,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
    * @param {string} attachment - encoded attachment from transaction info
    * @returns {string} generated transaction ID
    */
-  async generateTxID(
+  generateTxID(
     timestamp,
     amount,
     fee,
@@ -260,14 +260,14 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
     recipient,
     attachment
   ) {
-    const timestampBytes = getInt64Bytes(BigInt(timestamp.toString()))
-    const amountBytes = getInt64Bytes(BigInt(amount.toString()))
-    const feeBytes = getInt64Bytes(BigInt(fee.toString()))
-    const feeScaleBytes = getInt16Bytes(feeScale)
+    const timestampBytes = this.getInt64Bits(BigInt(timestamp.toString()))
+    const amountBytes = this.getInt64Bits(BigInt(amount.toString()))
+    const feeBytes = this.getInt64Bits(BigInt(fee.toString()))
+    const feeScaleBytes = this.getInt16Bits(feeScale)
     const recipientBytesArr = base58.decode(recipient)
 
     const attachmentBytes = base58.decode(attachment)
-    const lenBytes = getInt16Bytes(attachmentBytes.length)
+    const lenBytes = this.getInt16Bits(attachmentBytes.length)
     
     const toSign = Buffer.concat([Uint8Array.from([2]), timestampBytes, amountBytes, feeBytes, feeScaleBytes, recipientBytesArr, lenBytes, attachmentBytes])
 
