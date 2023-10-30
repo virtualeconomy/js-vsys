@@ -11,7 +11,7 @@ import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
 import base58 from "bs58";
-import { Buffer } from "node:buffer";
+import { Buffer } from "buffer";
 import { blake2b } from 'blakejs';
 import * as msacnt from '../multisign_account.js';
 
