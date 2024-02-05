@@ -10,8 +10,8 @@ import * as acnt from '../account.js';
 import * as md from '../model.js';
 import * as tx from '../tx_req.js';
 import * as de from '../data_entry.js';
-import base58 from "bs58";
-import { Buffer } from "buffer";
+import base58 from 'bs58';
+import { Buffer } from 'buffer';
 import { blake2b } from 'blakejs';
 import * as msacnt from '../multisign_account.js';
 
@@ -78,6 +78,14 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
    * @returns {number} The unit.
    */
   get unit() {
+    return md.VSYS.UNIT;
+  }
+
+  /**
+   * getUnit returns the unit of tokens defined in System Contract(VSYS coins)
+   * @returns {number} The unit.
+   */
+  async getUnit() {
     return md.VSYS.UNIT;
   }
 
@@ -224,7 +232,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
    * getInt64Bits converts Big Integer into 8-byte array
    * @param {BigInt} x - integer to be converted
    * @returns {Buffer} 8 Byte array
-  */
+   */
   getInt64Bits(x) {
     const bytes = Buffer.alloc(8);
     bytes.writeBigInt64BE(x);
@@ -235,7 +243,7 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
    * getInt16Bits converts Short Integer into 2-byte array
    * @param {number} x - integer to be converted
    * @returns {Buffer} 2 Byte array
-  */
+   */
   getInt16Bits(x) {
     const bytes = Buffer.alloc(2);
     bytes.writeInt16BE(x);
@@ -252,29 +260,30 @@ export class SysCtrt extends ctrt.BaseTokCtrt {
    * @param {string} attachment - encoded attachment from transaction info
    * @returns {string} generated transaction ID
    */
-  generateTxID(
-    timestamp,
-    amount,
-    fee,
-    feeScale, 
-    recipient,
-    attachment
-  ) {
-    const timestampBytes = this.getInt64Bits(BigInt(timestamp.toString()))
-    const amountBytes = this.getInt64Bits(BigInt(amount.toString()))
-    const feeBytes = this.getInt64Bits(BigInt(fee.toString()))
-    const feeScaleBytes = this.getInt16Bits(feeScale)
-    const recipientBytesArr = base58.decode(recipient)
+  generateTxID(timestamp, amount, fee, feeScale, recipient, attachment) {
+    const timestampBytes = this.getInt64Bits(BigInt(timestamp.toString()));
+    const amountBytes = this.getInt64Bits(BigInt(amount.toString()));
+    const feeBytes = this.getInt64Bits(BigInt(fee.toString()));
+    const feeScaleBytes = this.getInt16Bits(feeScale);
+    const recipientBytesArr = base58.decode(recipient);
 
-    const attachmentBytes = base58.decode(attachment)
-    const lenBytes = this.getInt16Bits(attachmentBytes.length)
-    
-    const toSign = Buffer.concat([Uint8Array.from([2]), timestampBytes, amountBytes, feeBytes, feeScaleBytes, recipientBytesArr, lenBytes, attachmentBytes])
+    const attachmentBytes = base58.decode(attachment);
+    const lenBytes = this.getInt16Bits(attachmentBytes.length);
 
-    const txIDHashed = blake2b(toSign, undefined, 32)
-    const txIDStr = base58.encode(txIDHashed)
+    const toSign = Buffer.concat([
+      Uint8Array.from([2]),
+      timestampBytes,
+      amountBytes,
+      feeBytes,
+      feeScaleBytes,
+      recipientBytesArr,
+      lenBytes,
+      attachmentBytes,
+    ]);
 
-    return txIDStr
+    const txIDHashed = blake2b(toSign, undefined, 32);
+    const txIDStr = base58.encode(txIDHashed);
+
+    return txIDStr;
   }
-  
 }
