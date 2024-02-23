@@ -721,8 +721,8 @@ export class VSwapCtrt extends ctrt.BaseTokCtrt {
         this.ctrtId,
         FuncIdx.SWAP_EXACT_A_FOR_B,
         new de.DataStack(
-          de.Amount.forTokAmount(amntA, tokAUnit),
           de.Amount.forTokAmount(amntBMin, tokBUnit),
+            de.Amount.forTokAmount(amntA, tokAUnit),
           new de.Timestamp(md.VSYSTimestamp.fromUnixTs(deadline))
         ),
         md.VSYSTimestamp.now(),
